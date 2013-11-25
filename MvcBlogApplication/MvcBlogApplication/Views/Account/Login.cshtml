@@ -29,7 +29,7 @@
             </li>
             <li>
                 @Html.CheckBoxFor(m => m.RememberMe)
-                @Html.LabelFor(m => m.RememberMe, new { @class = "checkbox" })
+                @Html.LabelFor(m => m.RememberMe)
             </li>
         </ol>
         <input type="submit" value="Log in" />
@@ -39,12 +39,3 @@
     </p>
 }
 </section>
-
-<section class="social" id="socialLoginForm">
-    <h2>Use another service to log in.</h2>
-    @*@Html.Action("ExternalLoginsList", new { ReturnUrl = ViewBag.ReturnUrl })*@
-</section>
-
-@*@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}*@
