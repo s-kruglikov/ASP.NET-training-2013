@@ -12,6 +12,7 @@ namespace MvcBlogApplication.Models
         }
 
         public DbSet<UserProfile> UserProfiles { get; set; }
+        public DbSet<webpages_Membership> webpages_Memberships { get; set; }
     }
 
     [Table("UserProfile")]
@@ -21,6 +22,7 @@ namespace MvcBlogApplication.Models
         [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
         public int UserId { get; set; }
         public string UserName { get; set; }
+        public string Email { get; set; }
     }
 
     public class LocalPasswordModel
@@ -73,5 +75,10 @@ namespace MvcBlogApplication.Models
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+
+        [Required]
+        [Display(Name = "Email")]
+        public string Email { get; set; }
+
     }
 }

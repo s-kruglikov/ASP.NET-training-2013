@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using System.Net.Mail;
 using System.Web.Mvc;
 using System.Web.Security;
 using WebMatrix.WebData;
@@ -73,7 +75,7 @@ namespace MvcBlogApplication.Controllers
                 // Attempt to register the user
                 try
                 {
-                    WebSecurity.CreateUserAndAccount(model.UserName, model.Password);
+                    WebSecurity.CreateUserAndAccount(model.UserName, model.Password, new { Email = model.Email });
                     WebSecurity.Login(model.UserName, model.Password);
                     return RedirectToAction("Index", "Home");
                 }
@@ -86,7 +88,7 @@ namespace MvcBlogApplication.Controllers
             // If we got this far, something failed, redisplay form
             return View(model);
         }
-        
+
 
         //
         // GET: /Account/Manage
@@ -138,7 +140,112 @@ namespace MvcBlogApplication.Controllers
             // If we got this far, something failed, redisplay form
             return View(model);
         }
-        
+
+        //
+        // GET: /Account/ForgotPassword
+
+        [AllowAnonymous]
+        public ActionResult ForgotPassword()
+        {
+            return View();
+        }
+
+        //
+        //POST: /Account/ForgotPassword
+
+        [HttpPost, AllowAnonymous, ValidateAntiForgeryToken]
+        public ActionResult ForgotPassword(string userName)
+        {
+            // check if user exists
+            var user = Membership.GetUser(userName);
+            if (user == null)
+            {
+                TempData["Message"] = "User Not Exist.";
+            }
+            else
+            {
+                // generate reset password token
+                var token = WebSecurity.GeneratePasswordResetToken(userName);
+
+                // create url with reset token
+                var resetLink = "<a href='" + Url.Action("ResetPassword", "Account", new {username = userName, resettoken = token}, "http") + "'>Reset Password</a>";
+
+                // retrieve user's email
+                var db = new UsersContext();
+                var email = db.UserProfiles.Where(x => x.UserName == userName).Select(x => x.Email).FirstOrDefault();
+
+                if (email == null) throw new ArgumentNullException("email");
+                else
+                {
+                    // Format email
+                    string subject = "Password Reset for MVC Blog";
+                    string body = "<b>Please find the Password Reset Token</b><br>" + resetLink;
+                    try
+                    {
+                        SendEMail(email, subject, body);
+                        TempData["Message"] = "Mail Sent.";
+                    }
+                    catch (Exception ex)
+                    {
+                        TempData["Message"] = "Error occured while sending email." + ex.Message;
+                    }
+
+                    TempData["Message"] = "Password reset link has been sent to your email: " + email;
+                }
+            }
+            return View();
+        }
+
+        //
+        //GET: /Account/ResetPassword
+
+        [AllowAnonymous]
+        public ActionResult ResetPassword(string username, string resettoken)
+        {
+            var db = new UsersContext();
+
+            //seearch for user with defined name
+            var userProfile = db.UserProfiles.FirstOrDefault(x => x.UserName.Equals(username));
+            if (userProfile == null)
+            {
+                return RedirectToAction("BadLink");
+            }
+
+            // search for registration info by user id and password token
+            var membership = db.webpages_Memberships.FirstOrDefault(x => x.UserId == userProfile.UserId && x.PasswordVerificationToken == resettoken);
+            if (membership == null)
+            {
+                return RedirectToAction("BadLink");
+            }
+
+            // generate new password
+            string newpassword = GenerateRandomPassword(6);
+
+            // set new password
+            if (!WebSecurity.ResetPassword(resettoken, newpassword))
+            {
+                return RedirectToAction("BadLink");
+            }
+
+            // send email with new password
+            string subject = "New password for MVC blog";
+            string body = string.Format("Dear {0},<br/>Please find new password for MVC blog account: <b>{1}</b><br/>", userProfile.UserName, newpassword);
+            try
+            {
+                SendEMail(userProfile.Email, subject, body);
+                ViewBag.Message = "A letter with new password sent to your Email";
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Message = "An error occured while sending email message. " +
+                                                          ex.Message;
+            }
+
+            return View();
+        }
+
+       
+
         #region Helpers
         private ActionResult RedirectToLocal(string returnUrl)
         {
@@ -158,7 +265,7 @@ namespace MvcBlogApplication.Controllers
             SetPasswordSuccess,
         }
 
-       private static string ErrorCodeToString(MembershipCreateStatus createStatus)
+        private static string ErrorCodeToString(MembershipCreateStatus createStatus)
         {
             // See http://go.microsoft.com/fwlink/?LinkID=177550 for
             // a full list of status codes.
@@ -195,6 +302,49 @@ namespace MvcBlogApplication.Controllers
                     return "An unknown error occurred. Please verify your entry and try again. If the problem persists, please contact your system administrator.";
             }
         }
+
+        private string GenerateRandomPassword(int length)
+        {
+            string allowedChars = "abcdefghijkmnopqrstuvwxyz" +
+                                         "ABCDEFGHJKLMNOPQRSTUVWXYZ" +
+                                         "0123456789!@$?_-*&#+";
+            char[] chars = new char[length];
+            Random rd = new Random();
+            for (int i = 0; i < length; i++)
+            {
+                chars[i] = allowedChars[rd.Next(0, allowedChars.Length)];
+            }
+            return new string(chars);
+        }
+
+        private void SendEMail(string emailid, string subject, string body)
+        {
+            SmtpClient client = new SmtpClient();
+            client.DeliveryMethod = SmtpDeliveryMethod.Network;
+            client.EnableSsl = true;
+            client.Host = "smtp.gmail.com";
+            client.Port = 587;
+
+            System.Net.NetworkCredential credentials =
+              new System.Net.NetworkCredential("stas.kruglikov@gmail.com", "Samsung-i9250");
+            client.UseDefaultCredentials = false;
+            client.Credentials = credentials;
+
+            MailMessage msg = new MailMessage();
+            msg.From = new MailAddress("stas.kruglikov@gmail.com");
+            msg.To.Add(new MailAddress(emailid));
+
+            msg.Subject = subject;
+            msg.IsBodyHtml = true;
+            msg.Body = body;
+
+            client.Send(msg);
+        }
         #endregion
+
+        public ActionResult BadLink()
+        {
+            return View();
+        }
     }
 }
