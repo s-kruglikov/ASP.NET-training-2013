@@ -1,0 +1,20 @@
+﻿@using MvcBlog.WebUI.HtmlHelpers
+@model MvcBlog.WebUI.Models.PostsListViewModel
+@{
+    ViewBag.Title = "List";
+}
+
+@*<h2>List</h2>*@
+
+@foreach (var p in Model.Posts)
+{
+    <div id="post">
+        <h4>@p.PostID</h4>
+        @p.PostTitle | @p.PostDescription | @p.PostCategory<br />
+        <p>@Html.Raw(@p.PostContent)</p>
+    </div> 
+}
+
+<div class="pagination">
+    @Html.PageLinks(Model.PagingModel, x => Url.Action("List", new { page = x }))
+</div>

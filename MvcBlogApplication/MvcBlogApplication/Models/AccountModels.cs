@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
 
-namespace MvcBlogApplication.Models
+namespace MvcBlog.WebUI.Models
 {
     public class UsersContext : DbContext
     {

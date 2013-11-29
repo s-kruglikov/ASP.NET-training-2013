@@ -4,10 +4,10 @@ using System.Net.Mail;
 using System.Web.Mvc;
 using System.Web.Security;
 using WebMatrix.WebData;
-using MvcBlogApplication.Filters;
-using MvcBlogApplication.Models;
+using MvcBlog.WebUI.Filters;
+using MvcBlog.WebUI.Models;
 
-namespace MvcBlogApplication.Controllers
+namespace MvcBlog.WebUI.Controllers
 {
     [Authorize]
     [InitializeSimpleMembership]
@@ -50,7 +50,7 @@ namespace MvcBlogApplication.Controllers
         {
             WebSecurity.Logout();
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("List", "Posts", 1);
         }
 
         //
@@ -77,7 +77,7 @@ namespace MvcBlogApplication.Controllers
                 {
                     WebSecurity.CreateUserAndAccount(model.UserName, model.Password, new { Email = model.Email });
                     WebSecurity.Login(model.UserName, model.Password);
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("List", "Posts", 1);
                 }
                 catch (MembershipCreateUserException e)
                 {
@@ -91,28 +91,28 @@ namespace MvcBlogApplication.Controllers
 
 
         //
-        // GET: /Account/Manage
+        // GET: /Account/ChangePassword
 
-        public ActionResult Manage(ManageMessageId? message)
+        public ActionResult ChangePassword(ManageMessageId? message)
         {
             ViewBag.StatusMessage =
                 message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
                 : message == ManageMessageId.SetPasswordSuccess ? "Your password has been set."
                 : "";
 
-            ViewBag.ReturnUrl = Url.Action("Manage");
+            ViewBag.ReturnUrl = Url.Action("ChangePassword");
             return View();
         }
 
 
         //
-        // POST: /Account/Manage
+        // POST: /Account/ChangePassword
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Manage(LocalPasswordModel model)
+        public ActionResult ChangePassword(LocalPasswordModel model)
         {
-            ViewBag.ReturnUrl = Url.Action("Manage");
+            ViewBag.ReturnUrl = Url.Action("ChangePassword");
 
             if (ModelState.IsValid)
             {
@@ -129,7 +129,7 @@ namespace MvcBlogApplication.Controllers
 
                 if (changePasswordSucceeded)
                 {
-                    return RedirectToAction("Manage", new { Message = ManageMessageId.ChangePasswordSuccess });
+                    return RedirectToAction("ChangePassword", new { Message = ManageMessageId.ChangePasswordSuccess });
                 }
                 else
                 {
@@ -255,7 +255,7 @@ namespace MvcBlogApplication.Controllers
             }
             else
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("List", "Posts");
             }
         }
 

@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace MvcBlogApplication.Models
+namespace MvcBlog.WebUI.Models
 {
     [Table("webpages_Membership")]
     public class webpages_Membership
