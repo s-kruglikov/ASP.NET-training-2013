@@ -1,0 +1,11 @@
+﻿@model MvcBlog.Domain.Entities.Post
+
+
+<div id="post">
+    <h4>@Model.PostTitle</h4>
+    @Model.PostTitle | @Model.PostCategory<br />
+    <p>@Model.PostDescription</p>
+</div>
+<div>
+    @Html.PostDetailsLinks(@Model.PostID, x=> Url.Action("SinglePost", "Detailed", new {postId = x}))
+</div>

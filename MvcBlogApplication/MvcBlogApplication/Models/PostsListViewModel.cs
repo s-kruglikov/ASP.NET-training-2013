@@ -10,5 +10,7 @@ namespace MvcBlog.WebUI.Models
     {
         public IEnumerable<Post> Posts { get; set; }
         public PagingModel PagingModel { get; set; }
+
+        public string CurrentCategory { get; set; }
     }
 }

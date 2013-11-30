@@ -16,22 +16,24 @@
 
     <fieldset>
         <legend>Log in Form</legend>
-        <ol>
-            <li>
-                @Html.LabelFor(m => m.UserName)
-                @Html.TextBoxFor(m => m.UserName)
-                @Html.ValidationMessageFor(m => m.UserName)
-            </li>
-            <li>
-                @Html.LabelFor(m => m.Password)
-                @Html.PasswordFor(m => m.Password)
-                @Html.ValidationMessageFor(m => m.Password)
-            </li>
-            <li>
-                @Html.CheckBoxFor(m => m.RememberMe)
-                @Html.LabelFor(m => m.RememberMe)
-            </li>
-        </ol>
+        <table>
+            <tr>
+                <td>@Html.LabelFor(m => m.UserName)</td>
+                <td>@Html.TextBoxFor(m => m.UserName)</td>
+                <td>@Html.ValidationMessageFor(m => m.UserName)</td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(m => m.Password)</td>
+                <td>@Html.PasswordFor(m => m.Password)</td>
+                <td>@Html.ValidationMessageFor(m => m.Password)</td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    @Html.CheckBoxFor(m => m.RememberMe)
+                    @Html.LabelFor(m => m.RememberMe)
+                </td>
+            </tr>
+        </table>
         <input type="submit" value="Log in" />
     </fieldset>
     <p>

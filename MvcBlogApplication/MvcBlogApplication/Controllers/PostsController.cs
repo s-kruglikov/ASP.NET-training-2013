@@ -35,10 +35,10 @@ namespace MvcBlog.WebUI.Controllers
             PostsListViewModel model = new PostsListViewModel
             {
                 Posts = _postsRepository.Posts
-                .OrderByDescending(p => p.PostID)
-                .Skip((page - 1) * PageSize)
-                .Take(PageSize),
-                  
+                    .OrderByDescending(p => p.PostID)
+                    .Skip((page - 1)*PageSize)
+                    .Take(PageSize),
+
                 PagingModel = new PagingModel
                 {
                     CurrentPage = page,
@@ -49,6 +49,5 @@ namespace MvcBlog.WebUI.Controllers
 
             return View(model);
         }
-
     }
 }

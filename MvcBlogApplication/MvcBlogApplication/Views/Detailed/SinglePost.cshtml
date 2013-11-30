@@ -1,0 +1,21 @@
+﻿@using MvcBlog.WebUI.Models
+@model MvcBlog.WebUI.Models.PostDetailedModel
+@{
+    ViewBag.Title = "SinglePost";
+}
+
+<h2>@Model.PostDetailed.PostTitle</h2>
+<h5>@Model.PostDetailed.PostCategory</h5>
+
+@Html.Raw(@Model.PostDetailed.PostContent)
+
+<hr/>
+
+<h4>Comments:</h4>
+@foreach (var c in Model.Comments)
+{
+    <div id="comment">
+        <h3>@c.CommentID</h3>
+        <p>@c.CommentContent</p>
+    </div>
+}

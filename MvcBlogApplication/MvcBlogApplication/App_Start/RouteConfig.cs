@@ -20,6 +20,12 @@ namespace MvcBlog.WebUI
             );
 
             routes.MapRoute(
+                name: null,
+                url: "Post{postId}",
+                defaults: new { Controller = "Detailed", Action = "SinglePost" }
+            );
+
+            routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Posts", action = "List", id = UrlParameter.Optional }

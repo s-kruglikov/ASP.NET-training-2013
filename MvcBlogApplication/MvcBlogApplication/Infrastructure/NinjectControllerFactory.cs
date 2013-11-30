@@ -43,6 +43,7 @@ namespace MvcBlog.WebUI.Infrastructure
             _ninjectKernel.Bind<IPostsRepository>().ToConstant(mock.Object);
             */
             _ninjectKernel.Bind<IPostsRepository>().To<EFPostsRepository>();
+            _ninjectKernel.Bind<ICommentsRepository>().To<EFCommentsRepository>();
         }
     }
 }

@@ -47,12 +47,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Abstract\ICommentsRepository.cs" />
     <Compile Include="Abstract\IPostsRepository.cs" />
     <Compile Include="Class1.cs" />
+    <Compile Include="Concrete\EFCommentsRepository.cs" />
     <Compile Include="Concrete\EFDbContext.cs" />
     <Compile Include="Concrete\EFPostsRepository.cs" />
+    <Compile Include="Entities\Comment.cs" />
     <Compile Include="Entities\Post.cs" />
-    <Compile Include="Entities\Product.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

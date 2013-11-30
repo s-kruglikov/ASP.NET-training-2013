@@ -6,6 +6,14 @@
     background-color: #D2D2D2;
 }
 
+/* validation
+----------------------------------------------------------*/
+.field-validation-error {color: #f00;}
+.field-validation-valid { display: none;}
+.input-validation-error { border: 1px solid #f00; background-color: #fee; }
+.validation-summary-errors { font-weight: bold; color: #f00;}
+.validation-summary-valid { display: none;}
+
 /* login
 ----------------------------------------------------------*/
 #login {
@@ -25,6 +33,21 @@
         color: #6DC2E9;
     }
 
+/* forms
+----------------------------------------------------------*/
+fieldset {
+    border: none;
+    margin: 0;
+    padding: 0;
+}
+
+    fieldset legend {
+        display: none;
+    }
+
+    fieldset table{
+        border-spacing: 5px;
+    }
 
 /* header
 ----------------------------------------------------------*/
@@ -53,14 +76,14 @@
     /*border: 1px solid #333;*/ /* Параметры рамки вокруг */
     width: 15%; /* Ширина колонки */
     padding: 5px; /* Поля вокруг текста */
-    margin: 10px 10px 20px 5px; /* Значения отступов */
+    margin: 10px 5px 10px 5px; /* Значения отступов */
     background-color: white;
 }
 
 /* content
 ----------------------------------------------------------*/
 #content {
-    margin: 10px 5px 20px 16%; /* Значения отступов */
+    margin: 10px 5px 10px 16%; /* Значения отступов */
     padding: 10px; /* Поля вокруг текста */
     border-left: 2px solid gray;
 }
@@ -120,4 +143,10 @@ DIV.item H4 {
     text-align: center;
     clear: left; /* Отменяем действие float */
     background-color: #D2D2D2;
+}
+
+/* comment
+    */
+#comment {
+    background-color: lemonchiffon;
 }
