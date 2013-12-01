@@ -6,6 +6,8 @@
     @Model.PostTitle | @Model.PostCategory<br />
     <p>@Model.PostDescription</p>
 </div>
-<div>
-    @Html.PostDetailsLinks(@Model.PostID, x=> Url.Action("SinglePost", "Detailed", new {postId = x}))
+<div id="detailedLink">
+    @Html.PostDetailsLinks(@Model.PostID, x=> Url.Action(actionName: "SinglePost", controllerName: "Posts", routeValues: new {postId = x ,category = Model.PostCategory}))
+    
+    @*@Url.Action("SinglePost","Detailed",routeValues: new {postId = @Model.PostID})*@
 </div>

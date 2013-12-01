@@ -1,0 +1,27 @@
+﻿@model MvcBlog.Domain.Entities.Post
+
+@{
+    ViewBag.Title = "Admin edit post: " + @Model.PostTitle;
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Edit "@Model.PostTitle"</h2>
+@using (Html.BeginForm())
+{
+    <table>
+        <tr>
+            <td>Post Title</td>
+            <td>@Html.TextBoxFor(p => p.PostTitle, new { style = "width: 500px" })</td>
+        </tr>
+        <tr>
+            <td>Post Description</td>
+            <td>@Html.TextAreaFor(p => p.PostDescription, new { style = "height: 200px; width: 500px" })</td>
+        </tr>
+        
+
+    </table>
+
+    @Html.EditorForModel();
+    <input type="submit" value="Save" />
+    @Html.ActionLink("Cancel and return to list", "Index")
+}

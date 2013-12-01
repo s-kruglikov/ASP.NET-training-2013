@@ -10,28 +10,17 @@
     <body>
         <div style="background-color: white">
             <div id="header">
-                <div class="title">@Html.ActionLink("ASP.NET MVC Blog", "List", "Posts")</div>
+                <div class="title">
+                    <a href="@Url.Action("List","Posts",routeValues: new {page = 1})">ASP.NET MVC Blog</a>
+                </div>
                 <div id="login">
                     @Html.Partial("~/Views/Shared/_LoginPartial.cshtml")
                 </div>
             </div>
             <div id="categories">
                 <p>
-                    We will put something useful here later
-                    Test category
-                </p>
-                <p>
-                    Very long teext here
-                </p>
-                <p>
-                    Very long teext here
-                </p>
-                <p>
-                    Very long teext here
-                </p>
-                <p>
-                    Very long teext here
-                </p>
+                    @{ Html.RenderAction("Menu", "Navigation"); }
+                </p>           
             </div>
             <div id="content">
                 @RenderBody()

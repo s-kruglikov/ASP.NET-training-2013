@@ -5,48 +5,31 @@
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h2>Index</h2>
-
+<h2>Manage posts</h2>
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
+
 <table>
     <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.PostTitle)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.PostDescription)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.PostContent)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.PostCategory)
-        </th>
-        <th></th>
+        <th>@Html.DisplayNameFor(model => model.PostID)</th>
+        <th>@Html.DisplayNameFor(model => model.PostTitle)</th>
+        <th>@Html.DisplayNameFor(model => model.PostCategory)</th>
+        <th>Actions</th>
     </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.PostTitle)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PostDescription)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PostContent)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PostCategory)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.PostID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.PostID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.PostID })
-        </td>
-    </tr>
-}
-
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@Html.DisplayFor(modelItem => item.PostID)</td>
+            <td>@Html.ActionLink(item.PostTitle, "EditPost", new {item.PostID})</td>
+            <td>@Html.DisplayFor(modelItem => item.PostCategory)</td>
+            <td>
+                @using (Html.BeginForm("DeletePost", "Admin"))
+                {
+                    @Html.Hidden("PostID", item.PostID)
+                    <input type="submit" value="Delete" />
+                }
+            </td>
+        </tr>
+    }
 </table>

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using System.Web.UI;
 
 namespace MvcBlog.WebUI
 {
@@ -13,17 +14,40 @@ namespace MvcBlog.WebUI
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
+            // route used to navigation default
             routes.MapRoute(
                 name: null,
-                url: "Page{page}",
-                defaults: new { Controller = "Posts", action = "List" }
+                url: "",
+                defaults: new { controller = "Posts", action = "List", category = (string)null, page = 1 }
             );
 
             routes.MapRoute(
-                name: null,
-                url: "Post{postId}",
-                defaults: new { Controller = "Detailed", Action = "SinglePost" }
+                null,
+                "Page{page}",
+                new { controller = "Posts", action = "List", category = (string)null },
+                new { page = @"\d+" }
             );
+
+            routes.MapRoute(
+                null,
+                "{category}",
+                new { controller = "Posts", action = "List", page = 1 }
+            );
+
+            routes.MapRoute(
+                null,
+                "{category}/Page{page}",
+                new { controller = "Posts", action = "List" },
+                new { page = @"\d+" }
+            );
+
+            routes.MapRoute(
+                null,
+                "{category}/Post{postId}",
+                new { controller = "Posts", action = "SinglePost"}
+            );
+
+            routes.MapRoute(null, "{controller}/{action}");
 
             routes.MapRoute(
                 name: "Default",

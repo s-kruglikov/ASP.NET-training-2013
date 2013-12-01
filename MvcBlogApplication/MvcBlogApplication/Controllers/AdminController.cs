@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Linq;
 using System.Web.Mvc;
 using MvcBlog.Domain.Abstract;
 using MvcBlog.Domain.Entities;
@@ -10,7 +7,7 @@ namespace MvcBlog.WebUI.Controllers
 {
     public class AdminController : Controller
     {
-        IPostsRepository _postsRepository;
+        readonly IPostsRepository _postsRepository;
 
         public AdminController(IPostsRepository posts)
         {
@@ -25,10 +22,9 @@ namespace MvcBlog.WebUI.Controllers
             return View(_postsRepository.Posts);
         }
 
-        public ViewResult Edit(int postId)
+        public ViewResult EditPost(int postId)
         {
-            Post post = _postsRepository.Posts
-              .FirstOrDefault(p => p.PostID == postId);
+            var post = _postsRepository.Posts.FirstOrDefault(p => p.PostID == postId);
 
             return View(post);
         }

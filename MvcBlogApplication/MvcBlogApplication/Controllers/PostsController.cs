@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Web;
+using System.Runtime.InteropServices;
 using System.Web.Mvc;
 using MvcBlog.Domain.Abstract;
 using MvcBlog.Domain.Entities;
@@ -12,42 +11,62 @@ namespace MvcBlog.WebUI.Controllers
 {
     public class PostsController : Controller
     {
-        private IPostsRepository _postsRepository;
+        private readonly IPostsRepository _postsRepository;
+        private ICommentsRepository _commentsRepository;
 
         public int PageSize { get; private set; } 
 
         public PostsController(IPostsRepository postsRepository)
         {
-            this._postsRepository = postsRepository;
+            _postsRepository = postsRepository;
+            PageSize = int.Parse(ConfigurationManager.AppSettings["PostsPerPage"]);
+        }
+
+        public PostsController(ICommentsRepository commentsRepository, IPostsRepository postsRepository)
+        {
+            _commentsRepository = commentsRepository;
+            _postsRepository = postsRepository;
             PageSize = int.Parse(ConfigurationManager.AppSettings["PostsPerPage"]);
         }
 
         //
-        // GET: /Posts/
-
-        public ActionResult Index()
+        // POST: /Posts/
+        // List posts
+        public ViewResult List(string category, int page = 1)
         {
-            return View();
-        }
-
-        public ViewResult List(int page = 1)
-        {
-            PostsListViewModel model = new PostsListViewModel
+            IEnumerable<Post> posts;
+            
+            var model = new PostsListViewModel
             {
                 Posts = _postsRepository.Posts
-                    .OrderByDescending(p => p.PostID)
-                    .Skip((page - 1)*PageSize)
-                    .Take(PageSize),
+                .Where(p => category == null || p.PostCategory == category)
+                .OrderByDescending(p => p.PostID)
+                .Skip((page - 1) * PageSize)
+                .Take(PageSize),
 
                 PagingModel = new PagingModel
                 {
                     CurrentPage = page,
                     ItemsPerPage = PageSize,
-                    TotalItems = _postsRepository.Posts.Count()
+                    TotalItems = category == null ? _postsRepository.Posts.Count() : _postsRepository.Posts.Count(p => p.PostCategory == category)
                 }
             };
 
             return View(model);
+        }
+
+        public ActionResult SinglePost(int postId)
+        {
+            PostDetailedModel model = new PostDetailedModel()
+            {
+                PostDetailed = _postsRepository.Posts.First(p => p.PostID == postId),
+
+                Comments = _commentsRepository.Comments
+                    .OrderBy(c => c.CommentID)
+                    .Where(c => c.PostID == postId)
+            };
+
+           return View(model);
         }
     }
 }

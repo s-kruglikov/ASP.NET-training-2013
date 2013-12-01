@@ -8,11 +8,27 @@
 
 /* validation
 ----------------------------------------------------------*/
-.field-validation-error {color: #f00;}
-.field-validation-valid { display: none;}
-.input-validation-error { border: 1px solid #f00; background-color: #fee; }
-.validation-summary-errors { font-weight: bold; color: #f00;}
-.validation-summary-valid { display: none;}
+.field-validation-error {
+    color: #f00;
+}
+
+.field-validation-valid {
+    display: none;
+}
+
+.input-validation-error {
+    border: 1px solid #f00;
+    background-color: #fee;
+}
+
+.validation-summary-errors {
+    font-weight: bold;
+    color: #f00;
+}
+
+.validation-summary-valid {
+    display: none;
+}
 
 /* login
 ----------------------------------------------------------*/
@@ -45,20 +61,22 @@ fieldset {
         display: none;
     }
 
-    fieldset table{
+    fieldset table {
         border-spacing: 5px;
     }
 
 /* header
 ----------------------------------------------------------*/
 #header {
+    background-image: url("../Content/Theme/HeaderBackground.png");
     background-color: RGB(69,69,69);
-    border-bottom: 6px solid #111;
+    border-bottom: 6px solid #6DC2E9;
     clear: left;
 }
 
     #header .title {
         font-size: 2em;
+        font-style: italic;
         padding: .6em;
         color: RGB(0,188,242);
     }
@@ -75,17 +93,42 @@ fieldset {
     float: left; /* Обтекание справа */
     /*border: 1px solid #333;*/ /* Параметры рамки вокруг */
     width: 15%; /* Ширина колонки */
-    padding: 5px; /* Поля вокруг текста */
-    margin: 10px 5px 10px 5px; /* Значения отступов */
+    /*padding: 5px;*/ /* Поля вокруг текста */
+    margin: 5px 5px 20px 5px; /* Значения отступов */
     background-color: white;
+    /*border-right: 2px solid gray;*/
+    
 }
+
+#categories a {
+    font-size: 1em;
+    display: block;
+    text-decoration: none;
+    padding: 10px;
+    color: Black;
+    /*border-bottom: 1px solid silver;*/
+}
+
+    #categories a.selected {
+        background-color: #68217A;
+        color: White;
+    }
+
+    #categories a:hover {
+        background-color: #00BCF2;
+    }
+
+    #categories a.selected:hover {
+        background-color: #68217A;
+    }
+
 
 /* content
 ----------------------------------------------------------*/
 #content {
     margin: 10px 5px 10px 16%; /* Значения отступов */
     padding: 10px; /* Поля вокруг текста */
-    border-left: 2px solid gray;
+    /*border-left: 2px solid gray;*/
 }
 
 /* post
@@ -94,6 +137,7 @@ fieldset {
     border-top: 1px dotted gray;
     padding-top: .7em;
     margin-bottom: .7em;
+    margin-top: 10px;
 }
 
     #post:first-child {
@@ -101,14 +145,41 @@ fieldset {
         padding-top: 0;
     }
 
-DIV.item H3 {
+.item H3 {
     font-size: 1.3em;
     margin: 0 0 .25em 0;
 }
 
-DIV.item H4 {
+.item H4 {
     font-size: 1.1em;
     margin: .4em 0 0 0;
+}
+
+/* detailed link
+    */
+#detailedLink {
+    text-align: right;
+}
+
+#detailedLink a {
+    padding: 5px;
+    background-color: #00BCF2;
+    text-decoration: none;
+    color: black;
+}
+
+#detailedLink a:visited {
+    padding: 5px;
+    background-color: #00BCF2;
+    text-decoration: none;
+    color: black;
+}
+
+#detailedLink a:hover {
+    padding: 5px;
+    background-color: #0072C6;
+    text-decoration: none;
+    color: black;
 }
 
 /* pagination
