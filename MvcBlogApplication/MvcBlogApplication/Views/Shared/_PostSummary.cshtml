@@ -3,8 +3,11 @@
 
 <div id="post">
     <h4>@Model.PostTitle</h4>
-    @Model.PostTitle | @Model.PostCategory<br />
-    <p>@Model.PostDescription</p>
+    @Model.PostTitle | @Model.PostCategory
+
+    <div class="multiline">
+        @Model.PostDescription
+    </div>
 </div>
 <div id="detailedLink">
     @Html.PostDetailsLinks(@Model.PostID, x=> Url.Action(actionName: "SinglePost", controllerName: "Posts", routeValues: new {postId = x ,category = Model.PostCategory}))

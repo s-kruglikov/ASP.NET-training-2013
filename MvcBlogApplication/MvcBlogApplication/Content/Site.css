@@ -230,3 +230,9 @@ fieldset {
     text-decoration: none;
     padding: 0 .4em 0 .4em;
 }
+
+/* multiline text
+    */
+.multiline {
+    white-space:pre-line;
+}
