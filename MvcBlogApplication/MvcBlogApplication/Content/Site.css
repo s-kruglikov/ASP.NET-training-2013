@@ -97,30 +97,29 @@ fieldset {
     margin: 5px 5px 20px 5px; /* Значения отступов */
     background-color: white;
     /*border-right: 2px solid gray;*/
-    
 }
 
-#categories a {
-    font-size: 1em;
-    display: block;
-    text-decoration: none;
-    padding: 10px;
-    color: Black;
-    /*border-bottom: 1px solid silver;*/
-}
-
-    #categories a.selected {
-        background-color: #68217A;
-        color: White;
+    #categories a {
+        font-size: 1em;
+        display: block;
+        text-decoration: none;
+        padding: 10px;
+        color: Black;
+        /*border-bottom: 1px solid silver;*/
     }
 
-    #categories a:hover {
-        background-color: #00BCF2;
-    }
+        #categories a.selected {
+            background-color: #68217A;
+            color: White;
+        }
 
-    #categories a.selected:hover {
-        background-color: #68217A;
-    }
+        #categories a:hover {
+            background-color: #00BCF2;
+        }
+
+        #categories a.selected:hover {
+            background-color: #68217A;
+        }
 
 
 /* content
@@ -161,26 +160,26 @@ fieldset {
     text-align: right;
 }
 
-#detailedLink a {
-    padding: 5px;
-    background-color: #00BCF2;
-    text-decoration: none;
-    color: black;
-}
+    #detailedLink a {
+        padding: 5px;
+        background-color: #00BCF2;
+        text-decoration: none;
+        color: black;
+    }
 
-#detailedLink a:visited {
-    padding: 5px;
-    background-color: #00BCF2;
-    text-decoration: none;
-    color: black;
-}
+        #detailedLink a:visited {
+            padding: 5px;
+            background-color: #00BCF2;
+            text-decoration: none;
+            color: black;
+        }
 
-#detailedLink a:hover {
-    padding: 5px;
-    background-color: #0072C6;
-    text-decoration: none;
-    color: black;
-}
+        #detailedLink a:hover {
+            padding: 5px;
+            background-color: #0072C6;
+            text-decoration: none;
+            color: black;
+        }
 
 /* pagination
 ----------------------------------------------------------*/
@@ -220,4 +219,14 @@ fieldset {
     */
 #comment {
     background-color: lemonchiffon;
+}
+
+
+/* admin tabs
+    */
+.adminTabs{
+    font-size: 1.1em;
+    color: #666;
+    text-decoration: none;
+    padding: 0 .4em 0 .4em;
 }

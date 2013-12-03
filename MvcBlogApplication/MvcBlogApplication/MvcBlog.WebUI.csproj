@@ -216,7 +216,7 @@
     <Content Include="Views\Navigation\Menu.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Admin\Index.cshtml" />
+    <Content Include="Views\Admin\ManagePosts.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Admin\EditPost.cshtml" />

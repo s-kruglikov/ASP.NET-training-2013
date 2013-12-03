@@ -10,5 +10,7 @@ namespace MvcBlog.Domain.Abstract
     public interface IPostsRepository
     {
         IQueryable<Post> Posts { get; }
+
+        void SavePost(Post post);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using MvcBlog.Domain.Abstract;
+using MvcBlog.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +18,30 @@ namespace MvcBlog.Domain.Concrete
             {
                 return context.Posts;
             }
+        }
+
+        public void SavePost(Entities.Post post)
+        {
+            //we adding new post
+            if (post.PostID == 0)
+            {
+                context.Posts.Add(post);
+            }
+
+            //we updating post
+            else
+            {
+                Post dbEntry = context.Posts.Find(post.PostID);
+                if (dbEntry != null)
+                {
+                    dbEntry.PostTitle = post.PostTitle;
+                    dbEntry.PostDescription = post.PostDescription;
+                    dbEntry.PostContent = post.PostContent;
+                    dbEntry.PostCategory = post.PostCategory;
+                }
+            }
+
+            context.SaveChanges();
         }
     }
 }

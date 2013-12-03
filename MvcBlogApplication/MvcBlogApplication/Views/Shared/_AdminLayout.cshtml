@@ -7,7 +7,15 @@
     <title>@ViewBag.Title</title>
 </head>
 <body>
+    <div class="adminTabs">
+        @Html.ActionLink("Manage posts", "ManagePosts", "Admin")
+        @Html.ActionLink("Manage comments", "ManageComments", "Admin")
+    </div>
     <div>
+        @if (TempData["message"] != null)
+        {
+            <div class="Message">@TempData["message"]</div>
+        }
         @RenderBody()
     </div>
 </body>
