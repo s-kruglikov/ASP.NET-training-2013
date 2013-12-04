@@ -55,6 +55,8 @@ namespace MvcBlog.WebUI.Controllers
             return View(model);
         }
 
+        //
+        // GET: 
         public ActionResult SinglePost(int postId)
         {
             PostDetailedModel model = new PostDetailedModel()
@@ -63,10 +65,23 @@ namespace MvcBlog.WebUI.Controllers
 
                 Comments = _commentsRepository.Comments
                     .OrderBy(c => c.CommentID)
-                    .Where(c => c.PostID == postId)
+                    .Where(c => c.PostID == postId),
+
+                NewComment = new Comment()
             };
 
            return View(model);
+        }
+
+        //
+        // POST:
+
+        public ActionResult AddComment(PostDetailedModel postDetailed, int postId)
+        {
+            postDetailed.NewComment.PostID = postId;
+            _commentsRepository.SaveComment(postDetailed.NewComment);
+
+            return RedirectToAction("SinglePost",routeValues: new {postId = postId});
         }
     }
 }

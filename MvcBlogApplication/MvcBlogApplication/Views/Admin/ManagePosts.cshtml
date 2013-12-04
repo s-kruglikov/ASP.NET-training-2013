@@ -7,7 +7,7 @@
 
 <h2>Manage posts</h2>
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Create New", "CreatePost")
 </p>
 
 <table>
@@ -26,7 +26,7 @@
             <td>
                 @using (Html.BeginForm("DeletePost", "Admin"))
                 {
-                    @Html.Hidden("PostID", item.PostID)
+                    @Html.Hidden("PostId", item.PostID)
                     <input type="submit" value="Delete" />
                 }
             </td>

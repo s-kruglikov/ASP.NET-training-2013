@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web;
 using MvcBlog.Domain.Entities;
@@ -10,5 +11,7 @@ namespace MvcBlog.WebUI.Models
     {
         public Post PostDetailed { get; set; }
         public IEnumerable<Comment> Comments { get; set; }
+
+        public Comment NewComment { get; set; }
     }
 }

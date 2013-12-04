@@ -43,5 +43,18 @@ namespace MvcBlog.Domain.Concrete
 
             context.SaveChanges();
         }
+
+        public Post DeletePost(int postId)
+        {
+            Post dbEntry = context.Posts.Find(postId);
+
+            if (dbEntry != null)
+            {
+                context.Posts.Remove(dbEntry);
+                context.SaveChanges();
+            }
+
+            return dbEntry;
+        }
     }
 }

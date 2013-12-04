@@ -19,3 +19,14 @@
         <p>@c.CommentContent</p>
     </div>
 }
+
+@using (Html.BeginForm("AddComment","Posts"))
+{
+    @Html.TextAreaFor(p => p.NewComment.CommentContent, new {style = "height: 200px; width: 500px"})
+    @Html.Hidden("postId", @Model.PostDetailed.PostID)
+    
+    <br/>
+    <input type="submit" value="Save Comment" />
+}
+
+

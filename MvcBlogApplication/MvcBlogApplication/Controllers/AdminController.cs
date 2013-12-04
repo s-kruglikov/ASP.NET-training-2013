@@ -26,6 +26,7 @@ namespace MvcBlog.WebUI.Controllers
 
         //
         // GET: /Admin/EditPost
+
         [HttpGet]
         public ViewResult EditPost(int postId)
         {
@@ -36,6 +37,7 @@ namespace MvcBlog.WebUI.Controllers
 
         //
         // POST: /Admin/EditPost
+
         [HttpPost]
         [ValidateInput(false)]
         public ActionResult EditPost(Post post)
@@ -53,6 +55,25 @@ namespace MvcBlog.WebUI.Controllers
             }
         }
 
+        //
+        // GET: /Admin/CreatePost
+        [HttpGet]
+        public ViewResult CreatePost()
+        {
+            return View("EditPost", new Post());
+        }
+
+        //
+        // POST: /Admin/DeletePost
+
+        [HttpPost]
+        public ActionResult DeletePost(int postId)
+        {
+            Post postToDelete = _postsRepository.DeletePost(postId);
+
+            TempData["message"] = string.Format("{0} has been deleted", postToDelete.PostTitle);
+            return RedirectToAction("ManagePosts");
+        }
 
         //
         // GET: /Admin/ManageComments

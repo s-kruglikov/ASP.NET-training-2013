@@ -10,5 +10,7 @@ namespace MvcBlog.Domain.Abstract
     public interface ICommentsRepository
     {
         IQueryable<Comment> Comments { get; }
+
+        void SaveComment(Comment comment);
     }
 }

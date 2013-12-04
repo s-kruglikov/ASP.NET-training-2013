@@ -12,5 +12,7 @@ namespace MvcBlog.Domain.Abstract
         IQueryable<Post> Posts { get; }
 
         void SavePost(Post post);
+
+        Post DeletePost(int postId);
     }
 }
