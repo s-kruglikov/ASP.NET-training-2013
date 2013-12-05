@@ -34,8 +34,6 @@ namespace MvcBlog.WebUI.Controllers
         // List posts
         public ViewResult List(string category, int page = 1)
         {
-            IEnumerable<Post> posts;
-            
             var model = new PostsListViewModel
             {
                 Posts = _postsRepository.Posts
@@ -59,7 +57,7 @@ namespace MvcBlog.WebUI.Controllers
         // GET: 
         public ActionResult SinglePost(int postId)
         {
-            PostDetailedModel model = new PostDetailedModel()
+            var model = new PostDetailedModel()
             {
                 PostDetailed = _postsRepository.Posts.First(p => p.PostID == postId),
 
@@ -75,7 +73,7 @@ namespace MvcBlog.WebUI.Controllers
 
         //
         // POST:
-
+        [Authorize]
         public ActionResult AddComment(PostDetailedModel postDetailed, int postId)
         {
             

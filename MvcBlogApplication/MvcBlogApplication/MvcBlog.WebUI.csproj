@@ -149,6 +149,8 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Content Include="Content\Site.css" />
+    <Content Include="Content\Theme\AdminBackground.png" />
+    <Content Include="Content\Theme\Background.png" />
     <Content Include="Content\Theme\HeaderBackground.png" />
     <Content Include="Global.asax" />
     <Content Include="Web.config">
@@ -220,6 +222,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Admin\EditPost.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Admin\ManageComments.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Admin\EditComment.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

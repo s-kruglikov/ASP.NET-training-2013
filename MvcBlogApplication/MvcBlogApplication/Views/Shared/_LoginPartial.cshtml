@@ -3,6 +3,14 @@
     <text>
         <ul>
             <li>Hello, @Html.ActionLink(User.Identity.Name, "ChangePassword", "Account", routeValues: null, htmlAttributes: new { @class = "username", title = "Manage" })!</li>
+            
+            @if (User.IsInRole("Administrators"))
+            {
+                <li>
+                    @Html.ActionLink("Manage site", "ManagePosts", "Admin")
+                </li>
+            }
+            
             <li>
                 @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { @class = "logout", id = "logoutForm" }))
                 {
@@ -10,6 +18,7 @@
                     <a href="javascript:document.getElementById('logoutForm').submit()">Log off</a>
                 }
             </li>
+
         </ul>
     </text>
 }

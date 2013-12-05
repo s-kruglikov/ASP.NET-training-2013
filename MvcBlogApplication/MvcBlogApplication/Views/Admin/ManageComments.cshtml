@@ -1,0 +1,26 @@
+﻿@model IEnumerable<MvcBlog.Domain.Entities.Comment>
+
+@{
+    ViewBag.Title = "ManageComments";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>ManageComments</h2>
+<table>
+    <tr>
+        <td>Comment ID</td>
+        <td>Post ID</td>
+        <td>Comment content</td>
+        <td>Action</td>
+    </tr>
+
+    @foreach (var comment in Model)
+    {
+        <tr>
+            <td>@Html.ActionLink(comment.CommentID.ToString(), "EditComment", new { comment.CommentID })</td>
+            <td>@Html.DisplayFor(postId => comment.PostID)</td>
+            <td>@Html.DisplayFor(commentContent => comment.CommentContent)</td>
+        </tr>
+    }
+
+</table>

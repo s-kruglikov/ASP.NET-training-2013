@@ -9,7 +9,7 @@
 
 @Html.Raw(@Model.PostDetailed.PostContent)
 
-<hr/>
+<hr />
 
 <h4>Comments:</h4>
 @foreach (var c in Model.Comments)
@@ -20,13 +20,20 @@
     </div>
 }
 
-@using (Html.BeginForm("AddComment","Posts"))
+@if (User.Identity.IsAuthenticated)
 {
-    @Html.TextAreaFor(p => p.NewComment.CommentContent, new {style = "height: 200px; width: 500px"})
+    using (Html.BeginForm("AddComment", "Posts"))
+    {
+        @Html.TextAreaFor(p => p.NewComment.CommentContent, new { style = "height: 200px; width: 500px" })
 
-    @Html.Hidden("postId", @Model.PostDetailed.PostID)
-    <br/>
-    <input type="submit" value="Save Comment" />
+        @Html.Hidden("postId", @Model.PostDetailed.PostID)
+        <br />
+        <input type="submit" value="Save Comment" />
+    }
 }
 
-
+else
+{
+    <text>Only authorized users can left comments. Please </text>
+    @Html.ActionLink("authorize.", "Login", "Account", htmlAttributes: null, routeValues: new { returnUrl = Request.RawUrl})
+}

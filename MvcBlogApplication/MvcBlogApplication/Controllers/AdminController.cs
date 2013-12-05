@@ -19,9 +19,10 @@ namespace MvcBlog.WebUI.Controllers
         //
         // GET: /Admin/ManagePosts
 
+        [Authorize(Roles = "Administrators")]
         public ActionResult ManagePosts()
         {
-            return View(_postsRepository.Posts);
+            return View(_postsRepository.Posts.OrderByDescending(p => p.PostID));
         }
 
         //
@@ -79,7 +80,14 @@ namespace MvcBlog.WebUI.Controllers
         // GET: /Admin/ManageComments
         public ActionResult ManageComments()
         {
-            return View(_commentsRepository.Comments);
+            return View(_commentsRepository.Comments.OrderByDescending(c => c.CommentID));
+        }
+
+        [HttpGet]
+        public ViewResult EditComment(int commentId)
+        {
+            var comment = _commentsRepository.Comments.FirstOrDefault(c => c.CommentID == commentId);
+            return View(comment);
         }
     }
 }

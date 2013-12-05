@@ -3,11 +3,11 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <link href="~/Content/Admin.css" rel="stylesheet" type="text/css" />
-    
+    @*<link href="~/Content/Site.css" type="text/css" rel="stylesheet" />*@
+
     <title>@ViewBag.Title</title>
 </head>
-<body>
+<body class="admin-layout">
     <div class="adminTabs">
         @Html.ActionLink("Manage posts", "ManagePosts", "Admin")
         @Html.ActionLink("Manage comments", "ManageComments", "Admin")
@@ -20,4 +20,5 @@
         @RenderBody()
     </div>
 </body>
+
 </html>

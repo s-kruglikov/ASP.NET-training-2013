@@ -3,7 +3,8 @@
     font-size: .85em;
     margin: 0;
     /*padding: 0;*/
-    background-color: #D2D2D2;
+    /*background-color: #D2D2D2;*/
+    background-image: url("../Content/Theme/Background.png");
 }
 
 /* validation
@@ -31,7 +32,7 @@
 }
 
 /* login
-----------------------------------------------------------*/
+    */
 #login {
     /*display: block;
     font-size: .95em;
@@ -212,13 +213,23 @@ fieldset {
     border-top: 6px solid RGB(0,188,242);
     text-align: center;
     clear: left; /* Отменяем действие float */
-    background-color: #D2D2D2;
+    background-image: url("../Content/Theme/Background.png");
+    /*background-color: #D2D2D2;*/
 }
 
 /* comment
     */
 #comment {
     background-color: lemonchiffon;
+}
+
+/* admin layout
+    */
+.admin-layout {
+    font-family: "Segoe UI", Verdana, Helvetica, Sans-Serif;
+    font-size: 1em;
+    color: black;
+    background-image: url("../Content/Theme/AdminBackground.png");
 }
 
 

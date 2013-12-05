@@ -8,6 +8,7 @@
 <h2>Edit "@Model.PostTitle"</h2>
 @using (Html.BeginForm("EditPost","Admin"))
 {
+    <span>@Html.TextBoxFor(p => p.PostID, new {style="display: none"})</span>
     <table>
         <tr>
             <td>Post Title</td>
