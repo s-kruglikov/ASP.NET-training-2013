@@ -78,7 +78,9 @@ namespace MvcBlog.WebUI.Controllers
 
         public ActionResult AddComment(PostDetailedModel postDetailed, int postId)
         {
+            
             postDetailed.NewComment.PostID = postId;
+
             _commentsRepository.SaveComment(postDetailed.NewComment);
 
             return RedirectToAction("SinglePost",routeValues: new {postId = postId});
