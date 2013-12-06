@@ -1,16 +1,21 @@
 ﻿@model IEnumerable<MvcBlog.Domain.Entities.Comment>
 
 @{
-    ViewBag.Title = "ManageComments";
+    ViewBag.Title = "Manage Comments";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h2>ManageComments</h2>
+<h2>Manage Comments</h2>
 <table>
     <tr>
         <td>Comment ID</td>
         <td>Post ID</td>
         <td>Comment content</td>
+        <td>Created by</td>
+        <td>Creation date</td>
+        <td>Last modified by</td>
+        <td>Last modification date</td>
+        <td>Visible?</td>
         <td>Action</td>
     </tr>
 
@@ -20,7 +25,21 @@
             <td>@Html.ActionLink(comment.CommentID.ToString(), "EditComment", new { comment.CommentID })</td>
             <td>@Html.DisplayFor(postId => comment.PostID)</td>
             <td>@Html.DisplayFor(commentContent => comment.CommentContent)</td>
+            <td>@Html.DisplayFor(c => comment.CommentCreatedBy)</td>
+            <td>@Html.DisplayFor(c => comment.CommentCreationDate)</td>
+            <td>@Html.DisplayFor(c => comment.CommentLastModifiedBy)</td>
+            <td>@Html.DisplayFor(c => comment.CommentLastModificationDate)</td>
+            <td>
+                <input type="checkbox" disabled="disabled" checked="@comment.CommentIsVisible" />
+
+            </td>
+            <td>
+                @using (Html.BeginForm("DeleteComment", "Admin"))
+                {
+                    @Html.Hidden("commentId", comment.CommentID)
+                    <input type="submit" value="Delete" />
+                }
+            </td>
         </tr>
     }
-
 </table>

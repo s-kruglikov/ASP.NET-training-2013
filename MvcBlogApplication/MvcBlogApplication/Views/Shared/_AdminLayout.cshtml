@@ -9,6 +9,7 @@
 </head>
 <body class="admin-layout">
     <div class="adminTabs">
+        @Html.ActionLink("Back to site", "List", "Posts")
         @Html.ActionLink("Manage posts", "ManagePosts", "Admin")
         @Html.ActionLink("Manage comments", "ManageComments", "Admin")
     </div>

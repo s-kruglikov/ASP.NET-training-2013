@@ -320,16 +320,7 @@ namespace MvcBlog.WebUI.Controllers
         private void SendEMail(string emailid, string subject, string body)
         {
             SmtpClient client = new SmtpClient();
-            client.DeliveryMethod = SmtpDeliveryMethod.Network;
-            client.EnableSsl = true;
-            client.Host = "smtp.gmail.com";
-            client.Port = 587;
-
-            System.Net.NetworkCredential credentials =
-              new System.Net.NetworkCredential("stas.kruglikov@gmail.com", "Samsung-i9250");
-            client.UseDefaultCredentials = false;
-            client.Credentials = credentials;
-
+                    
             MailMessage msg = new MailMessage();
             msg.From = new MailAddress("stas.kruglikov@gmail.com");
             msg.To.Add(new MailAddress(emailid));

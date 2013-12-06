@@ -2,6 +2,7 @@
 using System.Web.Mvc;
 using MvcBlog.Domain.Abstract;
 using MvcBlog.Domain.Entities;
+using System;
 
 namespace MvcBlog.WebUI.Controllers
 {
@@ -88,6 +89,27 @@ namespace MvcBlog.WebUI.Controllers
         {
             var comment = _commentsRepository.Comments.FirstOrDefault(c => c.CommentID == commentId);
             return View(comment);
+        }
+
+        [HttpPost]
+        [ValidateInput(false)]
+        public ActionResult EditComment(Comment comment)
+        {
+            if (ModelState.IsValid)
+            {
+                comment.CommentLastModifiedBy = User.Identity.Name;
+                comment.CommentLastModificationDate = DateTime.Now;
+
+                _commentsRepository.SaveComment(comment);
+
+                TempData["message"] = string.Format("Comment {0} has been saved", comment.CommentID);
+                return RedirectToAction("ManageComments");
+            }
+            else
+            {
+                // something wrong with the data values
+                return View(comment);
+            }
         }
     }
 }

@@ -18,9 +18,28 @@ namespace MvcBlog.Domain.Concrete
 
         public void SaveComment(Comment comment)
         {
+            
             if (comment.CommentContent != null)
             {
-                context.Comments.Add(comment);
+                // if we are adding new comment
+                if (comment.CommentID == 0)
+                {
+                    context.Comments.Add(comment);
+                }
+
+                // if we are updating comment
+                else
+                {
+                    Comment dbEntry = context.Comments.Find(comment.CommentID);
+                    if (dbEntry != null)
+                    {
+                        dbEntry.CommentIsVisible = comment.CommentIsVisible;
+                        dbEntry.CommentContent = comment.CommentContent;
+                        dbEntry.CommentLastModifiedBy = comment.CommentLastModifiedBy;
+                        dbEntry.CommentLastModificationDate = comment.CommentLastModificationDate;
+                    }
+                }
+
                 context.SaveChanges();
             }
         }

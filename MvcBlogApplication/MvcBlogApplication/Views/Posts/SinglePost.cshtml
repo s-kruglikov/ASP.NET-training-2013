@@ -14,26 +14,30 @@
 <h4>Comments:</h4>
 @foreach (var c in Model.Comments)
 {
+    if (c.CommentIsVisible)
+    {
     <div id="comment">
-        <h3>@c.CommentID</h3>
+        <h4>@c.CommentCreationDate @c.CommentCreatedBy said:</h4>
         <p>@c.CommentContent</p>
     </div>
+    }
 }
 
 @if (User.Identity.IsAuthenticated)
 {
     using (Html.BeginForm("AddComment", "Posts"))
     {
-        @Html.TextAreaFor(p => p.NewComment.CommentContent, new { style = "height: 200px; width: 500px" })
+    @Html.TextAreaFor(p => p.NewComment.CommentContent, new { style = "height: 200px; width: 500px" })
 
-        @Html.Hidden("postId", @Model.PostDetailed.PostID)
-        <br />
-        <input type="submit" value="Save Comment" />
+    @Html.Hidden("postId", @Model.PostDetailed.PostID)
+    @Html.Hidden("category", @Model.PostDetailed.PostCategory)
+    <br />
+    <input type="submit" value="Save Comment" />
     }
 }
 
 else
 {
     <text>Only authorized users can left comments. Please </text>
-    @Html.ActionLink("authorize.", "Login", "Account", htmlAttributes: null, routeValues: new { returnUrl = Request.RawUrl})
+    @Html.ActionLink("authorize.", "Login", "Account", htmlAttributes: null, routeValues: new { returnUrl = Request.RawUrl })
 }

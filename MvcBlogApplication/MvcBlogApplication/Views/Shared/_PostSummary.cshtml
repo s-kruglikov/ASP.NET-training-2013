@@ -10,7 +10,7 @@
     </div>
 </div>
 <div id="detailedLink">
-    @Html.PostDetailsLinks(@Model.PostID, x=> Url.Action(actionName: "SinglePost", controllerName: "Posts", routeValues: new {postId = x ,category = Model.PostCategory}))
+    @Html.PostDetailsLinks(@Model.PostID, x=> Url.Action(actionName: "SinglePost", controllerName: "Posts", routeValues: new {postId = x, category = Model.PostCategory}))
     
     @*@Url.Action("SinglePost","Detailed",routeValues: new {postId = @Model.PostID})*@
 </div>

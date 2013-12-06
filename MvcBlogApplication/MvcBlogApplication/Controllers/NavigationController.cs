@@ -13,6 +13,8 @@ namespace MvcBlog.WebUI.Controllers
         {
             _repository = repository;
         }
+
+
         public PartialViewResult Menu(string category = null)
         {
             ViewBag.SelectedCategory = category;

@@ -47,6 +47,12 @@ namespace MvcBlog.WebUI
                 new { controller = "Posts", action = "SinglePost"}
             );
 
+            //routes.MapRoute(
+            //    null,
+            //    "{category}/Post{postId}",
+            //    new { controller = "Posts", action = "AddComment" }
+            //);
+
             routes.MapRoute(null, "{controller}/{action}");
 
             routes.MapRoute(

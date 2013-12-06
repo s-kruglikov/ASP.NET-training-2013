@@ -1,8 +1,53 @@
 ﻿@model MvcBlog.Domain.Entities.Comment
 
 @{
-    ViewBag.Title = "EditComment";
+    ViewBag.Title = "Edit Comment";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h2>EditComment</h2>
+<h2>Edit Comment</h2>
+
+@using (Html.BeginForm("EditComment", "Admin"))
+{
+    <table>
+        <tr>
+            <td>Comment ID</td>
+            <td>@Html.TextBoxFor(c => c.CommentID)</td>
+        </tr>
+        <tr>
+            <td>Post ID</td>
+            <td>@Html.TextBoxFor(c => c.PostID)</td>
+        </tr>
+        <tr>
+            <td>Created by</td>
+            <td>@Html.TextBoxFor(c => c.CommentCreatedBy)</td>
+        </tr>
+        <tr>
+            <td>Creation date</td>
+            <td>@Html.TextBoxFor(c => c.CommentCreationDate)</td>
+        </tr>
+        <tr>
+            <td>Last modified by</td>
+            <td>@Html.TextBoxFor(c => c.CommentLastModifiedBy)</td>
+        </tr>
+        <tr>
+            <td>Last modification date</td>
+            <td>@Html.TextBoxFor(c => c.CommentLastModificationDate)</td>
+        </tr>
+        <tr>
+            <td>Visible?</td>
+            <td>@Html.CheckBoxFor( c => c.CommentIsVisible)</td>
+        </tr>
+        <tr>
+            <td>Comment content</td>
+            <td>@Html.TextAreaFor( c => c.CommentContent)</td>
+        </tr>
+    </table>
+    
+@*
+    @Html.EditorForModel();
+*@
+    
+    <input type="submit" value="Save" />
+    @Html.ActionLink("Cancel and return to list", "ManageComments")
+}

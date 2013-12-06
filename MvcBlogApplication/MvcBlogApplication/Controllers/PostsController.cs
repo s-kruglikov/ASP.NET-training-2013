@@ -6,6 +6,7 @@ using MvcBlog.Domain.Abstract;
 using MvcBlog.Domain.Entities;
 using MvcBlog.WebUI.Models;
 using System.Configuration;
+using System;
 
 namespace MvcBlog.WebUI.Controllers
 {
@@ -55,7 +56,7 @@ namespace MvcBlog.WebUI.Controllers
 
         //
         // GET: 
-        public ActionResult SinglePost(int postId)
+        public ActionResult SinglePost(string category, int postId)
         {
             var model = new PostDetailedModel()
             {
@@ -74,14 +75,19 @@ namespace MvcBlog.WebUI.Controllers
         //
         // POST:
         [Authorize]
-        public ActionResult AddComment(PostDetailedModel postDetailed, int postId)
+        public ActionResult AddComment(PostDetailedModel postDetailed, int postId, string category)
         {
+            postDetailed.NewComment.CommentCreatedBy = User.Identity.Name;
+            postDetailed.NewComment.CommentCreationDate = DateTime.Now;
+            postDetailed.NewComment.CommentLastModifiedBy = User.Identity.Name;
+            postDetailed.NewComment.CommentLastModificationDate = DateTime.Now;
+            postDetailed.NewComment.CommentIsVisible = true;
             
             postDetailed.NewComment.PostID = postId;
 
             _commentsRepository.SaveComment(postDetailed.NewComment);
 
-            return RedirectToAction("SinglePost",routeValues: new {postId = postId});
+            return RedirectToAction("SinglePost",routeValues: new {postId = postId, category = category});
         }
     }
 }
