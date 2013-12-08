@@ -7,8 +7,9 @@
 <h2>@Model.PostDetailed.PostTitle</h2>
 <h5>@Model.PostDetailed.PostCategory</h5>
 
-@Html.Raw(@Model.PostDetailed.PostContent)
-
+<div class="multiline">
+    (@Model.PostDetailed.PostContent)
+</div>
 <hr />
 
 <h4>Comments:</h4>
@@ -16,10 +17,10 @@
 {
     if (c.CommentIsVisible)
     {
-    <div id="comment">
-        <h4>@c.CommentCreationDate @c.CommentCreatedBy said:</h4>
-        <p>@c.CommentContent</p>
-    </div>
+        <div id="comment">
+            <h4>@c.CommentCreationDate @c.CommentCreatedBy said:</h4>
+            <p class="multiline">@c.CommentContent</p>
+        </div>
     }
 }
 
@@ -27,12 +28,12 @@
 {
     using (Html.BeginForm("AddComment", "Posts"))
     {
-    @Html.TextAreaFor(p => p.NewComment.CommentContent, new { style = "height: 200px; width: 500px" })
+        @Html.TextAreaFor(p => p.NewComment.CommentContent, new { @class = "comment-area" })
 
-    @Html.Hidden("postId", @Model.PostDetailed.PostID)
-    @Html.Hidden("category", @Model.PostDetailed.PostCategory)
-    <br />
-    <input type="submit" value="Save Comment" />
+        @Html.Hidden("postId", @Model.PostDetailed.PostID)
+        @Html.Hidden("category", @Model.PostDetailed.PostCategory)
+        <br />
+        <input type="submit" value="Save Comment" class="submit-comment" />
     }
 }
 

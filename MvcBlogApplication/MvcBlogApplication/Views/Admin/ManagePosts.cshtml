@@ -1,35 +1,60 @@
 ﻿@model IEnumerable<MvcBlog.Domain.Entities.Post>
+@using System.Security.Policy
+@using GridMvc.Html
+@using GridMvc.Sorting
 
 @{
-    ViewBag.Title = "ManagePosts";
+    ViewBag.Title = "MVC Blog: Manage Posts";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h2>Manage posts</h2>
-<p>
-    @Html.ActionLink("Create New", "CreatePost")
+<p class="new-post">
+    @Html.ActionLink("Create New Post", "CreatePost")
 </p>
 
-<table>
-    <tr>
-        <th>@Html.DisplayNameFor(model => model.PostID)</th>
-        <th>@Html.DisplayNameFor(model => model.PostTitle)</th>
-        <th>@Html.DisplayNameFor(model => model.PostCategory)</th>
-        <th>Actions</th>
-    </tr>
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>@Html.DisplayFor(modelItem => item.PostID)</td>
-            <td>@Html.ActionLink(item.PostTitle, "EditPost", new {item.PostID})</td>
-            <td>@Html.DisplayFor(modelItem => item.PostCategory)</td>
-            <td>
-                @using (Html.BeginForm("DeletePost", "Admin"))
-                {
-                    @Html.Hidden("PostId", item.PostID)
-                    <input type="submit" value="Delete" />
-                }
-            </td>
-        </tr>
-    }
-</table>
+
+<div class="posts-grid">
+    @Html.Grid(Model).Columns(columns =>
+{
+    columns.Add()
+        .Encoded(false)
+        .Sanitized(false)
+        .SetWidth(30).RenderValueAs(col =>
+                @<b>
+                    @Html.ActionLink("Edit", "EditPost", new { col.PostID })
+                </b>);
+
+    columns.Add(col => col.PostID)
+        .Titled("Post ID")
+        .Sortable(true)
+        .SortInitialDirection(GridSortDirection.Descending)
+        .SetWidth(50);
+
+    columns.Add(col => col.PostCategory)
+        .Titled("Category")
+        .Sortable(true)
+        .SetWidth(100)
+        .Filterable(true);
+
+    columns.Add(col => col.PostTitle)
+        //.RenderValueAs(col => Html.ActionLink(col.PostTitle, "EditPost", new { col.PostID }))
+        //.Encoded(false)
+        //.Sanitized(false)
+        .Titled("Post Title")
+        .Sortable(true);
+
+    columns.Add(col => col.PostCreatedBy)
+        .Titled("Created By")
+        .Sortable(true);
+
+    columns.Add(col => col.PostCreationDate);
+
+    columns.Add(col => col.PostLastModifiedBy);
+
+    columns.Add(col => col.PostLastModificationDate);
+
+    columns.Add().RenderValueAs(col => Html.CheckBox("PostIsVisible", col.PostIsVisible, htmlAttributes: new { disabled = "disabled" })).Encoded(false).Sanitized(false);
+
+}).WithPaging(10)
+
+</div>

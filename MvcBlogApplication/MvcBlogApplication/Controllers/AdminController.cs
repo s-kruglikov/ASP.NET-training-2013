@@ -23,6 +23,7 @@ namespace MvcBlog.WebUI.Controllers
         [Authorize(Roles = "Administrators")]
         public ActionResult ManagePosts()
         {
+            ViewBag.CurrentEdit = "Posts";
             return View(_postsRepository.Posts.OrderByDescending(p => p.PostID));
         }
 
@@ -32,6 +33,7 @@ namespace MvcBlog.WebUI.Controllers
         [HttpGet]
         public ViewResult EditPost(int postId)
         {
+            ViewBag.CurrentEdit = "Posts";
             var post = _postsRepository.Posts.FirstOrDefault(p => p.PostID == postId);
 
             return View(post);
@@ -81,12 +83,14 @@ namespace MvcBlog.WebUI.Controllers
         // GET: /Admin/ManageComments
         public ActionResult ManageComments()
         {
+            ViewBag.CurrentEdit = "Comments";
             return View(_commentsRepository.Comments.OrderByDescending(c => c.CommentID));
         }
 
         [HttpGet]
         public ViewResult EditComment(int commentId)
         {
+            ViewBag.CurrentEdit = "Comments";
             var comment = _commentsRepository.Comments.FirstOrDefault(c => c.CommentID == commentId);
             return View(comment);
         }

@@ -5,33 +5,46 @@
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h2>Edit "@Model.PostTitle"</h2>
-@using (Html.BeginForm("EditPost","Admin"))
-{
-    <span>@Html.TextBoxFor(p => p.PostID, new {style="display: none"})</span>
-    <table>
-        <tr>
-            <td>Post Title</td>
-            <td>@Html.TextBoxFor(p => p.PostTitle, new { style = "width: 500px" })</td>
-        </tr>
-        <tr>
-            <td>Post Description</td>
-            <td>@Html.TextAreaFor(p => p.PostDescription, new { style = "height: 200px; width: 500px" })</td>
-        </tr>
-        <tr>
-            <td>Post Content</td>
-            <td>@Html.TextAreaFor(p => p.PostContent, new { style = "height: 500px; width: 500px" })</td>
-        </tr>
-        <tr>
-            <td>Post Category</td>
-            <td>@Html.TextBoxFor(p => p.PostCategory, new { style = "width: 500px" })</td>
-        </tr>
-    </table>
+@*<h2>Edit "@Model.PostTitle"</h2>*@
+
+
+    <div class="edit-post-label">Post ID</div>
+
+    @*@using (Html.BeginForm("EditPost", "Admin"))
+    {*@
+
+        
+
+    
+
+        @*<table>
+                <tr>
+                    <td>Post ID</td>
+                    <td class="common-editor">@Html.EditorFor(p => p.PostID)</td>
+                </tr>
+                <tr>
+                    <td>Post Title</td>
+                    <td class="title-editor">@Html.EditorFor(p => p.PostTitle)</td>
+                </tr>
+                <tr>
+                    <td>Post Description</td>
+                    <td class="common-editor">@Html.TextAreaFor(p => p.PostDescription, new { style = "height: 200px; width: 500px" })</td>
+                </tr>
+                <tr>
+                    <td>Post Content</td>
+                    <td class="common-editor">@Html.TextAreaFor(p => p.PostContent, new { style = "height: 500px; width: 500px" })</td>
+                </tr>
+                <tr>
+                    <td>Post Category</td>
+                    <td class="category-editor">@Html.TextBoxFor(p => p.PostCategory)</td>
+                </tr>
+            </table>
+        
     
 @*
     @Html.EditorForModel();
 *@
     
-    <input type="submit" value="Save" />
-    @Html.ActionLink("Cancel and return to list", "ManagePosts")
-}
+    @*<input type="submit" value="Save" />
+    @Html.ActionLink("Cancel and return to list", "ManagePosts")*@
+ 

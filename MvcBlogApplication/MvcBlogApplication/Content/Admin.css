@@ -1,0 +1,64 @@
+﻿body {
+    margin: 0;
+    padding: 0;
+}
+
+.admin-container {
+    border: 1px salmon solid;
+    width: 1000px;
+    margin: 0 auto;
+    min-height: 600px;
+}
+
+.admin-tabs {
+    margin: 50px 0;
+    padding: 0;
+    font-family: "Segoe UI", Verdana, Helvetica, Sans-Serif;
+    font-size: .85em;
+}
+
+.admin-tabs a {
+    padding: 10px;
+    
+    text-decoration: none;
+    color: Black;
+}
+
+    .admin-tabs a:hover {
+        background-color: #00BCF2;
+    }
+
+    .admin-tabs a.selected-posts {
+        background-color: #46C1BE;
+        color: White;
+    }
+
+    .admin-tabs a.selected-comments {
+        background-color: #FB9F11;
+        color: White;
+    }
+
+.new-post {
+    padding: 20px;
+    background-image: url("../Content/Theme/NewPostLink.png");
+    background-repeat: no-repeat;
+    width: 230px;
+    height: 56px;
+}
+
+.new-post a{
+    
+    color: white;
+    text-decoration: none;
+    font-family: "Segoe UI", Verdana, Helvetica, Sans-Serif;
+    font-size: .85em;
+}
+
+.posts-grid {
+    font-family: "Segoe UI", Verdana, Helvetica, Sans-Serif;
+    font-size: .85em;
+}
+
+li {
+    display: inline;
+}

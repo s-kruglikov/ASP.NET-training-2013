@@ -2,24 +2,32 @@
 
 <html>
 <head>
-    <meta name="viewport" content="width=device-width" />
-    @*<link href="~/Content/Site.css" type="text/css" rel="stylesheet" />*@
+    <meta name="viewport"/>
+    <link href="~/Content/Admin.css" type="text/css" rel="stylesheet" />
 
     <title>@ViewBag.Title</title>
+    
+    <script src="@Url.Content("~/Scripts/jquery-2.0.3.min.js")" type="text/javascript"> </script>
+    <link href="@Url.Content("~/Content/Gridmvc.css")" rel="stylesheet" type="text/css" />
+    <script src="@Url.Content("~/Scripts/gridmvc.min.js")" type="text/javascript"> </script>
 </head>
-<body class="admin-layout">
-    <div class="adminTabs">
-        @Html.ActionLink("Back to site", "List", "Posts")
-        @Html.ActionLink("Manage posts", "ManagePosts", "Admin")
-        @Html.ActionLink("Manage comments", "ManageComments", "Admin")
-    </div>
-    <div>
-        @if (TempData["message"] != null)
-        {
-            <div class="Message">@TempData["message"]</div>
-        }
-        @RenderBody()
-    </div>
-</body>
+    <body>
+        <div class="admin-container">
+
+
+            <div class="admin-tabs">
+                @Html.ActionLink("Back to site", "List", "Posts")
+                @Html.ActionLink("Manage posts", "ManagePosts", "Admin", new {@class = @ViewBag.CurrentEdit == "Posts" ? "selected-posts" : null})
+                @Html.ActionLink("Manage comments", "ManageComments", "Admin", new { @class = @ViewBag.CurrentEdit == "Comments" ? "selected-comments" : null })
+            </div>
+            <div>
+                @if (TempData["message"] != null)
+                {
+                    <div class="Message">@TempData["message"]</div>
+                }
+                @RenderBody()
+            </div>
+        </div>
+    </body>
 
 </html>

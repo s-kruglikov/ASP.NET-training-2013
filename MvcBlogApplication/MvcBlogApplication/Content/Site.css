@@ -42,13 +42,13 @@
     border: 1px solid red;*/
 }
 
-    #login li {
-        color: #6DC2E9;
-    }
+#login li {
+    color: #6DC2E9;
+}
 
-    #login a {
-        color: #6DC2E9;
-    }
+#login a {
+    color: #6DC2E9;
+}
 
 
 
@@ -223,7 +223,43 @@ fieldset {
     */
 #comment {
     background-color: lemonchiffon;
+    padding-left: 10px;
 }
+
+.comment-area {
+    height: 200px;
+    width: 500px;
+    /*white-space: pre-line;*/
+}
+
+.submit-comment {
+    position: relative;
+    display: inline-block;
+    overflow: visible;
+    margin: 0;
+    padding: 10px 14px;
+    margin-top: 8px;
+    cursor: pointer;
+    outline: none;
+    border: none;
+    background-color: #00BCF2;
+    -webkit-background-clip: padding;
+    -moz-background-clip: padding;
+    background-clip: padding;
+    font-family: "Segoe UI", Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    line-height: 14px;
+    color: #333333;
+    min-width: 42px;
+}
+
+    .submit-comment:hover {
+        color: #333;
+        text-decoration: none;
+        background-color: #0072C6;
+        z-index: 100;
+        outline: none;
+    }
 
 /* admin layout
     */
@@ -237,7 +273,7 @@ fieldset {
 
 /* admin tabs
     */
-.adminTabs{
+.adminTabs {
     font-size: 1.1em;
     color: #666;
     text-decoration: none;
@@ -247,5 +283,5 @@ fieldset {
 /* multiline text
     */
 .multiline {
-    white-space:pre-line;
+    white-space: pre-line;
 }

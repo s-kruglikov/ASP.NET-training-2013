@@ -49,7 +49,6 @@
   <ItemGroup>
     <Compile Include="Abstract\ICommentsRepository.cs" />
     <Compile Include="Abstract\IPostsRepository.cs" />
-    <Compile Include="Class1.cs" />
     <Compile Include="Concrete\EFCommentsRepository.cs" />
     <Compile Include="Concrete\EFDbContext.cs" />
     <Compile Include="Concrete\EFPostsRepository.cs" />

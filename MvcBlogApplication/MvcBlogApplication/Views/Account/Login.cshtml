@@ -13,13 +13,15 @@
 @using (Html.BeginForm(new { ReturnUrl = ViewBag.ReturnUrl })) {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
-
+    
     <fieldset>
         <legend>Log in Form</legend>
         <table>
             <tr>
                 <td>@Html.LabelFor(m => m.UserName)</td>
-                <td>@Html.TextBoxFor(m => m.UserName)</td>
+                <td>
+                    @Html.TextBoxFor(m => m.UserName)
+                </td>
                 <td>@Html.ValidationMessageFor(m => m.UserName)</td>
             </tr>
             <tr>
