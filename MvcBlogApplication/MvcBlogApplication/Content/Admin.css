@@ -67,12 +67,10 @@
     text-align: center;
 }
 
-.editor-field {
-    margin-bottom: .8em;
-}
-
 .editor-label {
     font-weight: bold;
+    padding-top: 10px;
+    padding-bottom: 5px;
 }
 
     .editor-label:after {

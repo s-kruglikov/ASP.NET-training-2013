@@ -36,6 +36,8 @@ namespace MvcBlog.WebUI.Controllers
             ViewBag.CurrentEdit = "Posts";
             var post = _postsRepository.Posts.FirstOrDefault(p => p.PostID == postId);
 
+            ViewBag.Title = string.Format("MVC Blog: Edit post '{0}'", post.PostTitle);
+
             return View(post);
         }
 
@@ -46,15 +48,25 @@ namespace MvcBlog.WebUI.Controllers
         [ValidateInput(false)]
         public ActionResult EditPost(Post post)
         {
+            ViewBag.CurrentEdit = "Posts";
             if (ModelState.IsValid)
             {
+                if (post.PostID == 0)
+                {
+                    post.PostCreatedBy = User.Identity.Name;
+                    post.PostCreationDate = DateTime.Now;
+                }
+
+                post.PostLastModifiedBy = User.Identity.Name;
+                post.PostLastModificationDate = DateTime.Now;
+
                 _postsRepository.SavePost(post);
                 TempData["message"] = string.Format("{0} has been saved", post.PostTitle);
                 return RedirectToAction("ManagePosts");
             }
             else
             {
-                // something wrong with the data values
+                // something wrong occured with the data values
                 return View(post);
             }
         }
@@ -64,6 +76,8 @@ namespace MvcBlog.WebUI.Controllers
         [HttpGet]
         public ViewResult CreatePost()
         {
+            ViewBag.Title = "MVC Blog: Add new post";
+            ViewBag.CurrentEdit = "Posts";
             return View("EditPost", new Post());
         }
 

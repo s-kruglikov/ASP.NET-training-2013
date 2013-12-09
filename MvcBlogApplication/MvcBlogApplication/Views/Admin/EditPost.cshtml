@@ -1,90 +1,51 @@
 ﻿@model MvcBlog.Domain.Entities.Post
 
 @{
-    ViewBag.Title = "Edit post: " + @Model.PostTitle;
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
-
-@*<h2>Edit "@Model.PostTitle"</h2>*@
 
 @using (Html.BeginForm("EditPost", "Admin"))
 {
     <div class="admin-container">
-        
-    @if (@Model.PostID != 0)
-    {   //show if we are editing post
-        <div class="editor-label">Post ID</div>
-        <div class="text-box">@Html.EditorFor(p => p.PostID)</div>
 
-        <div class="editor-label">Post Created By</div>
-        <div class="text-box">@Html.EditorFor(p => p.PostCreatedBy)</div>
+        @if (@Model.PostID != 0)
+        {   //show if we are editing post
+            <div class="editor-label">Post ID</div>
+            <div class="text-box">@Html.EditorFor(p => p.PostID)</div>
 
-        <div class="editor-label">Post Creation Date</div>
-        <div class="text-box">@Html.EditorFor(p => p.PostCreationDate)</div>
+            <div class="editor-label">Post Created By</div>
+            <div class="text-box">@Html.EditorFor(p => p.PostCreatedBy)</div>
 
-        <div class="editor-label">Post Last Modified By</div>
-        <div class="text-box">@Html.EditorFor(p => p.PostLastModifiedBy)</div>
+            <div class="editor-label">Post Creation Date</div>
+            <div class="text-box">@Html.EditorFor(p => p.PostCreationDate)</div>
 
-        <div class="editor-label">Post Last Modification Date</div>
-        <div class="text-box">@Html.EditorFor(p => p.PostLastModificationDate)</div>
+            <div class="editor-label">Post Last Modified By</div>
+            <div class="text-box">@Html.EditorFor(p => p.PostLastModifiedBy)</div>
+
+            <div class="editor-label">Post Last Modification Date</div>
+            <div class="text-box">@Html.EditorFor(p => p.PostLastModificationDate)</div>
         }
-    
+
         <div class="editor-label">Post Title</div>
-        <div class="text-box">@Html.TextBoxFor(p => p.PostTitle, htmlAttributes: new { @class = "single-line form-control"})</div>
+        <div class="text-box">@Html.TextBoxFor(p => p.PostTitle, htmlAttributes: new { @class = "single-line form-control" })</div>
 
         <div class="editor-label">Post Description</div>
-        <div>@Html.TextAreaFor(p => p.PostDescription, htmlAttributes: new { @class = "form-control", @rows="3"})</div>
+        <div>@Html.TextAreaFor(p => p.PostDescription, htmlAttributes: new { @class = "form-control", @rows = "3" })</div>
 
         <div class="editor-label">Post Content</div>
-        <div>@Html.TextAreaFor(p => p.PostContent, htmlAttributes: new { @class = "form-control", @rows="10"})</div>
+        <div>@Html.TextAreaFor(p => p.PostContent, htmlAttributes: new { @class = "form-control", @rows = "10" })</div>
 
         <div class="editor-label">Post Category</div>
-        <div class="text-box">@Html.TextBoxFor(p => p.PostCategory, htmlAttributes: new { @class = "single-line form-control"})</div>
+        <div class="text-box">@Html.TextBoxFor(p => p.PostCategory, htmlAttributes: new { @class = "single-line form-control" })</div>
 
         <div class="editor-label">Post Visible?</div>
-        <div>@Html.CheckBoxFor(p => p.PostIsVisible, htmlAttributes: new { @checked="checked"})</div>
+        <div>@Html.CheckBoxFor(p => p.PostIsVisible, htmlAttributes: new { @checked = "checked" })</div>
 
-        <input type="checkbox" checked="checked" />
+        <div class="editor-label">Comments enabled for the post?</div>
+        <div>@Html.CheckBoxFor(p => p.PostCommentsEnabled, htmlAttributes: new { @checked = "checked" })</div>
 
-        <input type="submit" value="Save" class="btn btn-success" />
-        
-        @Html.ActionLink("Cancel", "ManagePosts", "Admin", routeValues: null, htmlAttributes: new { @class = "btn btn-warning" })
+        <p class="pull-right">@Html.ActionLink("Cancel", "ManagePosts", "Admin", routeValues: null, htmlAttributes: new { @class = "btn btn-warning" })<p />
+        <p><input type="submit" value="Save" class="btn btn-success" /></p>
+
     </div>
 }
-
-@*@using (Html.BeginForm("EditPost", "Admin"))
-    {*@
-
-
-
-
-@*<table>
-                <tr>
-                    <td>Post ID</td>
-                    <td class="common-editor">@Html.EditorFor(p => p.PostID)</td>
-                </tr>
-                <tr>
-                    <td>Post Title</td>
-                    <td class="title-editor">@Html.EditorFor(p => p.PostTitle)</td>
-                </tr>
-                <tr>
-                    <td>Post Description</td>
-                    <td class="common-editor">@Html.TextAreaFor(p => p.PostDescription, new { style = "height: 200px; width: 500px" })</td>
-                </tr>
-                <tr>
-                    <td>Post Content</td>
-                    <td class="common-editor">@Html.TextAreaFor(p => p.PostContent, new { style = "height: 500px; width: 500px" })</td>
-                </tr>
-                <tr>
-                    <td>Post Category</td>
-                    <td class="category-editor">@Html.TextBoxFor(p => p.PostCategory)</td>
-                </tr>
-            </table>
-        
-    
-@*
-    @Html.EditorForModel();
-*@
-
-@*<input type="submit" value="Save" />
-    @Html.ActionLink("Cancel and return to list", "ManagePosts")*@

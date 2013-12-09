@@ -23,12 +23,16 @@ namespace MvcBlog.Domain.Entities
 
         public string PostCategory { get; set; }
 
+        [HiddenInput]
         public string PostCreatedBy { get; set; }
 
+        [HiddenInput]
         public DateTime? PostCreationDate { get; set; }
 
+        [HiddenInput]
         public string PostLastModifiedBy { get; set; }
 
+        [HiddenInput]
         public DateTime? PostLastModificationDate { get; set; }
 
         public bool PostIsVisible { get; set; }

@@ -38,6 +38,12 @@ namespace MvcBlog.Domain.Concrete
                     dbEntry.PostDescription = post.PostDescription;
                     dbEntry.PostContent = post.PostContent;
                     dbEntry.PostCategory = post.PostCategory;
+                    dbEntry.PostCreatedBy = post.PostCreatedBy;
+                    dbEntry.PostCreationDate = post.PostCreationDate;
+                    dbEntry.PostLastModifiedBy = post.PostLastModifiedBy;
+                    dbEntry.PostLastModificationDate = post.PostLastModificationDate;
+                    dbEntry.PostIsVisible = post.PostIsVisible;
+                    dbEntry.PostCommentsEnabled = post.PostCommentsEnabled;
                 }
             }
 
