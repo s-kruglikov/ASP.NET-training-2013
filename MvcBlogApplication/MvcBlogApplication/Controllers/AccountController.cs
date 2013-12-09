@@ -204,7 +204,7 @@ namespace MvcBlog.WebUI.Controllers
         {
             var db = new UsersContext();
 
-            //seearch for user with defined name
+            //search for user with defined name
             var userProfile = db.UserProfiles.FirstOrDefault(x => x.UserName.Equals(username));
             if (userProfile == null)
             {

@@ -21,7 +21,7 @@ namespace MvcBlog.WebUI.Controllers
             IEnumerable<string> categories = _repository.Posts
                 .Select(p => p.PostCategory)
                 .Distinct()
-                .OrderBy(x => x);
+                .OrderBy(x => x).ToList();
 
             return PartialView(categories);
         }

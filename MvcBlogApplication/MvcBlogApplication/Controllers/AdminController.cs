@@ -70,7 +70,7 @@ namespace MvcBlog.WebUI.Controllers
         //
         // POST: /Admin/DeletePost
 
-        [HttpPost]
+        [HttpGet]
         public ActionResult DeletePost(int postId)
         {
             Post postToDelete = _postsRepository.DeletePost(postId);

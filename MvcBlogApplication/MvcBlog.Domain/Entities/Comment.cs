@@ -23,13 +23,13 @@ namespace MvcBlog.Domain.Entities
         public string CommentCreatedBy { get; set; }
 
         [HiddenInput]
-        public DateTime CommentCreationDate { get; set; }
+        public DateTime? CommentCreationDate { get; set; }
 
         [HiddenInput]
         public string CommentLastModifiedBy { get; set; }
 
         [HiddenInput]
-        public DateTime CommentLastModificationDate { get; set; }
+        public DateTime? CommentLastModificationDate { get; set; }
 
         public bool CommentIsVisible { get; set; }
     }
