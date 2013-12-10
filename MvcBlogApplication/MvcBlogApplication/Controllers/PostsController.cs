@@ -79,6 +79,7 @@ namespace MvcBlog.WebUI.Controllers
         //
         // POST:
         [Authorize]
+        [ValidateInput(false)]
         public ActionResult AddComment(PostDetailedModel postDetailed, int postId, string category)
         {
             postDetailed.NewComment.CommentCreatedBy = User.Identity.Name;

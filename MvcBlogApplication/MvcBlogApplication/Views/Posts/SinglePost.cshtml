@@ -4,6 +4,20 @@
     ViewBag.Title = "MVC Blog: \"" + @Model.PostDetailed.PostTitle + "\"";
 }
 
+<!--Initialize TinyMCE wysiwyg redactor-->
+<script src="~/Scripts/tinymce/tinymce.min.js"></script>
+<script>
+    tinymce.init({
+        selector: "textarea",
+        menubar: false,
+        statusbar: true,
+        toolbar: "undo redo | styleselect | bold italic print| code link image"
+    });
+
+</script>
+
+
+
 <div id="item">
     <h2>@Model.PostDetailed.PostTitle</h2>
 </div>
@@ -34,7 +48,7 @@
         <div id="item">
             <h3>@c.CommentCreationDate @c.CommentCreatedBy said:</h3>
         </div>
-        <p class="multiline">@c.CommentContent</p>
+        <p class="multiline">@Html.Raw(@c.CommentContent)</p>
     </div>
     }
 }
@@ -45,7 +59,7 @@
     {
         using (Html.BeginForm("AddComment", "Posts"))
         {
-    @Html.TextAreaFor(p => p.NewComment.CommentContent, htmlAttributes: new { @class = "form-control", @rows = "3"})
+    @Html.TextAreaFor(p => p.NewComment.CommentContent@*, htmlAttributes: new { @class = "form-control", @rows = "3"}*@)
 
     @Html.Hidden("postId", @Model.PostDetailed.PostID)
     @Html.Hidden("category", @Model.PostDetailed.PostCategory)
