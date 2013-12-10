@@ -4,14 +4,21 @@
     <meta charset="utf-8" />
     <title>@ViewBag.Title</title>
     <meta name="viewport" content="width=device-width" />
+
     <link href="~/Content/Site.css" type="text/css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.min.css" type="text/css" rel="stylesheet" />
+    <link href="~/Content/bootstrap-theme.min.css" type="text/css" rel="Stylesheet" />
+    
+
+    <script src="@Url.Content("~/Scripts/jquery-2.0.3.min.js")" type="text/javascript"> </script>
+    <script src="@Url.Content("~/Scripts/bootstrap.min.js")" type="text/javascript"></script>
     
 </head>
 
-    <body>
+    <body id="body">
         <div style="background-color: white">
             <div id="header">
-                <div class="title">
+                <div id="header-title">
                     <a href="@Url.Action("List","Posts",routeValues: new {page = 1})">ASP.NET MVC Blog</a>
                 </div>
                 <div id="login">

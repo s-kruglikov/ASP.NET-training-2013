@@ -3,7 +3,7 @@
 @model MvcBlog.WebUI.Models.PostsListViewModel
 
 @{
-    ViewBag.Title = "List";
+    ViewBag.Title = "MVC Blog: Posts";
 }
 
 @*<h2>List</h2>*@
@@ -12,6 +12,6 @@
     @Html.Partial("~/Views/Shared/_PostSummary.cshtml", p);
 }
     
-<div class="pagination">
+<div id="pagination">
     @Html.PageLinks(Model.PagingModel, x => Url.Action("List", new { page = x, category = Model.CurrentCategory }))
 </div>

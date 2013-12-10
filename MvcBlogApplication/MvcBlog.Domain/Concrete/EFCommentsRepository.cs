@@ -43,5 +43,18 @@ namespace MvcBlog.Domain.Concrete
                 context.SaveChanges();
             }
         }
+
+        public Comment DeleteComment(int commentId)
+        {
+            Comment dbEntry = context.Comments.Find(commentId);
+
+            if (dbEntry != null)
+            {
+                context.Comments.Remove(dbEntry);
+                context.SaveChanges();
+            }
+
+            return dbEntry;
+        }
     }
 }

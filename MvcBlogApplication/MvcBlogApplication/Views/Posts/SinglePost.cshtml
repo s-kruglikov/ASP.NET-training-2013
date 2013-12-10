@@ -1,44 +1,67 @@
 ﻿@using MvcBlog.WebUI.Models
 @model MvcBlog.WebUI.Models.PostDetailedModel
 @{
-    ViewBag.Title = "SinglePost";
+    ViewBag.Title = "MVC Blog: \"" + @Model.PostDetailed.PostTitle + "\"";
 }
 
-<h2>@Model.PostDetailed.PostTitle</h2>
-<h5>@Model.PostDetailed.PostCategory</h5>
+<div id="item">
+    <h2>@Model.PostDetailed.PostTitle</h2>
+</div>
+
+<p>
+    Created @Model.PostDetailed.PostCreationDate by <strong>@Model.PostDetailed.PostCreatedBy</strong> | 
+    Last modified @Model.PostDetailed.PostLastModificationDate by <strong>@Model.PostDetailed.PostLastModifiedBy</strong>
+</p>
+
+<div id="item">
+    <p>In category: <strong>"@Model.PostDetailed.PostCategory"</strong></p>
+</div>
 
 <div class="multiline">
-    (@Model.PostDetailed.PostContent)
+    @Model.PostDetailed.PostContent
 </div>
 <hr />
 
-<h4>Comments:</h4>
+<div id="item">
+    <h4>Comments:</h4>
+</div>
+
 @foreach (var c in Model.Comments)
 {
     if (c.CommentIsVisible)
     {
-        <div id="comment">
-            <h4>@c.CommentCreationDate @c.CommentCreatedBy said:</h4>
-            <p class="multiline">@c.CommentContent</p>
+    <div id="comment">
+        <div id="item">
+            <h3>@c.CommentCreationDate @c.CommentCreatedBy said:</h3>
         </div>
+        <p class="multiline">@c.CommentContent</p>
+    </div>
     }
 }
 
-@if (User.Identity.IsAuthenticated)
+@if (@Model.PostDetailed.PostCommentsEnabled)
 {
-    using (Html.BeginForm("AddComment", "Posts"))
+    if (User.Identity.IsAuthenticated)
     {
-        @Html.TextAreaFor(p => p.NewComment.CommentContent, new { @class = "comment-area" })
+        using (Html.BeginForm("AddComment", "Posts"))
+        {
+    @Html.TextAreaFor(p => p.NewComment.CommentContent, htmlAttributes: new { @class = "form-control", @rows = "3"})
 
-        @Html.Hidden("postId", @Model.PostDetailed.PostID)
-        @Html.Hidden("category", @Model.PostDetailed.PostCategory)
-        <br />
-        <input type="submit" value="Save Comment" class="submit-comment" />
+    @Html.Hidden("postId", @Model.PostDetailed.PostID)
+    @Html.Hidden("category", @Model.PostDetailed.PostCategory)
+    <input type="submit" value="Save Comment" class="submit-comment" />
+        }
     }
-}
 
-else
-{
+    else
+    {
     <text>Only authorized users can left comments. Please </text>
     @Html.ActionLink("authorize.", "Login", "Account", htmlAttributes: null, routeValues: new { returnUrl = Request.RawUrl })
+    }
+}
+else
+{
+    <div>
+        Sorry. Comments are disabled for this post!
+    </div>
 }

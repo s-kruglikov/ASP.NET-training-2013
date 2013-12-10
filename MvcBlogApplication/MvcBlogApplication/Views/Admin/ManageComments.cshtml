@@ -1,45 +1,71 @@
 ﻿@model IEnumerable<MvcBlog.Domain.Entities.Comment>
 
+@using System.Security.Policy
+@using GridMvc.Html
+@using GridMvc.Sorting
+
 @{
-    ViewBag.Title = "Manage Comments";
+    ViewBag.Title = "MVC Blog: Manage Comments";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h2>Manage Comments</h2>
-<table>
-    <tr>
-        <td>Comment ID</td>
-        <td>Post ID</td>
-        <td>Comment content</td>
-        <td>Created by</td>
-        <td>Creation date</td>
-        <td>Last modified by</td>
-        <td>Last modification date</td>
-        <td>Visible?</td>
-        <td>Action</td>
-    </tr>
-
-    @foreach (var comment in Model)
+<div class="posts-grid">
+    @Html.Grid(Model).Named("commentsGrid").Columns(columns =>
     {
-        <tr>
-            <td>@Html.ActionLink(comment.CommentID.ToString(), "EditComment", new { comment.CommentID })</td>
-            <td>@Html.DisplayFor(postId => comment.PostID)</td>
-            <td>@Html.DisplayFor(commentContent => comment.CommentContent)</td>
-            <td>@Html.DisplayFor(c => comment.CommentCreatedBy)</td>
-            <td>@Html.DisplayFor(c => comment.CommentCreationDate)</td>
-            <td>@Html.DisplayFor(c => comment.CommentLastModifiedBy)</td>
-            <td>@Html.DisplayFor(c => comment.CommentLastModificationDate)</td>
-            <td>
-                <input type="checkbox" disabled="disabled" checked="@comment.CommentIsVisible" />
+        columns.Add()
+            .Encoded(false)
+            .Sanitized(false)
+            .SetWidth(30).RenderValueAs(col => @Html.ActionLink("Edit", "EditComment", new { col.CommentID }));
 
-            </td>
-            <td>
-                @using (Html.BeginForm("DeleteComment", "Admin"))
-                {
-                    @Html.Hidden("commentId", comment.CommentID)
-                    <input type="submit" value="Delete" />
-                }
-            </td>
-        </tr>
-    }
-</table>
+        columns.Add(col => col.CommentID)
+            .Titled("Comment ID")
+            .Sortable(true)
+            .SortInitialDirection(GridSortDirection.Descending)
+            .SetWidth(50);
+
+        columns.Add(col => col.PostID)
+            .Titled("Post ID")
+            .Sortable(true)
+            .Filterable(true)
+            .SetWidth(50);
+
+        columns.Add(col => col.CommentContent)
+            .SetWidth(550)
+            .Titled("Comment content")
+            .Sortable(true)
+            .Filterable(true);
+
+        columns.Add(col => col.CommentCreatedBy)
+        .Titled("Created By")
+        .Sortable(true)
+        .Filterable(true);
+
+        columns.Add(col => col.CommentCreationDate)
+            .Titled("Creation Date")
+            .Sortable(true)
+            .Filterable(true);
+
+        columns.Add(col => col.CommentLastModifiedBy)
+            .Titled("Modified By")
+            .Sortable(true)
+            .Filterable(true);
+
+        columns.Add(col => col.CommentLastModificationDate)
+            .Titled("Modification Date")
+            .Sortable(true)
+            .Filterable(true);
+
+        columns.Add()
+            .RenderValueAs(col => Html.CheckBox("CommentIsVisible", col.CommentIsVisible, htmlAttributes: new { disabled = "disabled" }))
+            .Encoded(false)
+            .Sanitized(false)
+            .Titled("Visible?")
+            .Sortable(true);
+
+        columns.Add()
+            .Encoded(false)
+            .Sanitized(false)
+            .SetWidth(30)
+            .RenderValueAs(col => @Html.ActionLink("Delete", "DeleteComment", new { commentId = col.CommentID }));
+    }).WithPaging(20)
+</div>

@@ -38,7 +38,8 @@ namespace MvcBlog.WebUI.Controllers
             var model = new PostsListViewModel
             {
                 Posts = _postsRepository.Posts
-                .Where(p => category == null || p.PostCategory == category)
+                .Where(p => category == null && p.PostIsVisible == true
+                    || p.PostCategory == category && p.PostIsVisible == true)
                 .OrderByDescending(p => p.PostID)
                 .Skip((page - 1) * PageSize)
                 .Take(PageSize),
@@ -60,7 +61,7 @@ namespace MvcBlog.WebUI.Controllers
         {
             var model = new PostDetailedModel()
             {
-                PostDetailed = _postsRepository.Posts.First(p => p.PostID == postId),
+                PostDetailed = _postsRepository.Posts.FirstOrDefault(p => p.PostID == postId && p.PostIsVisible==true),
 
                 Comments = _commentsRepository.Comments
                     .OrderBy(c => c.CommentID)
@@ -68,6 +69,9 @@ namespace MvcBlog.WebUI.Controllers
 
                 NewComment = new Comment()
             };
+
+            if (model.PostDetailed == null)
+                return View("_NotFound");
 
            return View(model);
         }

@@ -31,6 +31,7 @@ namespace MvcBlog.WebUI.Controllers
         // GET: /Admin/EditPost
 
         [HttpGet]
+        [Authorize(Roles = "Administrators")]
         public ViewResult EditPost(int postId)
         {
             ViewBag.CurrentEdit = "Posts";
@@ -45,6 +46,7 @@ namespace MvcBlog.WebUI.Controllers
         // POST: /Admin/EditPost
 
         [HttpPost]
+        [Authorize(Roles = "Administrators")]
         [ValidateInput(false)]
         public ActionResult EditPost(Post post)
         {
@@ -74,6 +76,7 @@ namespace MvcBlog.WebUI.Controllers
         //
         // GET: /Admin/CreatePost
         [HttpGet]
+        [Authorize(Roles = "Administrators")]
         public ViewResult CreatePost()
         {
             ViewBag.Title = "MVC Blog: Add new post";
@@ -85,6 +88,7 @@ namespace MvcBlog.WebUI.Controllers
         // POST: /Admin/DeletePost
 
         [HttpGet]
+        [Authorize(Roles = "Administrators")]
         public ActionResult DeletePost(int postId)
         {
             Post postToDelete = _postsRepository.DeletePost(postId);
@@ -95,6 +99,7 @@ namespace MvcBlog.WebUI.Controllers
 
         //
         // GET: /Admin/ManageComments
+        [Authorize(Roles = "Administrators")]
         public ActionResult ManageComments()
         {
             ViewBag.CurrentEdit = "Comments";
@@ -110,6 +115,7 @@ namespace MvcBlog.WebUI.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Administrators")]
         [ValidateInput(false)]
         public ActionResult EditComment(Comment comment)
         {
@@ -128,6 +134,13 @@ namespace MvcBlog.WebUI.Controllers
                 // something wrong with the data values
                 return View(comment);
             }
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "Administrators")]
+        public ActionResult DeleteComment(int commentId)
+        {
+            return RedirectToAction("ManageComments");
         }
     }
 }

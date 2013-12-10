@@ -1,10 +1,14 @@
-﻿body {
+﻿#body {
     font-family: "Segoe UI", Verdana, Helvetica, Sans-Serif;
-    font-size: .85em;
+    font-size: 10pt;
     margin: 0;
-    /*padding: 0;*/
+    padding: 0;
     /*background-color: #D2D2D2;*/
     background-image: url("../Content/Theme/Background.png");
+}
+
+#header-big {
+
 }
 
 /* validation
@@ -42,13 +46,13 @@
     border: 1px solid red;*/
 }
 
-#login li {
-    color: #6DC2E9;
-}
+    #login li {
+        color: #6DC2E9;
+    }
 
-#login a {
-    color: #6DC2E9;
-}
+    #login a {
+        color: #6DC2E9;
+    }
 
 
 
@@ -77,18 +81,18 @@ fieldset {
     clear: left;
 }
 
-    #header .title {
-        font-size: 2em;
-        font-style: italic;
-        padding: .6em;
-        color: RGB(0,188,242);
-    }
+#header-title {
+    font-size: 2em;
+    font-style: italic;
+    padding: .6em;
+    color: RGB(0,188,242);
+}
 
-        #header .title a:link, a:visited,
-        a:active, a:hover {
-            color: #6DC2E9;
-            text-decoration: none;
-        }
+    #header-title a:link, a:visited,
+    a:active, a:hover {
+        color: #6DC2E9;
+        text-decoration: none;
+    }
 
 /* categories
 ----------------------------------------------------------*/
@@ -147,14 +151,28 @@ fieldset {
         padding-top: 0;
     }
 
-.item H3 {
-    font-size: 1.3em;
-    margin: 0 0 .25em 0;
+    #post h4 {
+        font-family: "Segoe UI", Verdana, Helvetica, Sans-Serif;
+        font-weight: 700;
+    }
+
+#item H2 {
+    font-family: "Segoe UI", Verdana, Helvetica, Sans-Serif;
 }
 
-.item H4 {
+#item H3 {
+    font-size: 1.0em;
+    padding-top: 10px;
+    font-family: "Segoe UI", Verdana, Helvetica, Sans-Serif;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+#item H4 {
     font-size: 1.1em;
-    margin: .4em 0 0 0;
+    padding-top: 5px;
+    font-family: "Segoe UI", Verdana, Helvetica, Sans-Serif;
+    font-weight: 700;
 }
 
 /* detailed link
@@ -186,25 +204,25 @@ fieldset {
 
 /* pagination
 ----------------------------------------------------------*/
-.pagination {
+#pagination {
     text-align: center;
     border-top: 2px solid gray;
     padding: .5em 0 0 0;
     margin-top: 1em;
 }
 
-    .pagination A {
+    #pagination A {
         font-size: 1.1em;
         color: #666;
         text-decoration: none;
         padding: 0 .4em 0 .4em;
     }
 
-        .pagination A:hover {
+        #pagination A:hover {
             background-color: Silver;
         }
 
-        .pagination A.selected {
+        #pagination A.selected {
             background-color: #353535;
             color: White;
         }
@@ -227,7 +245,7 @@ fieldset {
 }
 
 .comment-area {
-    height: 200px;
+    height: 180px;
     width: 500px;
     /*white-space: pre-line;*/
 }
@@ -260,25 +278,6 @@ fieldset {
         z-index: 100;
         outline: none;
     }
-
-/* admin layout
-    */
-.admin-layout {
-    font-family: "Segoe UI", Verdana, Helvetica, Sans-Serif;
-    font-size: 1em;
-    color: black;
-    background-image: url("../Content/Theme/AdminBackground.png");
-}
-
-
-/* admin tabs
-    */
-.adminTabs {
-    font-size: 1.1em;
-    color: #666;
-    text-decoration: none;
-    padding: 0 .4em 0 .4em;
-}
 
 /* multiline text
     */
