@@ -19,6 +19,7 @@ namespace MvcBlog.WebUI.Controllers
         {
             ViewBag.SelectedCategory = category;
             IEnumerable<string> categories = _repository.Posts
+                .Where(p => p.PostIsVisible == true)
                 .Select(p => p.PostCategory)
                 .Distinct()
                 .OrderBy(x => x).ToList();

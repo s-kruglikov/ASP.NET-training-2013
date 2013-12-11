@@ -94,5 +94,18 @@ namespace MvcBlog.WebUI.Controllers
 
             return RedirectToAction("SinglePost",routeValues: new {postId = postId, category = category});
         }
+
+        public FileContentResult GetImage(int postId)
+        {
+            Post post = _postsRepository.Posts.FirstOrDefault(p => p.PostID == postId);
+            if (post != null)
+            {
+                return File(post.Imagedata, post.ImageMimeType);
+            }
+            else
+            {
+                return null;
+            }
+        }
     }
 }

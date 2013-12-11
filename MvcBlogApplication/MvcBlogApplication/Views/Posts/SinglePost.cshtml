@@ -11,7 +11,8 @@
         selector: "textarea",
         menubar: false,
         statusbar: true,
-        toolbar: "undo redo | styleselect | bold italic print| code link image"
+        resize: true,
+        toolbar: "undo redo | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent"
     });
 
 </script>
@@ -32,7 +33,7 @@
 </div>
 
 <div class="multiline">
-    @Model.PostDetailed.PostContent
+    @Html.Raw(@Model.PostDetailed.PostContent)
 </div>
 <hr />
 

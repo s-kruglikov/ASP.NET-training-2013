@@ -4,7 +4,17 @@
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-@using (Html.BeginForm("EditPost", "Admin"))
+<script type="text/javascript">
+    tinymce.init({
+        selector: "textarea",
+
+        toolbar: "undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image"
+    });
+
+</script>
+
+
+@using (Html.BeginForm("EditPost", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     <div class="admin-container">
 
@@ -44,8 +54,30 @@
         <div class="editor-label">Comments enabled for the post?</div>
         <div>@Html.CheckBoxFor(p => p.PostCommentsEnabled, htmlAttributes: new { @checked = "checked" })</div>
 
-        <p class="pull-right">@Html.ActionLink("Cancel", "ManagePosts", "Admin", routeValues: null, htmlAttributes: new { @class = "btn btn-warning" })<p />
-        <p><input type="submit" value="Save" class="btn btn-success" /></p>
+        <div>Image</div>
+        <div>
+            @if (Model.Imagedata == null)
+            {
+                @:None
+            }
+            else
+            {
+                <div style="float: left; margin-right: 20px">
+                    <img src="@Url.Action("GetImage", "Posts", new { Model.PostID })" />
+                </div>
+                @*<img width="150" height="150" src="@Url.Action("GetImage", "Post", new { Model.PostID })" />*@
+            }
+            <div>
+                Upload new image:
+      <input type="file" name="image" />
+            </div>
+        </div>
 
+        <p class="pull-right">
+            @Html.ActionLink("Cancel", "ManagePosts", "Admin", routeValues: null, htmlAttributes: new { @class = "btn btn-warning" })<p />
+        <p>
+            <input type="submit" value="Save" class="btn btn-success" />
+        </p>
     </div>
 }
+

@@ -5,15 +5,21 @@
 
     <h4>@Model.PostTitle</h4>
 
-    @Model.PostTitle | @Model.PostCategory
-
-
+    Posted @Model.PostCreationDate by @Model.PostCreatedBy in @Html.RouteLink(@Model.PostCategory, new { controller = "Posts", action = "List", category = @Model.PostCategory, page = 1 }) category
+    <br />
+    
+    @if (Model.Imagedata != null)
+        {
+            <div style="float: left; margin-right: 20px">
+                <img width="300" height="200" src="@Url.Action("GetImage", "Posts", new { Model.PostID })" />
+            </div>
+        }
     <div class="multiline">
-        @Model.PostDescription
+        
+        @Html.Raw(@Model.PostDescription)
     </div>
 </div>
+
 <div id="detailedLink">
     @Html.PostDetailsLinks(@Model.PostID, x => Url.Action(actionName: "SinglePost", controllerName: "Posts", routeValues: new { postId = x, category = Model.PostCategory }))
-
-    @*@Url.Action("SinglePost","Detailed",routeValues: new {postId = @Model.PostID})*@
 </div>

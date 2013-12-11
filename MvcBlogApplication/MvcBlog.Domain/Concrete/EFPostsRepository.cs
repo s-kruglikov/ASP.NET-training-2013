@@ -44,6 +44,8 @@ namespace MvcBlog.Domain.Concrete
                     dbEntry.PostLastModificationDate = post.PostLastModificationDate;
                     dbEntry.PostIsVisible = post.PostIsVisible;
                     dbEntry.PostCommentsEnabled = post.PostCommentsEnabled;
+                    dbEntry.Imagedata = post.Imagedata;
+                    dbEntry.ImageMimeType = post.ImageMimeType;
                 }
             }
 

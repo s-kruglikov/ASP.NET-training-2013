@@ -6,7 +6,6 @@
     ViewBag.Title = "MVC Blog: Posts";
 }
 
-@*<h2>List</h2>*@
 @foreach (var p in Model.Posts)
 {
     @Html.Partial("~/Views/Shared/_PostSummary.cshtml", p);

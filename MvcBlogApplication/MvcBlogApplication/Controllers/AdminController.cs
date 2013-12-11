@@ -3,6 +3,7 @@ using System.Web.Mvc;
 using MvcBlog.Domain.Abstract;
 using MvcBlog.Domain.Entities;
 using System;
+using System.Web;
 
 namespace MvcBlog.WebUI.Controllers
 {
@@ -48,7 +49,7 @@ namespace MvcBlog.WebUI.Controllers
         [HttpPost]
         [Authorize(Roles = "Administrators")]
         [ValidateInput(false)]
-        public ActionResult EditPost(Post post)
+        public ActionResult EditPost(Post post, HttpPostedFileBase image)
         {
             ViewBag.CurrentEdit = "Posts";
             if (ModelState.IsValid)
@@ -58,6 +59,14 @@ namespace MvcBlog.WebUI.Controllers
                     post.PostCreatedBy = User.Identity.Name;
                     post.PostCreationDate = DateTime.Now;
                 }
+
+                if (image != null)
+                {
+                    post.ImageMimeType = image.ContentType;
+                    post.Imagedata = new byte[image.ContentLength];
+                    image.InputStream.Read(post.Imagedata, 0, image.ContentLength);
+                }
+
 
                 post.PostLastModifiedBy = User.Identity.Name;
                 post.PostLastModificationDate = DateTime.Now;
