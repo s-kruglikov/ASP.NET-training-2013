@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>SlidesJS</id>
+    <version>3.0.4</version>
+    <title>SlidesJS</title>
+    <authors>Nathan Searles</authors>
+    <owners>Nathan Searles</owners>
+    <projectUrl>http://www.slidesjs.com/</projectUrl>
+    <iconUrl>http://www.slidesjs.com/img/slidesjs.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>SlidesJS is a responsive slideshow plug-in for jQuery (1.7.1+) with features like touch and CSS3 transitions.</description>
+    <summary>SlidesJS is a responsive slideshow plug-in for jQuery (1.7.1+) with features like touch and CSS3 transitions.</summary>
+    <releaseNotes />
+    <copyright>Copyright (c) 2012-2013 Nathan Searles</copyright>
+    <language />
+    <tags>SlidesJS Slides JS jquery.SlidesJS</tags>
+    <dependencies>
+      <dependency id="jquery" version="1.7.1" />
+    </dependencies>
+  </metadata>
+</package>

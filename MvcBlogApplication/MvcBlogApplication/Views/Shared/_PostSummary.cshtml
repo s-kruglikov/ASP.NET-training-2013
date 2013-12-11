@@ -1,25 +1,56 @@
 ﻿@model MvcBlog.Domain.Entities.Post
 
-
 <div id="post">
 
     <h4>@Model.PostTitle</h4>
+    <p>
+        Posted @Model.PostCreationDate by @Model.PostCreatedBy in @Html.RouteLink(@Model.PostCategory, new { controller = "Posts", action = "List", category = @Model.PostCategory, page = 1 }) category
+    </p>
 
-    Posted @Model.PostCreationDate by @Model.PostCreatedBy in @Html.RouteLink(@Model.PostCategory, new { controller = "Posts", action = "List", category = @Model.PostCategory, page = 1 }) category
-    <br />
-    
-    @if (Model.Imagedata != null)
+    <div style="float: left; /* Обтекание справа */
+                border: 1px solid #333; /* Параметры рамки вокруг */
+                width: 20%; /* Ширина колонки */
+                padding: 5px; /* Поля вокруг текста */
+                margin: 0px 5px 20px 5px; /* Значения отступов */">
+        <p><a href="b_all.html">Все байки</a></p>
+        <p><a href="b_all.html">Все байки</a></p>
+    </div>
+
+    <div style="margin: 0px 5px 20px 25%; /* Значения отступов */ padding: 5px; /* Поля вокруг текста */ border: 1px solid #333; /* Параметры рамки */">
+        <p>
+            Утром, при ярком солнечном свете, всё выглядело совсем не так и мрачно, как
+            планировалось, а даже наоборот. От свечей остались одни потёки, «кровь»
+            смотрелась как краска, а перья почти целиком разлетелись от ветра. Хорошо
+            сохранились только рисунки мелом, но и они были скорее прикольные, чем злые и загадочные.
+            Дети с неподдельным интересом разглядывали изображения, но без тени тех чувств, которые
+            испытали взрослые ночью при луне.
+        </p>
+        <p>
+            Утром, при ярком солнечном свете, всё выглядело совсем не так и мрачно, как
+            планировалось, а даже наоборот. От свечей остались одни потёки, «кровь»
+            смотрелась как краска, а перья почти целиком разлетелись от ветра. Хорошо
+            сохранились только рисунки мелом, но и они были скорее прикольные, чем злые и загадочные.
+            Дети с неподдельным интересом разглядывали изображения, но без тени тех чувств, которые
+            испытали взрослые ночью при луне.
+        </p>
+    </div>
+
+    @*@if (Model.ImageData != null)
         {
-            <div style="float: left; margin-right: 20px">
+
+            <div>
                 <img width="300" height="200" src="@Url.Action("GetImage", "Posts", new { Model.PostID })" />
             </div>
-        }
-    <div class="multiline">
-        
-        @Html.Raw(@Model.PostDescription)
-    </div>
+        }*@
+
+
+    @*<div style="border: 1px solid red">
+            @Html.Raw(@Model.PostDescription)
+        </div>*@
 </div>
 
 <div id="detailedLink">
     @Html.PostDetailsLinks(@Model.PostID, x => Url.Action(actionName: "SinglePost", controllerName: "Posts", routeValues: new { postId = x, category = Model.PostCategory }))
 </div>
+
+

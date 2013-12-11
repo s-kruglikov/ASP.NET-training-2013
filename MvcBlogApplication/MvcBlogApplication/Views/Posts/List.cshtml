@@ -6,6 +6,18 @@
     ViewBag.Title = "MVC Blog: Posts";
 }
 
+<div id="slides">
+    <p>
+        Test text
+        <img src="~/Content/Featured/test1.jpg">
+    </p>
+    <img src="~/Content/Featured/test2.jpg">
+    <img src="~/Content/Featured/test3.jpg">
+    <img src="http://placehold.it/940x528">
+    <img src="http://placehold.it/940x528">
+</div>
+
+
 @foreach (var p in Model.Posts)
 {
     @Html.Partial("~/Views/Shared/_PostSummary.cshtml", p);

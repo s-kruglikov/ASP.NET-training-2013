@@ -42,6 +42,6 @@ namespace MvcBlog.Domain.Entities
         [HiddenInput(DisplayValue = false)]
         public string ImageMimeType { get; set; }
 
-        public byte[] Imagedata { get; set; }
+        public byte[] ImageData { get; set; }
     }
 }

@@ -63,8 +63,8 @@ namespace MvcBlog.WebUI.Controllers
                 if (image != null)
                 {
                     post.ImageMimeType = image.ContentType;
-                    post.Imagedata = new byte[image.ContentLength];
-                    image.InputStream.Read(post.Imagedata, 0, image.ContentLength);
+                    post.ImageData = new byte[image.ContentLength];
+                    image.InputStream.Read(post.ImageData, 0, image.ContentLength);
                 }
 
 

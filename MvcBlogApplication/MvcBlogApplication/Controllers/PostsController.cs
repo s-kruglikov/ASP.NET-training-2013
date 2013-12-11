@@ -100,7 +100,7 @@ namespace MvcBlog.WebUI.Controllers
             Post post = _postsRepository.Posts.FirstOrDefault(p => p.PostID == postId);
             if (post != null)
             {
-                return File(post.Imagedata, post.ImageMimeType);
+                return File(post.ImageData, post.ImageMimeType);
             }
             else
             {
