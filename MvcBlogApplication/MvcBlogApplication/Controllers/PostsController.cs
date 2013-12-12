@@ -95,7 +95,7 @@ namespace MvcBlog.WebUI.Controllers
             return RedirectToAction("SinglePost",routeValues: new {postId = postId, category = category});
         }
 
-        public FileContentResult GetImage(int postId)
+        public FileContentResult GetPostImage(int postId)
         {
             Post post = _postsRepository.Posts.FirstOrDefault(p => p.PostID == postId);
             if (post != null)
