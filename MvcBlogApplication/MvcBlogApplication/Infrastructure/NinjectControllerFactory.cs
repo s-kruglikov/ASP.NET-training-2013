@@ -8,6 +8,8 @@ using Moq;
 using MvcBlog.Domain.Abstract;
 using MvcBlog.Domain.Concrete;
 using MvcBlog.Domain.Entities;
+using MvcBlog.WebUI.Abstract;
+using MvcBlog.WebUI.Concrete;
 
 namespace MvcBlog.WebUI.Infrastructure
 {
@@ -44,6 +46,7 @@ namespace MvcBlog.WebUI.Infrastructure
             */
             _ninjectKernel.Bind<IPostsRepository>().To<EFPostsRepository>();
             _ninjectKernel.Bind<ICommentsRepository>().To<EFCommentsRepository>();
+            _ninjectKernel.Bind<IConfigService>().To<ConfigService>().InSingletonScope();
         }
     }
 }

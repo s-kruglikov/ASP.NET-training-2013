@@ -54,30 +54,36 @@
         <div class="editor-label">Comments enabled for the post?</div>
         <div>@Html.CheckBoxFor(p => p.PostCommentsEnabled, htmlAttributes: new { @checked = "checked" })</div>
 
-        <div>Image</div>
+        <div class="editor-label">Image</div>
         <div>
-            @if (Model.ImageData == null)
+            @if (Model.ImageName == null)
             {
                 @:None
             }
             else
             {
+                <div>Thumbnail image:</div>                
                 <div style="float: left; margin-right: 20px">
-                    <img src="@Url.Action("GetImage", "Posts", new { Model.PostID })" />
+                    <img src= "@(Url.Content("~/Content/PostsThumbs"))/@Model.ImageName" />
                 </div>
-                @*<img width="150" height="150" src="@Url.Action("GetImage", "Post", new { Model.PostID })" />*@
+                <br />
+                <div>Featured image:</div>
+                <div style="float: left; margin-right: 20px">
+                    <img src="@Url.Action("GetPostThumbnail", "Posts", new { Model.PostID })" />
+                </div>
             }
             <div>
                 Upload new image:
-      <input type="file" name="image" />
+                <input type="file" name="postImage" />
             </div>
         </div>
 
         <p class="pull-right">
-            @Html.ActionLink("Cancel", "ManagePosts", "Admin", routeValues: null, htmlAttributes: new { @class = "btn btn-warning" })<p />
+            @Html.ActionLink("Cancel", "ManagePosts", "Admin", routeValues: null, htmlAttributes: new { @class = "btn btn-warning" })
+        </p>
+
         <p>
             <input type="submit" value="Save" class="btn btn-success" />
         </p>
     </div>
 }
-

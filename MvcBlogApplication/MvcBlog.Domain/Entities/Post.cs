@@ -43,5 +43,9 @@ namespace MvcBlog.Domain.Entities
         public string ImageMimeType { get; set; }
 
         public byte[] ImageData { get; set; }
+
+        public string ImageName { get; set; }
+
+        public string ImageExtension { get; set; }
     }
 }

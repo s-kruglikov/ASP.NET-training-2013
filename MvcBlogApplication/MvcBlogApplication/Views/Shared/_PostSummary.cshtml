@@ -7,13 +7,13 @@
         Posted @Model.PostCreationDate by @Model.PostCreatedBy in @Html.RouteLink(@Model.PostCategory, new { controller = "Posts", action = "List", category = @Model.PostCategory, page = 1 }) category
     </p>
 
-    @if (Model.ImageData != null)
+    @if (Model.ImageName != null)
     {
 
         <div class="summary-image">
             <img width="300"
                 height="200"
-                src="@Url.Action("GetPostImage", "Posts", new { Model.PostID })"
+                src="@Url.Action("GetPostThumbnail", "Posts", new { Model.PostID })"
                 alt="Image for post '@Model.PostTitle'"
                 title="@Model.PostTitle"/>
         </div>

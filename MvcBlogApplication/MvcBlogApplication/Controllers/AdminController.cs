@@ -4,6 +4,10 @@ using MvcBlog.Domain.Abstract;
 using MvcBlog.Domain.Entities;
 using System;
 using System.Web;
+using System.Drawing.Imaging;
+using System.Drawing;
+using MvcBlog.WebUI.Tools;
+
 
 namespace MvcBlog.WebUI.Controllers
 {
@@ -49,7 +53,7 @@ namespace MvcBlog.WebUI.Controllers
         [HttpPost]
         [Authorize(Roles = "Administrators")]
         [ValidateInput(false)]
-        public ActionResult EditPost(Post post, HttpPostedFileBase image)
+        public ActionResult EditPost(Post post, HttpPostedFileBase postImage)
         {
             ViewBag.CurrentEdit = "Posts";
             if (ModelState.IsValid)
@@ -60,14 +64,20 @@ namespace MvcBlog.WebUI.Controllers
                     post.PostCreationDate = DateTime.Now;
                 }
 
-                if (image != null)
+                if (postImage != null)
                 {
-                    post.ImageMimeType = image.ContentType;
-                    post.ImageData = new byte[image.ContentLength];
-                    image.InputStream.Read(post.ImageData, 0, image.ContentLength);
+                    string imageExtension = System.IO.Path.GetExtension(postImage.FileName);
+                    string imageName = string.Format("{0}_{1}.{2}", post.PostID, DateTime.Now.Ticks.ToString(), imageExtension);
+                    string imageThumbSavePath = System.IO.Path.Combine(Server.MapPath(Url.Content("~/Content/PostsThumbs")),imageName);
+
+                    //save image parameters into DB
+                    post.ImageMimeType = postImage.ContentType;
+                    post.ImageName = imageName;
+                    post.ImageExtension = imageExtension;
+
+                    Image.FromStream(postImage.InputStream).ResizeProportional(new Size(300, 200)).SaveToFolder(imageThumbSavePath);
                 }
-
-
+                
                 post.PostLastModifiedBy = User.Identity.Name;
                 post.PostLastModificationDate = DateTime.Now;
 

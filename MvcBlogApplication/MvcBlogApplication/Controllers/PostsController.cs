@@ -7,6 +7,9 @@ using MvcBlog.Domain.Entities;
 using MvcBlog.WebUI.Models;
 using System.Configuration;
 using System;
+using System.IO;
+using MvcBlog.WebUI.Concrete;
+using MvcBlog.WebUI.Abstract;
 
 namespace MvcBlog.WebUI.Controllers
 {
@@ -14,20 +17,23 @@ namespace MvcBlog.WebUI.Controllers
     {
         private readonly IPostsRepository _postsRepository;
         private ICommentsRepository _commentsRepository;
+        private IConfigService _blogConfig;
 
-        public int PageSize { get; private set; } 
+        //public int PageSize { get; private set; } 
 
-        public PostsController(IPostsRepository postsRepository)
+        public PostsController(IPostsRepository postsRepository, IConfigService blogConfig)
         {
             _postsRepository = postsRepository;
-            PageSize = int.Parse(ConfigurationManager.AppSettings["PostsPerPage"]);
+            //PageSize = int.Parse(ConfigurationManager.AppSettings["PostsPerPage"]);
+            _blogConfig = blogConfig;
         }
 
-        public PostsController(ICommentsRepository commentsRepository, IPostsRepository postsRepository)
+        public PostsController(ICommentsRepository commentsRepository, IPostsRepository postsRepository, IConfigService blogConfig)
         {
             _commentsRepository = commentsRepository;
             _postsRepository = postsRepository;
-            PageSize = int.Parse(ConfigurationManager.AppSettings["PostsPerPage"]);
+            //PageSize = int.Parse(ConfigurationManager.AppSettings["PostsPerPage"]);
+            _blogConfig = blogConfig;
         }
 
         //
@@ -41,13 +47,13 @@ namespace MvcBlog.WebUI.Controllers
                 .Where(p => category == null && p.PostIsVisible == true
                     || p.PostCategory == category && p.PostIsVisible == true)
                 .OrderByDescending(p => p.PostID)
-                .Skip((page - 1) * PageSize)
-                .Take(PageSize),
+                .Skip((page - 1) * _blogConfig.PostsPerPage)
+                .Take(_blogConfig.PostsPerPage),
 
                 PagingModel = new PagingModel
                 {
                     CurrentPage = page,
-                    ItemsPerPage = PageSize,
+                    ItemsPerPage = _blogConfig.PostsPerPage,
                     TotalItems = category == null ? _postsRepository.Posts.Count() : _postsRepository.Posts.Count(p => p.PostCategory == category)
                 }
             };
@@ -95,12 +101,12 @@ namespace MvcBlog.WebUI.Controllers
             return RedirectToAction("SinglePost",routeValues: new {postId = postId, category = category});
         }
 
-        public FileContentResult GetPostImage(int postId)
+        public FilePathResult GetPostThumbnail(int postId)
         {
             Post post = _postsRepository.Posts.FirstOrDefault(p => p.PostID == postId);
             if (post != null)
             {
-                return File(post.ImageData, post.ImageMimeType);
+                return File(System.IO.Path.Combine(Server.MapPath(Url.Content("~/Content/PostsThumbs")),post.ImageName), post.ImageMimeType);
             }
             else
             {

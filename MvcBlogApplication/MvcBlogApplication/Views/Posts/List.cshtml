@@ -7,13 +7,31 @@
 }
 
 <div id="slides">
-    <p>
-        Test text
-        <img src="~/Content/Featured/test1.jpg">
-    </p>
-    <img src="~/Content/Featured/test2.jpg">
-    <img src="~/Content/Featured/test3.jpg">
-    <img src="http://placehold.it/940x528">
+    <div class="featured-image">
+        <img src="~/Content/Featured/test1.jpg" width="940" height="422">
+        <h2><span>Сэр Шрек,&nbsp;&nbsp;<br />
+            &nbsp;&nbsp;Кот в сапогах и Осёл.</span></h2>
+
+    </div>
+
+    <div class="featured">
+        <img src="~/Content/Featured/test2.jpg" width="940" height="422">
+        <div class="featured-text">
+            <span>Сэр Шрек,&nbsp;&nbsp;<br />
+                &nbsp;&nbsp;Кот в сапогах и Осёл.</span>
+        </div>
+    </div>
+
+    <img src="~/Content/Featured/test3.jpg" width="940" height="422">
+
+    <div class="featured">
+        <img src="~/Content/Featured/test4.jpg" width="940" height="422">
+        <div class="featured-text">
+            <span>Сэр Шрек,&nbsp;&nbsp;<br />
+                &nbsp;&nbsp;Кот в сапогах и Осёл.</span>
+        </div>
+    </div>
+
     <img src="http://placehold.it/940x528">
 </div>
 
@@ -22,7 +40,7 @@
 {
     @Html.Partial("~/Views/Shared/_PostSummary.cshtml", p);
 }
-    
+
 <div id="pagination">
     @Html.PageLinks(Model.PagingModel, x => Url.Action("List", new { page = x, category = Model.CurrentCategory }))
 </div>

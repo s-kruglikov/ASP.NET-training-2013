@@ -182,7 +182,7 @@ fieldset {
 
 .summary-image {
     float: left;
-    width: 20%; /* Ширина колонки */
+    width: 310px; /* Ширина колонки */
     padding: 5px; /* Поля вокруг текста */
     margin: 0px 5px 20px 5px; /* Значения отступов */
 }
@@ -295,4 +295,26 @@ fieldset {
     */
 .multiline {
     white-space: pre-line;
+}
+
+.featured {
+    display:inline-block;   
+    position:relative;
+}
+
+.featured .featured-text {
+    display:block;
+    position:absolute;
+    left:0;
+    bottom:0;
+    width:100%;
+    box-sizing:border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box; 
+     
+    color:#fff;
+         
+    padding:10px;
+    background-color:rgba(0,0,0,.3);     
 }

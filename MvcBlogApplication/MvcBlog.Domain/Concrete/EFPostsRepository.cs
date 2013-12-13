@@ -46,6 +46,8 @@ namespace MvcBlog.Domain.Concrete
                     dbEntry.PostCommentsEnabled = post.PostCommentsEnabled;
                     dbEntry.ImageData = post.ImageData;
                     dbEntry.ImageMimeType = post.ImageMimeType;
+                    dbEntry.ImageName = post.ImageName;
+                    dbEntry.ImageExtension = post.ImageExtension;
                 }
             }
 
