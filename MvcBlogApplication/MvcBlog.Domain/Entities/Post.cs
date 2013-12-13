@@ -39,10 +39,10 @@ namespace MvcBlog.Domain.Entities
 
         public bool PostCommentsEnabled { get; set; }
 
+        public bool PostFeatured { get; set; }
+
         [HiddenInput(DisplayValue = false)]
         public string ImageMimeType { get; set; }
-
-        public byte[] ImageData { get; set; }
 
         public string ImageName { get; set; }
 

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.IO;
+using System.Linq;
 using System.Web.Mvc;
 using MvcBlog.Domain.Abstract;
 using MvcBlog.Domain.Entities;
@@ -7,6 +8,7 @@ using System.Web;
 using System.Drawing.Imaging;
 using System.Drawing;
 using MvcBlog.WebUI.Tools;
+using MvcBlog.WebUI.Abstract;
 
 
 namespace MvcBlog.WebUI.Controllers
@@ -15,11 +17,13 @@ namespace MvcBlog.WebUI.Controllers
     {
         readonly IPostsRepository _postsRepository;
         readonly ICommentsRepository _commentsRepository;
+        private readonly IConfigService _blogConfigService;
 
-        public AdminController(IPostsRepository posts, ICommentsRepository comments)
+        public AdminController(IPostsRepository posts, ICommentsRepository comments, IConfigService blogConfig)
         {
             _postsRepository = posts;
             _commentsRepository = comments;
+            _blogConfigService = blogConfig;
         }
 
         //
@@ -66,9 +70,14 @@ namespace MvcBlog.WebUI.Controllers
 
                 if (postImage != null)
                 {
+                    // remove existing images for this post before placing new ones
+                    DeletePostImages(post);
+
                     string imageExtension = System.IO.Path.GetExtension(postImage.FileName);
                     string imageName = string.Format("{0}_{1}.{2}", post.PostID, DateTime.Now.Ticks.ToString(), imageExtension);
-                    string imageThumbSavePath = System.IO.Path.Combine(Server.MapPath(Url.Content("~/Content/PostsThumbs")),imageName);
+                    string imageThumbSavePath = Path.Combine(Server.MapPath(Url.Content("~/Content/")), _blogConfigService.PostThumbPath, imageName);
+                    string imageFeaturedSavePath = Path.Combine(Server.MapPath(Url.Content("~/Content/")),
+                        _blogConfigService.PostFeaturedPath, imageName);
 
                     //save image parameters into DB
                     post.ImageMimeType = postImage.ContentType;
@@ -76,8 +85,11 @@ namespace MvcBlog.WebUI.Controllers
                     post.ImageExtension = imageExtension;
 
                     Image.FromStream(postImage.InputStream).ResizeProportional(new Size(300, 200)).SaveToFolder(imageThumbSavePath);
+                    Image.FromStream(postImage.InputStream).CropImage(new Rectangle(0, 0, 940, 322)).SaveToFolder(imageFeaturedSavePath);
                 }
-                
+
+
+
                 post.PostLastModifiedBy = User.Identity.Name;
                 post.PostLastModificationDate = DateTime.Now;
 
@@ -111,6 +123,9 @@ namespace MvcBlog.WebUI.Controllers
         public ActionResult DeletePost(int postId)
         {
             Post postToDelete = _postsRepository.DeletePost(postId);
+
+            // delete all images related to th post
+            DeletePostImages(postToDelete);
 
             TempData["message"] = string.Format("{0} has been deleted", postToDelete.PostTitle);
             return RedirectToAction("ManagePosts");
@@ -161,5 +176,28 @@ namespace MvcBlog.WebUI.Controllers
         {
             return RedirectToAction("ManageComments");
         }
+
+        #region helpers
+
+        public void DeletePostImages(Post post)
+        {
+            if (post.ImageName != null)
+            {
+                string currentThumbPath = Path.Combine(Server.MapPath(Url.Content("~/Content/")), _blogConfigService.PostThumbPath, post.ImageName);
+                string currentFeaturedPath = Path.Combine(Server.MapPath(Url.Content("~/Content/")), _blogConfigService.PostFeaturedPath, post.ImageName);
+
+                if (System.IO.File.Exists(currentThumbPath))
+                {
+                    System.IO.File.Delete(currentThumbPath);
+                }
+
+                if (System.IO.File.Exists(currentFeaturedPath))
+                {
+                    System.IO.File.Delete(currentFeaturedPath);
+                }
+            }
+        }
+
+        #endregion
     }
 }

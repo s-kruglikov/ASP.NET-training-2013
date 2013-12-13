@@ -16,23 +16,13 @@ namespace MvcBlog.WebUI.Controllers
     public class PostsController : Controller
     {
         private readonly IPostsRepository _postsRepository;
-        private ICommentsRepository _commentsRepository;
-        private IConfigService _blogConfig;
-
-        //public int PageSize { get; private set; } 
-
-        public PostsController(IPostsRepository postsRepository, IConfigService blogConfig)
-        {
-            _postsRepository = postsRepository;
-            //PageSize = int.Parse(ConfigurationManager.AppSettings["PostsPerPage"]);
-            _blogConfig = blogConfig;
-        }
+        private readonly ICommentsRepository _commentsRepository;
+        private readonly IConfigService _blogConfig;
 
         public PostsController(ICommentsRepository commentsRepository, IPostsRepository postsRepository, IConfigService blogConfig)
         {
             _commentsRepository = commentsRepository;
             _postsRepository = postsRepository;
-            //PageSize = int.Parse(ConfigurationManager.AppSettings["PostsPerPage"]);
             _blogConfig = blogConfig;
         }
 
@@ -101,12 +91,27 @@ namespace MvcBlog.WebUI.Controllers
             return RedirectToAction("SinglePost",routeValues: new {postId = postId, category = category});
         }
 
+        // get thumbnail image for the post
         public FilePathResult GetPostThumbnail(int postId)
         {
             Post post = _postsRepository.Posts.FirstOrDefault(p => p.PostID == postId);
             if (post != null)
             {
-                return File(System.IO.Path.Combine(Server.MapPath(Url.Content("~/Content/PostsThumbs")),post.ImageName), post.ImageMimeType);
+                return File(Path.Combine(Server.MapPath(Url.Content("~/Content/")), _blogConfig.PostThumbPath ,post.ImageName), post.ImageMimeType);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        // get featured image for the post
+        public FilePathResult GetPostFeatured(int postId)
+        {
+            Post post = _postsRepository.Posts.FirstOrDefault(p => p.PostID == postId);
+            if (post != null)
+            {
+                return File(Path.Combine(Server.MapPath(Url.Content("~/Content/")), _blogConfig.PostFeaturedPath, post.ImageName), post.ImageMimeType);
             }
             else
             {

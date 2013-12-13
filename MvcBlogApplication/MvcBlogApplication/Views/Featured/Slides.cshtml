@@ -1,0 +1,18 @@
+﻿@using MvcBlog.Domain.Entities
+@model IEnumerable<MvcBlog.Domain.Entities.Post>
+
+<!--Featured slides-->
+<div id="slides">
+
+    @foreach (Post slide in Model)
+    {
+        <div class="featured">
+            <img src="@Url.Action("GetPostFeatured", "Posts", new { slide.PostID })" width=" 940" height="422">
+            <div class="featured-text">
+                <span>
+                    @Html.RouteLink(slide.PostTitle, new { controller = "Posts", action = "SinglePost", category = @slide.PostCategory, postId = @slide.PostID })
+                </span>
+            </div>
+        </div>
+    }
+</div>

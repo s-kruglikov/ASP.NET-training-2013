@@ -53,6 +53,9 @@
 
         <div class="editor-label">Comments enabled for the post?</div>
         <div>@Html.CheckBoxFor(p => p.PostCommentsEnabled, htmlAttributes: new { @checked = "checked" })</div>
+        
+        <div class="editor-label">Post featured?</div>
+        <div>@Html.CheckBoxFor(p => p.PostFeatured)</div>
 
         <div class="editor-label">Image</div>
         <div>
@@ -62,21 +65,29 @@
             }
             else
             {
-                <div>Thumbnail image:</div>                
-                <div style="float: left; margin-right: 20px">
-                    <img src= "@(Url.Content("~/Content/PostsThumbs"))/@Model.ImageName" />
+                <div style="display: block; width: 100%">Thumbnail image:</div>
+                <div style="float: left; margin-right: 20px; display: block; width: 100%">
+                    <p>
+                        <img src="@Url.Action("GetPostThumbnail", "Posts", new { Model.PostID }) " />
+                    </p>
                 </div>
-                <br />
-                <div>Featured image:</div>
-                <div style="float: left; margin-right: 20px">
-                    <img src="@Url.Action("GetPostThumbnail", "Posts", new { Model.PostID })" />
+
+                <div style="display: block; width: 100%">Featured image:</div>
+                <div style="float: left; margin-right: 20px; display: block; width: 100%">
+                    <p>
+                        <img src="@Url.Action("GetPostFeatured", "Posts", new { Model.PostID })" />
+                    </p>
                 </div>
             }
-            <div>
+            <p>
                 Upload new image:
                 <input type="file" name="postImage" />
-            </div>
+            </p>
         </div>
+        
+        @Html.HiddenFor(p => p.ImageExtension)
+        @Html.HiddenFor(p => p.ImageMimeType)
+        @Html.HiddenFor(p => p.ImageName)
 
         <p class="pull-right">
             @Html.ActionLink("Cancel", "ManagePosts", "Admin", routeValues: null, htmlAttributes: new { @class = "btn btn-warning" })

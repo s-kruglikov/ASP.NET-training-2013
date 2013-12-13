@@ -79,10 +79,20 @@ namespace MvcBlog.WebUI.Tools
                         break;
                 }
 
-                if (System.IO.File.Exists(savePath)) System.IO.File.Delete(savePath);
+                if (File.Exists(savePath))
+                {
+                    File.Delete(savePath);
+                }
 
                 image.Save(savePath, format);
             }
+        }
+
+        public static Image CropImage(this Image img, Rectangle cropArea)
+        {
+            Bitmap bmpImage = new Bitmap(img);
+            Bitmap bmpCrop = bmpImage.Clone(cropArea, bmpImage.PixelFormat);
+            return bmpCrop;
         }
     }
 }
