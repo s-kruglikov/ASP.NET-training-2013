@@ -141,6 +141,7 @@ namespace MvcBlog.WebUI.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Administrators")]
         public ViewResult EditComment(int commentId)
         {
             ViewBag.CurrentEdit = "Comments";
@@ -179,7 +180,7 @@ namespace MvcBlog.WebUI.Controllers
 
         #region helpers
 
-        public void DeletePostImages(Post post)
+        private void DeletePostImages(Post post)
         {
             if (post.ImageName != null)
             {

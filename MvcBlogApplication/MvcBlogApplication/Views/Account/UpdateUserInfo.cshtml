@@ -1,0 +1,65 @@
+﻿@model MvcBlog.WebUI.Models.UserProfile
+
+@{
+    ViewBag.Title = "Update user info";
+}
+
+<section id="loginForm">
+    <h2>Please update your account info.</h2>
+    @using (Html.BeginForm("UpdateUserInfo","Account", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+
+        <fieldset>
+            <legend>Update user info form</legend>
+            <table>
+                <tr>
+                    <td>@Html.LabelFor(m => m.UserName)</td>
+                    <td>@Html.EditorFor(m => m.UserName)</td>
+                </tr>
+                <tr>
+                    <td>First Name</td>
+                    <td>@Html.EditorFor(m=>m.FirstName)</td>
+                </tr>
+                <tr>
+                    <td>Last Name</td>
+                    <td>@Html.EditorFor(m => m.LastName)</td>
+                </tr>
+                <tr>
+                    <td>Birth Date</td>
+                    <td>@Html.EditorFor(m => m.BirthDate)</td>
+                </tr>
+                <tr>
+                    <td>Email</td>
+                    <td>@Html.EditorFor(m=>m.Email)</td>
+                </tr>
+
+                <tr>
+                    <td>Avatar:</td>
+                    <td>
+                        @if (Model.Avatar == null)
+                        {
+                            @:None
+                        }
+                        else
+                        {
+                            <img src="@Url.Action("GetUserAvatar", "Account", new { Model.UserId })" />
+                        }
+                        <p>
+                            Upload new image:
+                            <input type="file" name="avatarImage" />
+                        </p>
+                    </td>
+                </tr>
+            </table>
+            
+            @Html.HiddenFor(m => m.AvatarMimeType)
+
+            <input type="submit" value="Save" />
+        </fieldset>
+        <p>
+            @Html.ActionLink("Maybe Later...", "List", "Posts", 1, null) if you forgot your password.
+        </p>
+    }
+</section>

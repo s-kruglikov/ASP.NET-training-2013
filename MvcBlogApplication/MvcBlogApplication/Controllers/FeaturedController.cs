@@ -17,7 +17,7 @@ namespace MvcBlog.WebUI.Controllers
         }
 
         //
-        // GET: /Featured/
+        // GET: 
 
         public PartialViewResult Slides()
         {
@@ -27,7 +27,5 @@ namespace MvcBlog.WebUI.Controllers
 
             return PartialView(featuredPosts);
         }
-
-
     }
 }

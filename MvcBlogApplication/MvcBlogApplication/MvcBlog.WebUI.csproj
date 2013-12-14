@@ -372,10 +372,12 @@
     <Content Include="Scripts\tinymce\langs\readme.md" />
     <Content Include="Scripts\jquery.slides.coffee" />
     <Content Include="Views\Featured\Slides.cshtml" />
+    <Content Include="Views\Account\UpdateUserInfo.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\PostsThumbs\" />
+    <Folder Include="Content\UsersAvatars\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

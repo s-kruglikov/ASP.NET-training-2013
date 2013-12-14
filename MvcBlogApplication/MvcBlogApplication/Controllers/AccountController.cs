@@ -1,8 +1,12 @@
 ﻿using System;
+using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Net.Mail;
+using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
+using MvcBlog.WebUI.Tools;
 using WebMatrix.WebData;
 using MvcBlog.WebUI.Filters;
 using MvcBlog.WebUI.Models;
@@ -77,7 +81,9 @@ namespace MvcBlog.WebUI.Controllers
                 {
                     WebSecurity.CreateUserAndAccount(model.UserName, model.Password, new { Email = model.Email });
                     WebSecurity.Login(model.UserName, model.Password);
-                    return RedirectToAction("List", "Posts", 1);
+
+                    return RedirectToAction("UpdateUserInfo");
+                    //return RedirectToAction("List", "Posts", 1);
                 }
                 catch (MembershipCreateUserException e)
                 {
@@ -87,6 +93,51 @@ namespace MvcBlog.WebUI.Controllers
 
             // If we got this far, something failed, redisplay form
             return View(model);
+        }
+
+        [HttpGet]
+        public ViewResult UpdateUserInfo()
+        {
+            var usersContext = new UsersContext();
+            var currentUserInfo =
+                usersContext.UserProfiles.FirstOrDefault(user => user.UserName == User.Identity.Name);
+
+            return View(currentUserInfo);
+
+            //return RedirectToAction("List", "Posts", 1);
+        }
+
+        [HttpPost]
+        public ActionResult UpdateUserInfo(UserProfile model, HttpPostedFileBase avatarImage)
+        {
+            var usersContext = new UsersContext();
+            var currentUserInfo =
+                usersContext.UserProfiles.FirstOrDefault(user => user.UserName == model.UserName);
+
+            currentUserInfo.FirstName = model.FirstName;
+            currentUserInfo.LastName = model.LastName;
+            currentUserInfo.Email = model.Email;
+            currentUserInfo.BirthDate = model.BirthDate;
+            currentUserInfo.Avatar = model.Avatar;
+            currentUserInfo.AvatarMimeType = model.AvatarMimeType;
+
+            if (avatarImage != null)
+            {
+                string imageExtension = Path.GetExtension(avatarImage.FileName);
+                string imageName = string.Format("{0}_{1}.{2}", currentUserInfo.UserId, DateTime.Now.Ticks, imageExtension);
+                string imageAvatarSavePath = Path.Combine(Server.MapPath(Url.Content("~/Content/UsersAvatars/")), imageName);
+
+                //save image parameters into DB
+                currentUserInfo.AvatarMimeType = avatarImage.ContentType;
+                currentUserInfo.Avatar = imageName;
+
+                Image.FromStream(avatarImage.InputStream).ResizeProportional(new Size(100, 100)).SaveToFolder(imageAvatarSavePath);
+            }
+
+
+            usersContext.SaveChanges();
+
+            return RedirectToAction("List", "Posts", 1);
         }
 
 
@@ -244,7 +295,21 @@ namespace MvcBlog.WebUI.Controllers
             return View();
         }
 
-       
+
+        public FilePathResult GetUserAvatar(int userId)
+        {
+            var db = new UsersContext();
+
+            UserProfile userInfo = db.UserProfiles.FirstOrDefault(user => user.UserId == userId);
+            if (userInfo != null)
+            {
+                return File(Path.Combine(Server.MapPath(Url.Content("~/Content/UsersAvatars/")), userInfo.Avatar), userInfo.AvatarMimeType);
+            }
+            else
+            {
+                return null;
+            }
+        }
 
         #region Helpers
         private ActionResult RedirectToLocal(string returnUrl)
@@ -337,5 +402,7 @@ namespace MvcBlog.WebUI.Controllers
         {
             return View();
         }
+
+        
     }
 }

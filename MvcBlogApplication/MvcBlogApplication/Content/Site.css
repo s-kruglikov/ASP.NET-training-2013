@@ -318,3 +318,16 @@ fieldset {
     padding:10px;
     background-color:rgba(0,0,0,.3);     
 }
+
+#comment-author {
+    float: left;
+    width: 100px; /* Ширина колонки */
+    padding: 5px; /* Поля вокруг текста */
+    margin: 5px; /* Значения отступов */
+}
+
+#comment-text {
+    margin: 5px;
+    padding: 5px;
+}
+
