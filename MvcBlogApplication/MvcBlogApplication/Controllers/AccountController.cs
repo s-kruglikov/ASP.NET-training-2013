@@ -6,7 +6,7 @@ using System.Net.Mail;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
-using MvcBlog.Domain.Concrete;
+using MvcBlog.Domain;
 using MvcBlog.Domain.Entities;
 using MvcBlog.WebUI.Tools;
 using WebMatrix.WebData;
@@ -17,7 +17,7 @@ namespace MvcBlog.WebUI.Controllers
 {
     [Authorize]
     [InitializeSimpleMembership]
-    public class AccountController : Controller
+    public class AccountController : BaseController
     {
         //
         // GET: /Account/Login
@@ -85,7 +85,6 @@ namespace MvcBlog.WebUI.Controllers
                     WebSecurity.Login(model.UserName, model.Password);
 
                     return RedirectToAction("UpdateUserInfo");
-                    //return RedirectToAction("List", "Posts", 1);
                 }
                 catch (MembershipCreateUserException e)
                 {
@@ -100,18 +99,16 @@ namespace MvcBlog.WebUI.Controllers
         [HttpGet]
         public ViewResult UpdateUserInfo()
         {
-            var usersContext = new EFDbContext();
-            var currentUserInfo =
-                usersContext.UserProfiles.FirstOrDefault(user => user.UserName == User.Identity.Name);
+            UserProfile currentUserInfo = Repository.UserProfiles.FirstOrDefault(u => u.UserName == User.Identity.Name);
 
             return View(currentUserInfo);
-
-            //return RedirectToAction("List", "Posts", 1);
         }
 
         [HttpPost]
         public ActionResult UpdateUserInfo(UserProfile model, HttpPostedFileBase avatarImage)
         {
+
+            //TODO: Need to be refactored
             var usersContext = new EFDbContext();
             var currentUserInfo =
                 usersContext.UserProfiles.FirstOrDefault(user => user.UserName == model.UserName);
@@ -126,7 +123,7 @@ namespace MvcBlog.WebUI.Controllers
             if (avatarImage != null)
             {
                 string imageExtension = Path.GetExtension(avatarImage.FileName);
-                string imageName = string.Format("{0}_{1}.{2}", currentUserInfo.UserId, DateTime.Now.Ticks, imageExtension);
+                string imageName = string.Format("{0}_{1}{2}", currentUserInfo.UserId, DateTime.Now.Ticks, imageExtension);
                 string imageAvatarSavePath = Path.Combine(Server.MapPath(Url.Content("~/Content/UsersAvatars/")), imageName);
 
                 //save image parameters into DB
@@ -224,8 +221,7 @@ namespace MvcBlog.WebUI.Controllers
                 var resetLink = "<a href='" + Url.Action("ResetPassword", "Account", new {username = userName, resettoken = token}, "http") + "'>Reset Password</a>";
 
                 // retrieve user's email
-                var db = new EFDbContext();
-                var email = db.UserProfiles.Where(x => x.UserName == userName).Select(x => x.Email).FirstOrDefault();
+                var email = Repository.UserProfiles.Where(x => x.UserName == userName).Select(x => x.Email).FirstOrDefault();
 
                 if (email == null) throw new ArgumentNullException("email");
                 else
@@ -255,17 +251,15 @@ namespace MvcBlog.WebUI.Controllers
         [AllowAnonymous]
         public ActionResult ResetPassword(string username, string resettoken)
         {
-            var db = new EFDbContext();
-
             //search for user with defined name
-            var userProfile = db.UserProfiles.FirstOrDefault(x => x.UserName.Equals(username));
+            var userProfile = Repository.UserProfiles.FirstOrDefault(x => x.UserName.Equals(username));
             if (userProfile == null)
             {
                 return RedirectToAction("BadLink");
             }
 
             // search for registration info by user id and password token
-            var membership = db.webpages_Memberships.FirstOrDefault(x => x.UserId == userProfile.UserId && x.PasswordVerificationToken == resettoken);
+            var membership = Repository.WebpagesMemberships.FirstOrDefault(x => x.UserId == userProfile.UserId && x.PasswordVerificationToken == resettoken);
             if (membership == null)
             {
                 return RedirectToAction("BadLink");
@@ -300,12 +294,10 @@ namespace MvcBlog.WebUI.Controllers
 
         public FilePathResult GetUserAvatar(int userId)
         {
-            var db = new EFDbContext();
-
-            UserProfile userInfo = db.UserProfiles.FirstOrDefault(user => user.UserId == userId);
+            UserProfile userInfo = Repository.UserProfiles.FirstOrDefault(user => user.UserId == userId);
             if (userInfo != null)
             {
-                return File(Path.Combine(Server.MapPath(Url.Content("~/Content/UsersAvatars/")), userInfo.Avatar), userInfo.AvatarMimeType);
+                return File(Path.Combine(Server.MapPath(Url.Content("~/Content/")), ConfigService.AvatarImagePath, userInfo.Avatar), userInfo.AvatarMimeType);
             }
             else
             {
@@ -402,9 +394,7 @@ namespace MvcBlog.WebUI.Controllers
 
         public ActionResult BadLink()
         {
-            return View();
+            return View("_NotFound");
         }
-
-        
     }
 }

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace MvcBlog.WebUI.Abstract
 {
     public interface IConfigService
@@ -14,8 +9,18 @@ namespace MvcBlog.WebUI.Abstract
 
         int PostThumbImageWidth { get; set; }
 
+        int PostFeaturedImageHeight { get; set; }
+
+        int PostFeaturedImageWidth { get; set; }
+
         string PostThumbPath { get; set; }
 
         string PostFeaturedPath { get; set; }
+
+        int AvatarImageHeight { get; set; }
+
+        int AvatarImageWidth { get; set; }
+
+        string AvatarImagePath { get; set; }
     }
 }

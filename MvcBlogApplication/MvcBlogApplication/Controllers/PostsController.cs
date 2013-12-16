@@ -3,8 +3,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Web.Mvc;
-using MvcBlog.Domain.Abstract;
-using MvcBlog.Domain.Concrete;
+using MvcBlog.Domain;
 using MvcBlog.Domain.Entities;
 using MvcBlog.WebUI.Models;
 using System.Configuration;
@@ -17,19 +16,12 @@ namespace MvcBlog.WebUI.Controllers
 {
     public class PostsController : Controller
     {
-        private readonly IPostsRepository _postsRepository;
-        private readonly ICommentsRepository _commentsRepository;
-        private readonly IUsersRepository _usersRepository;
+        private readonly IRepository _repository;
         private readonly IConfigService _blogConfig;
 
-        public PostsController(ICommentsRepository commentsRepository,
-            IPostsRepository postsRepository,
-            IUsersRepository usersRepository,
-            IConfigService blogConfig)
+        public PostsController(IRepository repository, IConfigService blogConfig)
         {
-            _commentsRepository = commentsRepository;
-            _postsRepository = postsRepository;
-            _usersRepository = usersRepository;
+            _repository = repository;
             _blogConfig = blogConfig;
         }
 
@@ -40,7 +32,7 @@ namespace MvcBlog.WebUI.Controllers
         {
             var model = new PostsListViewModel
             {
-                Posts = _postsRepository.Posts
+                Posts = _repository.Posts
                 .Where(p => category == null && p.PostIsVisible == true
                     || p.PostCategory == category && p.PostIsVisible == true)
                 .OrderByDescending(p => p.PostID)
@@ -51,7 +43,7 @@ namespace MvcBlog.WebUI.Controllers
                 {
                     CurrentPage = page,
                     ItemsPerPage = _blogConfig.PostsPerPage,
-                    TotalItems = category == null ? _postsRepository.Posts.Count() : _postsRepository.Posts.Count(p => p.PostCategory == category)
+                    TotalItems = category == null ? _repository.Posts.Count() : _repository.Posts.Count(p => p.PostCategory == category)
                 }
             };
 
@@ -62,14 +54,12 @@ namespace MvcBlog.WebUI.Controllers
         // GET: 
         public ActionResult SinglePost(string category, int postId)
         {
-            List<CommentViewModel> commentsList = new List<CommentViewModel>();
+            var commentsList = new List<CommentViewModel>();
 
-            var com = new List<Comment>(_commentsRepository.Comments.Where(c => c.CommentIsVisible == true));
-            var usr = new List<UserProfile>(_usersRepository.UserProfiles);
-
-            var comments = com
-                .Join(usr, c => c.CommentCreatedBy,u => u.UserName, (c, u) => new {c, u})
-                .Where(@t => @t.c.PostID == postId && @t.c.CommentIsVisible == true);
+            var comments =
+                _repository.Comments.Join(_repository.UserProfiles, c => c.CommentCreatedBy, u => u.UserName,
+                    (c, u) => new {c, u}).Where(@t => @t.c.PostID == postId && @t.c.CommentIsVisible == true);
+            
 
             foreach (var comment in comments)
             {
@@ -86,11 +76,7 @@ namespace MvcBlog.WebUI.Controllers
 
             var model = new PostDetailedModel()
             {
-                PostDetailed = _postsRepository.Posts.FirstOrDefault(p => p.PostID == postId && p.PostIsVisible==true),
-
-                //Comments = _commentsRepository.Comments
-                //    .OrderBy(c => c.CommentID)
-                //    .Where(c => c.PostID == postId).ToList(),
+                PostDetailed = _repository.Posts.FirstOrDefault(p => p.PostID == postId && p.PostIsVisible==true),
 
                 CommentsList = commentsList,
 
@@ -119,7 +105,7 @@ namespace MvcBlog.WebUI.Controllers
             
             postDetailed.NewComment.PostID = postId;
 
-            _commentsRepository.SaveComment(postDetailed.NewComment);
+            _repository.SaveComment(postDetailed.NewComment);
 
             return RedirectToAction("SinglePost",routeValues: new {postId = postId, category = category});
         }
@@ -127,7 +113,7 @@ namespace MvcBlog.WebUI.Controllers
         // get thumbnail image for the post
         public FilePathResult GetPostThumbnail(int postId)
         {
-            Post post = _postsRepository.Posts.FirstOrDefault(p => p.PostID == postId);
+            Post post = _repository.Posts.FirstOrDefault(p => p.PostID == postId);
             if (post != null)
             {
                 return File(Path.Combine(Server.MapPath(Url.Content("~/Content/")), _blogConfig.PostThumbPath ,post.ImageName), post.ImageMimeType);
@@ -141,7 +127,7 @@ namespace MvcBlog.WebUI.Controllers
         // get featured image for the post
         public FilePathResult GetPostFeatured(int postId)
         {
-            Post post = _postsRepository.Posts.FirstOrDefault(p => p.PostID == postId);
+            Post post = _repository.Posts.FirstOrDefault(p => p.PostID == postId);
             if (post != null)
             {
                 return File(Path.Combine(Server.MapPath(Url.Content("~/Content/")), _blogConfig.PostFeaturedPath, post.ImageName), post.ImageMimeType);

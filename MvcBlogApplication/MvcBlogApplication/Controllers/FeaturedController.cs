@@ -3,17 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using MvcBlog.Domain.Abstract;
+using MvcBlog.Domain;
 
 namespace MvcBlog.WebUI.Controllers
 {
     public class FeaturedController : Controller
     {
-        private readonly IPostsRepository _postsRepository;
+        private readonly IRepository _repository;
 
-        public FeaturedController(IPostsRepository postsRepository)
+        public FeaturedController(IRepository repository)
         {
-            _postsRepository = postsRepository;
+            _repository = repository;
         }
 
         //
@@ -21,8 +21,8 @@ namespace MvcBlog.WebUI.Controllers
 
         public PartialViewResult Slides()
         {
-            var featuredPosts = _postsRepository.Posts
-                .Where(p => p.PostFeatured == true)
+            var featuredPosts = _repository.Posts
+                .Where(p => p.PostFeatured == true && p.PostIsVisible == true)
                 .OrderByDescending(p => p.PostID);
 
             return PartialView(featuredPosts);

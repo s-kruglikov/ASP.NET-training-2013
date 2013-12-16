@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.Linq;
 using System.Web.Mvc;
-using MvcBlog.Domain.Abstract;
+using MvcBlog.Domain;
 using MvcBlog.Domain.Entities;
 using System;
 using System.Web;
@@ -13,19 +13,8 @@ using MvcBlog.WebUI.Abstract;
 
 namespace MvcBlog.WebUI.Controllers
 {
-    public class AdminController : Controller
+    public class AdminController : BaseController
     {
-        readonly IPostsRepository _postsRepository;
-        readonly ICommentsRepository _commentsRepository;
-        private readonly IConfigService _blogConfigService;
-
-        public AdminController(IPostsRepository posts, ICommentsRepository comments, IConfigService blogConfig)
-        {
-            _postsRepository = posts;
-            _commentsRepository = comments;
-            _blogConfigService = blogConfig;
-        }
-
         //
         // GET: /Admin/ManagePosts
 
@@ -33,9 +22,9 @@ namespace MvcBlog.WebUI.Controllers
         public ActionResult ManagePosts()
         {
             ViewBag.CurrentEdit = "Posts";
-            return View(_postsRepository.Posts.OrderByDescending(p => p.PostID));
+            return View(Repository.Posts.OrderByDescending(p => p.PostID));
         }
-
+        
         //
         // GET: /Admin/EditPost
 
@@ -44,11 +33,16 @@ namespace MvcBlog.WebUI.Controllers
         public ViewResult EditPost(int postId)
         {
             ViewBag.CurrentEdit = "Posts";
-            var post = _postsRepository.Posts.FirstOrDefault(p => p.PostID == postId);
+            var post = Repository.Posts.FirstOrDefault(p => p.PostID == postId);
 
-            ViewBag.Title = string.Format("MVC Blog: Edit post '{0}'", post.PostTitle);
+            if (post != null)
+            {
 
-            return View(post);
+                ViewBag.Title = string.Format("MVC Blog: Edit post '{0}'", post.PostTitle);
+
+                return View(post);
+            }
+            return View("_NotFound");
         }
 
         //
@@ -74,10 +68,10 @@ namespace MvcBlog.WebUI.Controllers
                     DeletePostImages(post);
 
                     string imageExtension = System.IO.Path.GetExtension(postImage.FileName);
-                    string imageName = string.Format("{0}_{1}.{2}", post.PostID, DateTime.Now.Ticks.ToString(), imageExtension);
-                    string imageThumbSavePath = Path.Combine(Server.MapPath(Url.Content("~/Content/")), _blogConfigService.PostThumbPath, imageName);
+                    string imageName = string.Format("{0}_{1}.{2}", post.PostID, DateTime.Now.Ticks, imageExtension);
+                    string imageThumbSavePath = Path.Combine(Server.MapPath(Url.Content("~/Content/")), ConfigService.PostThumbPath, imageName);
                     string imageFeaturedSavePath = Path.Combine(Server.MapPath(Url.Content("~/Content/")),
-                        _blogConfigService.PostFeaturedPath, imageName);
+                        ConfigService.PostFeaturedPath, imageName);
 
                     //save image parameters into DB
                     post.ImageMimeType = postImage.ContentType;
@@ -93,15 +87,13 @@ namespace MvcBlog.WebUI.Controllers
                 post.PostLastModifiedBy = User.Identity.Name;
                 post.PostLastModificationDate = DateTime.Now;
 
-                _postsRepository.SavePost(post);
+                Repository.SavePost(post);
                 TempData["message"] = string.Format("{0} has been saved", post.PostTitle);
                 return RedirectToAction("ManagePosts");
             }
-            else
-            {
-                // something wrong occured with the data values
-                return View(post);
-            }
+
+            // something wrong occured with the data values
+            return View(post);
         }
 
         //
@@ -122,7 +114,7 @@ namespace MvcBlog.WebUI.Controllers
         [Authorize(Roles = "Administrators")]
         public ActionResult DeletePost(int postId)
         {
-            Post postToDelete = _postsRepository.DeletePost(postId);
+            Post postToDelete = Repository.DeletePost(postId);
 
             // delete all images related to th post
             DeletePostImages(postToDelete);
@@ -137,7 +129,7 @@ namespace MvcBlog.WebUI.Controllers
         public ActionResult ManageComments()
         {
             ViewBag.CurrentEdit = "Comments";
-            return View(_commentsRepository.Comments.OrderByDescending(c => c.CommentID));
+            return View(Repository.Comments.OrderByDescending(c => c.CommentID));
         }
 
         [HttpGet]
@@ -145,7 +137,7 @@ namespace MvcBlog.WebUI.Controllers
         public ViewResult EditComment(int commentId)
         {
             ViewBag.CurrentEdit = "Comments";
-            var comment = _commentsRepository.Comments.FirstOrDefault(c => c.CommentID == commentId);
+            var comment = Repository.Comments.FirstOrDefault(c => c.CommentID == commentId);
             return View(comment);
         }
 
@@ -159,7 +151,7 @@ namespace MvcBlog.WebUI.Controllers
                 comment.CommentLastModifiedBy = User.Identity.Name;
                 comment.CommentLastModificationDate = DateTime.Now;
 
-                _commentsRepository.SaveComment(comment);
+                Repository.SaveComment(comment);
 
                 TempData["message"] = string.Format("Comment {0} has been saved", comment.CommentID);
                 return RedirectToAction("ManageComments");
@@ -184,8 +176,8 @@ namespace MvcBlog.WebUI.Controllers
         {
             if (post.ImageName != null)
             {
-                string currentThumbPath = Path.Combine(Server.MapPath(Url.Content("~/Content/")), _blogConfigService.PostThumbPath, post.ImageName);
-                string currentFeaturedPath = Path.Combine(Server.MapPath(Url.Content("~/Content/")), _blogConfigService.PostFeaturedPath, post.ImageName);
+                string currentThumbPath = Path.Combine(Server.MapPath(Url.Content("~/Content/")), ConfigService.PostThumbPath, post.ImageName);
+                string currentFeaturedPath = Path.Combine(Server.MapPath(Url.Content("~/Content/")), ConfigService.PostFeaturedPath, post.ImageName);
 
                 if (System.IO.File.Exists(currentThumbPath))
                 {

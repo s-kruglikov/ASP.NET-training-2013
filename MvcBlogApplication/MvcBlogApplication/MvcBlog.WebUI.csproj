@@ -135,6 +135,7 @@
     <Compile Include="Concrete\ConfigService.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\FeaturedController.cs" />
     <Compile Include="Controllers\NavigationController.cs" />
     <Compile Include="Controllers\PostsController.cs" />
@@ -162,10 +163,6 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
-    <Content Include="Content\FeaturedImages\test1.jpg" />
-    <Content Include="Content\FeaturedImages\test2.jpg" />
-    <Content Include="Content\FeaturedImages\test3.jpg" />
-    <Content Include="Content\FeaturedImages\test4.jpg" />
     <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\Gridmvc.css" />
     <Content Include="Content\Site.css" />
@@ -377,6 +374,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\FeaturedImages\" />
     <Folder Include="Content\PostsThumbs\" />
     <Folder Include="Content\UsersAvatars\" />
   </ItemGroup>
@@ -394,9 +392,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Account\ForgotPassword.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\Account\BadLink.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Account\ResetPassword.cshtml" />

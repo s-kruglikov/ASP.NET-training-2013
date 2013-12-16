@@ -3,9 +3,9 @@ using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Threading;
 using System.Web.Mvc;
+using MvcBlog.Domain;
 using WebMatrix.WebData;
 using MvcBlog.WebUI.Models;
-using MvcBlog.Domain.Concrete;
 
 namespace MvcBlog.WebUI.Filters
 {

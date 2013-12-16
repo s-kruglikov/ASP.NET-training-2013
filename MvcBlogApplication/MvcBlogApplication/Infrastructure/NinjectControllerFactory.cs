@@ -5,9 +5,7 @@ using System.Web.Routing;
 using System.Web.Mvc;
 using Ninject;
 using Moq;
-using MvcBlog.Domain.Abstract;
-using MvcBlog.Domain.Concrete;
-using MvcBlog.Domain.Entities;
+using MvcBlog.Domain;
 using MvcBlog.WebUI.Abstract;
 using MvcBlog.WebUI.Concrete;
 
@@ -15,7 +13,7 @@ namespace MvcBlog.WebUI.Infrastructure
 {
     public class NinjectControllerFactory : DefaultControllerFactory
     {
-        private IKernel _ninjectKernel;
+        private readonly IKernel _ninjectKernel;
 
         // constructor
         public NinjectControllerFactory()
@@ -44,9 +42,9 @@ namespace MvcBlog.WebUI.Infrastructure
 
             _ninjectKernel.Bind<IPostsRepository>().ToConstant(mock.Object);
             */
-            _ninjectKernel.Bind<IPostsRepository>().To<EFPostsRepository>();
-            _ninjectKernel.Bind<ICommentsRepository>().To<EFCommentsRepository>();
-            _ninjectKernel.Bind<IUsersRepository>().To<EFUsersRepository>();
+            _ninjectKernel.Bind<IRepository>().To<SqlRepository>();
+            //_ninjectKernel.Bind<ICommentsRepository>().To<EFCommentsRepository>();
+            //_ninjectKernel.Bind<IUsersRepository>().To<EFUsersRepository>();
             _ninjectKernel.Bind<IConfigService>().To<ConfigService>().InSingletonScope();
         }
     }

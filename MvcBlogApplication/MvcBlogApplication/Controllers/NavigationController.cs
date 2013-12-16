@@ -1,15 +1,15 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using MvcBlog.Domain.Abstract;
+using MvcBlog.Domain;
 
 namespace MvcBlog.WebUI.Controllers
 {
     public class NavigationController : Controller
     {
-        private readonly IPostsRepository _repository;
+        private readonly IRepository _repository;
 
-        public NavigationController(IPostsRepository repository)
+        public NavigationController(IRepository repository)
         {
             _repository = repository;
         }

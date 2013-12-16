@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using System.Web.Routing;
-using System.Web.UI;
 
 namespace MvcBlog.WebUI
 {
@@ -16,9 +11,9 @@ namespace MvcBlog.WebUI
 
             // route used to navigation default
             routes.MapRoute(
-                name: null,
-                url: "",
-                defaults: new { controller = "Posts", action = "List", category = (string)null, page = 1 }
+                null,
+                "",
+                new { controller = "Posts", action = "List", category = (string)null, page = 1 }
             );
 
             routes.MapRoute(
@@ -46,12 +41,6 @@ namespace MvcBlog.WebUI
                 "{category}/Post{postId}",
                 new { controller = "Posts", action = "SinglePost"}
             );
-
-            //routes.MapRoute(
-            //    null,
-            //    "{category}/Post{postId}",
-            //    new { controller = "Posts", action = "AddComment" }
-            //);
 
             routes.MapRoute(null, "{controller}/{action}");
 

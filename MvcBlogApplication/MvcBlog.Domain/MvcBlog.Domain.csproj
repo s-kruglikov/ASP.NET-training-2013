@@ -47,18 +47,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Abstract\ICommentsRepository.cs" />
-    <Compile Include="Abstract\IPostsRepository.cs" />
-    <Compile Include="Abstract\IUsersRepository.cs" />
-    <Compile Include="Concrete\EFCommentsRepository.cs" />
-    <Compile Include="Concrete\EFDbContext.cs" />
-    <Compile Include="Concrete\EFPostsRepository.cs" />
-    <Compile Include="Concrete\EFUsersRepository.cs" />
+    <Compile Include="IRepository.cs" />
+    <Compile Include="SqlRepository.cs" />
+    <Compile Include="EFDbContext.cs" />
     <Compile Include="Entities\Comment.cs" />
     <Compile Include="Entities\Post.cs" />
     <Compile Include="Entities\UserProfile.cs" />
     <Compile Include="Entities\webpages_Membership.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SqlRepository\SqlRepositoryComments.cs" />
+    <Compile Include="SqlRepository\SqlRepositoryPosts.cs" />
+    <Compile Include="SqlRepository\SqlRepositoryUserProfiles.cs" />
+    <Compile Include="SqlRepository\SqlRepositorywebpages_Membership.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
