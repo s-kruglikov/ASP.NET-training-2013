@@ -145,6 +145,7 @@
     <Compile Include="HtmlHelpers\BlogHtmlHelpers.cs" />
     <Compile Include="Infrastructure\NinjectControllerFactory.cs" />
     <Compile Include="Models\AccountModels.cs" />
+    <Compile Include="Models\CommentViewModel.cs" />
     <Compile Include="Models\PagingModel.cs" />
     <Compile Include="Models\PostDetailedModel.cs" />
     <Compile Include="Models\PostsListViewModel.cs" />

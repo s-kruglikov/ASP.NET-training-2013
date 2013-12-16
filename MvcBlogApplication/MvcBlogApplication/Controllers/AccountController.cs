@@ -6,6 +6,8 @@ using System.Net.Mail;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
+using MvcBlog.Domain.Concrete;
+using MvcBlog.Domain.Entities;
 using MvcBlog.WebUI.Tools;
 using WebMatrix.WebData;
 using MvcBlog.WebUI.Filters;
@@ -98,7 +100,7 @@ namespace MvcBlog.WebUI.Controllers
         [HttpGet]
         public ViewResult UpdateUserInfo()
         {
-            var usersContext = new UsersContext();
+            var usersContext = new EFDbContext();
             var currentUserInfo =
                 usersContext.UserProfiles.FirstOrDefault(user => user.UserName == User.Identity.Name);
 
@@ -110,7 +112,7 @@ namespace MvcBlog.WebUI.Controllers
         [HttpPost]
         public ActionResult UpdateUserInfo(UserProfile model, HttpPostedFileBase avatarImage)
         {
-            var usersContext = new UsersContext();
+            var usersContext = new EFDbContext();
             var currentUserInfo =
                 usersContext.UserProfiles.FirstOrDefault(user => user.UserName == model.UserName);
 
@@ -222,7 +224,7 @@ namespace MvcBlog.WebUI.Controllers
                 var resetLink = "<a href='" + Url.Action("ResetPassword", "Account", new {username = userName, resettoken = token}, "http") + "'>Reset Password</a>";
 
                 // retrieve user's email
-                var db = new UsersContext();
+                var db = new EFDbContext();
                 var email = db.UserProfiles.Where(x => x.UserName == userName).Select(x => x.Email).FirstOrDefault();
 
                 if (email == null) throw new ArgumentNullException("email");
@@ -253,7 +255,7 @@ namespace MvcBlog.WebUI.Controllers
         [AllowAnonymous]
         public ActionResult ResetPassword(string username, string resettoken)
         {
-            var db = new UsersContext();
+            var db = new EFDbContext();
 
             //search for user with defined name
             var userProfile = db.UserProfiles.FirstOrDefault(x => x.UserName.Equals(username));
@@ -298,7 +300,7 @@ namespace MvcBlog.WebUI.Controllers
 
         public FilePathResult GetUserAvatar(int userId)
         {
-            var db = new UsersContext();
+            var db = new EFDbContext();
 
             UserProfile userInfo = db.UserProfiles.FirstOrDefault(user => user.UserId == userId);
             if (userInfo != null)

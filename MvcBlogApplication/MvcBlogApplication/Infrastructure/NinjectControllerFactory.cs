@@ -46,6 +46,7 @@ namespace MvcBlog.WebUI.Infrastructure
             */
             _ninjectKernel.Bind<IPostsRepository>().To<EFPostsRepository>();
             _ninjectKernel.Bind<ICommentsRepository>().To<EFCommentsRepository>();
+            _ninjectKernel.Bind<IUsersRepository>().To<EFUsersRepository>();
             _ninjectKernel.Bind<IConfigService>().To<ConfigService>().InSingletonScope();
         }
     }

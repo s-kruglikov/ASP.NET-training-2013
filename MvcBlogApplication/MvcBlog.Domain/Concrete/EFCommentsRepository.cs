@@ -10,10 +10,16 @@ namespace MvcBlog.Domain.Concrete
 {
     public class EFCommentsRepository : ICommentsRepository
     {
-        private EFDbContext context = new EFDbContext();
-        public IQueryable<Entities.Comment> Comments
+        private readonly EFDbContext _context;
+
+        public EFCommentsRepository(EFDbContext context)
         {
-            get { return context.Comments; }
+            _context = context;
+        }
+
+        public IQueryable<Comment> Comments
+        {
+            get { return _context.Comments; }
         }
 
         public void SaveComment(Comment comment)
@@ -24,13 +30,13 @@ namespace MvcBlog.Domain.Concrete
                 // if we are adding new comment
                 if (comment.CommentID == 0)
                 {
-                    context.Comments.Add(comment);
+                    _context.Comments.Add(comment);
                 }
 
                 // if we are updating comment
                 else
                 {
-                    Comment dbEntry = context.Comments.Find(comment.CommentID);
+                    Comment dbEntry = _context.Comments.Find(comment.CommentID);
                     if (dbEntry != null)
                     {
                         dbEntry.CommentIsVisible = comment.CommentIsVisible;
@@ -40,18 +46,18 @@ namespace MvcBlog.Domain.Concrete
                     }
                 }
 
-                context.SaveChanges();
+                _context.SaveChanges();
             }
         }
 
         public Comment DeleteComment(int commentId)
         {
-            Comment dbEntry = context.Comments.Find(commentId);
+            Comment dbEntry = _context.Comments.Find(commentId);
 
             if (dbEntry != null)
             {
-                context.Comments.Remove(dbEntry);
-                context.SaveChanges();
+                _context.Comments.Remove(dbEntry);
+                _context.SaveChanges();
             }
 
             return dbEntry;

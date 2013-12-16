@@ -10,7 +10,7 @@ namespace MvcBlog.WebUI.Models
     public class PostDetailedModel
     {
         public Post PostDetailed { get; set; }
-        public IEnumerable<Comment> Comments { get; set; }
+        public IEnumerable<CommentViewModel> CommentsList { get; set; }
 
         public Comment NewComment { get; set; }
     }

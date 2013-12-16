@@ -41,7 +41,7 @@
     <h4>Comments:</h4>
 </div>
 
-@foreach (var c in Model.Comments)
+@*@foreach (var c in Model.Comments)
 {
     if (c.CommentIsVisible)
     {
@@ -52,7 +52,19 @@
         <p class="multiline">@Html.Raw(@c.CommentContent)</p>
     </div>
     }
+}*@
+
+@foreach (var c in Model.CommentsList)
+{
+    <div id="comment">
+        <div id="item">
+            <h3>@c.CommentCreationDate @c.CommentCreatedBy said:</h3>
+            <img src="~/Content/UsersAvatars/@c.Avatar" />
+        </div>
+        <p class="multiline">@Html.Raw(@c.CommentContent)</p>
+    </div>
 }
+
 
 @if (@Model.PostDetailed.PostCommentsEnabled)
 {

@@ -6,38 +6,38 @@ using System.Web.Mvc;
 
 namespace MvcBlog.WebUI.Models
 {
-    public class UsersContext : DbContext
-    {
-        public UsersContext()
-            : base("EFDbContext")
-        {
-        }
+    //public class UsersContext : DbContext
+    //{
+    //    public UsersContext()
+    //        : base("EFDbContext")
+    //    {
+    //    }
 
-        public DbSet<UserProfile> UserProfiles { get; set; }
-        public DbSet<webpages_Membership> webpages_Memberships { get; set; }
-    }
+    //    public DbSet<UserProfile> UserProfiles { get; set; }
+    //    public DbSet<webpages_Membership> webpages_Memberships { get; set; }
+    //}
 
-    [Table("UserProfile")]
-    public class UserProfile
-    {
-        [Key]
-        [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
-        public int UserId { get; set; }
+    //[Table("UserProfile")]
+    //public class UserProfile
+    //{
+    //    [Key]
+    //    [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
+    //    public int UserId { get; set; }
 
-        [HiddenInput]
-        public string UserName { get; set; }
-        public string Email { get; set; }
+    //    [HiddenInput]
+    //    public string UserName { get; set; }
+    //    public string Email { get; set; }
 
-        public string FirstName { get; set; }
+    //    public string FirstName { get; set; }
 
-        public string LastName { get; set; }
+    //    public string LastName { get; set; }
 
-        public DateTime? BirthDate { get; set; }
+    //    public DateTime? BirthDate { get; set; }
 
-        public string Avatar { get; set; }
+    //    public string Avatar { get; set; }
 
-        public string AvatarMimeType { get; set; }
-    }
+    //    public string AvatarMimeType { get; set; }
+    //}
 
     public class LocalPasswordModel
     {

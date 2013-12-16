@@ -6,7 +6,12 @@ namespace MvcBlog.Domain.Concrete
 {
     public class EFPostsRepository : IPostsRepository
     {
-        private readonly EFDbContext _context = new EFDbContext();
+        private readonly EFDbContext _context;
+
+        public EFPostsRepository(EFDbContext context)
+        {
+            _context = context;
+        }
 
         public IQueryable<Post> Posts
         {
