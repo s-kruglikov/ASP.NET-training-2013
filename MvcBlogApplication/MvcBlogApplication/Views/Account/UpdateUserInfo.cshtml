@@ -4,62 +4,59 @@
     ViewBag.Title = "Update user info";
 }
 
-<section id="loginForm">
-    <h2>Please update your account info.</h2>
-    @using (Html.BeginForm("UpdateUserInfo","Account", FormMethod.Post, new { enctype = "multipart/form-data" }))
+<h2>Please update your account info</h2>
+<div class="form-horizontal">
+    @using (Html.BeginForm("UpdateUserInfo", "Account", FormMethod.Post, new { enctype = "multipart/form-data"}))
     {
         @Html.AntiForgeryToken()
-        @Html.ValidationSummary(true)
+        @Html.ValidationSummary()
 
         <fieldset>
             <legend>Update user info form</legend>
-            <table>
-                <tr>
-                    <td>@Html.LabelFor(m => m.UserName)</td>
-                    <td>@Html.EditorFor(m => m.UserName)</td>
-                </tr>
-                <tr>
-                    <td>First Name</td>
-                    <td>@Html.EditorFor(m=>m.FirstName)</td>
-                </tr>
-                <tr>
-                    <td>Last Name</td>
-                    <td>@Html.EditorFor(m => m.LastName)</td>
-                </tr>
-                <tr>
-                    <td>Birth Date</td>
-                    <td>@Html.EditorFor(m => m.BirthDate)</td>
-                </tr>
-                <tr>
-                    <td>Email</td>
-                    <td>@Html.EditorFor(m=>m.Email)</td>
-                </tr>
 
-                <tr>
-                    <td>Avatar:</td>
-                    <td>
-                        @if (Model.Avatar == null)
-                        {
-                            @:None
-                        }
-                        else
-                        {
-                            <img src="@Url.Action("GetUserAvatar", "Account", new { Model.UserId })" />
-                        }
-                        <p>
-                            Upload new image:
-                            <input type="file" name="avatarImage" />
-                        </p>
-                    </td>
-                </tr>
-            </table>
-            
+            @Html.HiddenFor(m => m.UserId)
+            @Html.HiddenFor(m => m.Avatar)
             @Html.HiddenFor(m => m.AvatarMimeType)
 
-            <input type="submit" value="Save" />
+            <div class="form-group">
+                @Html.LabelFor(m => m.UserName, new { @class = "control-label" })
+                <div style="width: 400px">
+                    <input type="text" class="form-control" />
+                </div>               
+            </div>
+            @Html.EditorFor(m => m.UserName, new { @class = "form-control col-sm-10" })
+            <div class="form-group">
+                <label class="col-sm-2 control-label">First Name</label>
+                @Html.EditorFor(m => m.FirstName, new { @class = "form-control" })
+            </div>
+
+            Last Name
+             <div class="text-box">@Html.EditorFor(m => m.LastName, new { @class = "single-line form-control" })</div>
+
+            Birth Date
+            @Html.EditorFor(m => m.BirthDate)
+
+            @Html.LabelFor(m => m.Email)
+            @Html.EditorFor(m => m.Email)
+
+            Avatar:
+            @if (Model.Avatar == null)
+            {
+                @:None
+                        }
+            else
+            {
+                <img src="@Url.Action("GetUserAvatar", "Account", new { Model.UserId })" />
+            }
+            <p>
+                Upload new image:
+                <input type="file" name="avatarImage" />
+            </p>
+
+            <input type="submit" value="Save" class="btn btn-primary" />
         </fieldset>
         <p>
-            @Html.ActionLink("Maybe Later...", "List", "Posts", 1, null) if you forgot your password.
+            @Html.ActionLink("Maybe Later...", "List", "Posts", 1, null)
         </p>
     }
-</section>
+</div>

@@ -37,7 +37,7 @@ namespace MvcBlog.WebUI.Models
     //    public string Avatar { get; set; }
 
     //    public string AvatarMimeType { get; set; }
-    //}
+    //}  
 
     public class LocalPasswordModel
     {

@@ -1,6 +1,7 @@
 ﻿using System.Globalization;
 using MvcBlog.WebUI.Abstract;
 using System.Configuration;
+using System.Collections.Generic;
 
 namespace MvcBlog.WebUI.Concrete
 {
@@ -82,5 +83,31 @@ namespace MvcBlog.WebUI.Concrete
         }
 
         #endregion
+
+
+        public string AllowedImageTypes
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["AllowedMimeTypes"];
+            }
+            set
+            {
+                ConfigurationManager.AppSettings["AllowedMimeTypes"] = value;
+            }
+        }
+
+        public int MaxImageSize
+        {
+            get
+            {
+                return int.Parse(ConfigurationManager.AppSettings["MaxImageSize"]);
+            }
+
+            set
+            {
+                ConfigurationManager.AppSettings["MaxImageSize"] = value.ToString(CultureInfo.InvariantCulture);
+            }
+        }
     }
 }

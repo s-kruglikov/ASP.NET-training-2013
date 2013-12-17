@@ -107,36 +107,31 @@ namespace MvcBlog.WebUI.Controllers
         [HttpPost]
         public ActionResult UpdateUserInfo(UserProfile model, HttpPostedFileBase avatarImage)
         {
-
-            //TODO: Need to be refactored
-            var usersContext = new EFDbContext();
-            var currentUserInfo =
-                usersContext.UserProfiles.FirstOrDefault(user => user.UserName == model.UserName);
-
-            currentUserInfo.FirstName = model.FirstName;
-            currentUserInfo.LastName = model.LastName;
-            currentUserInfo.Email = model.Email;
-            currentUserInfo.BirthDate = model.BirthDate;
-            currentUserInfo.Avatar = model.Avatar;
-            currentUserInfo.AvatarMimeType = model.AvatarMimeType;
-
-            if (avatarImage != null)
+            if (ModelState.IsValid)
             {
-                string imageExtension = Path.GetExtension(avatarImage.FileName);
-                string imageName = string.Format("{0}_{1}{2}", currentUserInfo.UserId, DateTime.Now.Ticks, imageExtension);
-                string imageAvatarSavePath = Path.Combine(Server.MapPath(Url.Content("~/Content/UsersAvatars/")), imageName);
+                if (avatarImage != null && ImagesExtensions.AllowedFormat(avatarImage, ConfigService.AllowedImageTypes, ConfigService.MaxImageSize))
+                {
+                    string imageExtension = Path.GetExtension(avatarImage.FileName);
+                    string imageName = string.Format("{0}_{1}{2}", model.UserId, DateTime.Now.Ticks, imageExtension);
+                    string imageAvatarSavePath = Path.Combine(Server.MapPath(Url.Content("~/Content/")), ConfigService.AvatarImagePath, imageName);
 
-                //save image parameters into DB
-                currentUserInfo.AvatarMimeType = avatarImage.ContentType;
-                currentUserInfo.Avatar = imageName;
+                    //save image parameters into DB
+                    model.AvatarMimeType = avatarImage.ContentType;
+                    model.Avatar = imageName;
 
-                Image.FromStream(avatarImage.InputStream).ResizeProportional(new Size(100, 100)).SaveToFolder(imageAvatarSavePath);
+                    Image.FromStream(avatarImage.InputStream)
+                        .ResizeProportional(new Size(ConfigService.AvatarImageWidth, ConfigService.AvatarImageHeight))
+                        .SaveToFolder(imageAvatarSavePath);
+                }
+
+                Repository.SaveUser(model);
+
+                return RedirectToAction("List", "Posts", 1);
             }
-
-
-            usersContext.SaveChanges();
-
-            return RedirectToAction("List", "Posts", 1);
+            else
+            {
+                return View(model);
+            }
         }
 
 

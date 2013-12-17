@@ -25,15 +25,18 @@ namespace MvcBlog.Domain
 
         #endregion
 
-        #region
+        #region UserProfiles
 
         IQueryable<UserProfile> UserProfiles { get; }
 
+        void SaveUser(UserProfile userProfile);
+
         #endregion
 
-        #region
+        #region WebpagesMemberships
 
         IQueryable<webpages_Membership> WebpagesMemberships { get; } 
+
         #endregion
     }
 }

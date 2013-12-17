@@ -22,5 +22,9 @@ namespace MvcBlog.WebUI.Abstract
         int AvatarImageWidth { get; set; }
 
         string AvatarImagePath { get; set; }
+
+        string AllowedImageTypes { get; set; }
+
+        int MaxImageSize { get; set; }
     }
 }

@@ -15,7 +15,7 @@ namespace MvcBlog.WebUI.Tools
             Size imageResize = new Size();
 
             // Calculate resized image dimensions
-            
+
             // if image dimensions are less than max no resize required
             if ((maxSize.Width == 0 || maxSize.Height >= image.Height)
                 && (maxSize.Width == 0 || maxSize.Width >= image.Width))
@@ -93,6 +93,22 @@ namespace MvcBlog.WebUI.Tools
             Bitmap bmpImage = new Bitmap(img);
             Bitmap bmpCrop = bmpImage.Clone(cropArea, bmpImage.PixelFormat);
             return bmpCrop;
+        }
+
+        public static bool AllowedFormat(HttpPostedFileBase file, string allowedFormats, int maxSize)
+        {
+            if (file.ContentLength <= maxSize * 1024)
+            {
+
+                foreach (var format in allowedFormats.Split(';'))
+                {
+                    if (file.ContentType == format)
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
         }
     }
 }
