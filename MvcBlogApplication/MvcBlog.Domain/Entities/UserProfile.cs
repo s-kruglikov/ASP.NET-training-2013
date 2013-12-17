@@ -28,6 +28,7 @@ namespace MvcBlog.Domain.Entities
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
 
+        [DataType(DataType.Date)]
         [Display(Name = "Birth Date")]
         public DateTime? BirthDate { get; set; }
 

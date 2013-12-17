@@ -4,42 +4,50 @@
     ViewBag.Title = "Update user info";
 }
 
+
+
+
 <h2>Please update your account info</h2>
-<div class="form-horizontal">
-    @using (Html.BeginForm("UpdateUserInfo", "Account", FormMethod.Post, new { enctype = "multipart/form-data"}))
-    {
-        @Html.AntiForgeryToken()
-        @Html.ValidationSummary()
+@using (Html.BeginForm("UpdateUserInfo", "Account", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary()
 
-        <fieldset>
-            <legend>Update user info form</legend>
+    <fieldset class="account-form">
+        <legend>Update user info form</legend>
 
-            @Html.HiddenFor(m => m.UserId)
-            @Html.HiddenFor(m => m.Avatar)
-            @Html.HiddenFor(m => m.AvatarMimeType)
+        @Html.HiddenFor(m => m.UserId)
+        @Html.HiddenFor(m => m.Avatar)
+        @Html.HiddenFor(m => m.AvatarMimeType)
 
-            <div class="form-group">
-                @Html.LabelFor(m => m.UserName, new { @class = "control-label" })
-                <div style="width: 400px">
-                    <input type="text" class="form-control" />
-                </div>               
-            </div>
-            @Html.EditorFor(m => m.UserName, new { @class = "form-control col-sm-10" })
-            <div class="form-group">
-                <label class="col-sm-2 control-label">First Name</label>
-                @Html.EditorFor(m => m.FirstName, new { @class = "form-control" })
-            </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.UserName, new { @class = "control-label" })
+            @Html.EditorFor(m => m.UserName, new { @class = "form-control" })
+        </div>
 
-            Last Name
-             <div class="text-box">@Html.EditorFor(m => m.LastName, new { @class = "single-line form-control" })</div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.FirstName, new { @class = "control-label" })
+            @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" })
+        </div>
 
-            Birth Date
-            @Html.EditorFor(m => m.BirthDate)
+        <div class="form-group">
+            @Html.LabelFor(m => m.LastName, new { @class = "control-label" })
+            @Html.TextBoxFor(m => m.LastName, new { @class = "form-control" })
+        </div>
 
-            @Html.LabelFor(m => m.Email)
-            @Html.EditorFor(m => m.Email)
+        <div class="form-group">
+            @Html.LabelFor(m => m.BirthDate, new { @class = "control-label" })
+            @Html.TextBoxFor(m => m.BirthDate, new { @class = "form-control" })
+            
+        </div>
 
-            Avatar:
+        <div class="form-group">
+            @Html.LabelFor(m => m.Email, new { @class = "control-label" })
+            @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.Avatar, new { @class = "control-label" })
             @if (Model.Avatar == null)
             {
                 @:None
@@ -52,11 +60,10 @@
                 Upload new image:
                 <input type="file" name="avatarImage" />
             </p>
-
-            <input type="submit" value="Save" class="btn btn-primary" />
-        </fieldset>
-        <p>
-            @Html.ActionLink("Maybe Later...", "List", "Posts", 1, null)
-        </p>
-    }
-</div>
+        </div>
+        <input type="submit" value="Save" class="btn btn-primary" />
+    </fieldset>
+    <p>
+        @Html.ActionLink("Maybe Later...", "List", "Posts", 1, null)
+    </p>
+}
