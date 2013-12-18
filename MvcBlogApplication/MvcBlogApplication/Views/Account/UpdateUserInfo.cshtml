@@ -4,9 +4,6 @@
     ViewBag.Title = "Update user info";
 }
 
-
-
-
 <h2>Please update your account info</h2>
 @using (Html.BeginForm("UpdateUserInfo", "Account", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
@@ -20,10 +17,12 @@
         @Html.HiddenFor(m => m.Avatar)
         @Html.HiddenFor(m => m.AvatarMimeType)
 
-        <div class="form-group">
-            @Html.LabelFor(m => m.UserName, new { @class = "control-label" })
-            @Html.EditorFor(m => m.UserName, new { @class = "form-control" })
-        </div>
+        <fieldset disabled>
+            <div class="form-group">
+                @Html.LabelFor(m => m.UserName, new { @class = "control-label" })
+                @Html.TextBoxFor(m => m.UserName, new { @class = "form-control disabled" })
+            </div>
+        </fieldset>
 
         <div class="form-group">
             @Html.LabelFor(m => m.FirstName, new { @class = "control-label" })
@@ -38,7 +37,7 @@
         <div class="form-group">
             @Html.LabelFor(m => m.BirthDate, new { @class = "control-label" })
             @Html.TextBoxFor(m => m.BirthDate, new { @class = "form-control" })
-            
+
         </div>
 
         <div class="form-group">
@@ -51,7 +50,7 @@
             @if (Model.Avatar == null)
             {
                 @:None
-                        }
+            }
             else
             {
                 <img src="@Url.Action("GetUserAvatar", "Account", new { Model.UserId })" />

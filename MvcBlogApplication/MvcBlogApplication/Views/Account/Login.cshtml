@@ -4,45 +4,39 @@
     ViewBag.Title = "Log in";
 }
 
-<hgroup class="title">
-    <h1>@ViewBag.Title.</h1>
-</hgroup>
 
-<section id="loginForm">
 <h2>Use a local account to log in.</h2>
-@using (Html.BeginForm(new { ReturnUrl = ViewBag.ReturnUrl })) {
+@using (Html.BeginForm(new { ReturnUrl = ViewBag.ReturnUrl }))
+{
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
     
-    <fieldset>
+    <fieldset class="login-form">
         <legend>Log in Form</legend>
-        <table>
-            <tr>
-                <td>@Html.LabelFor(m => m.UserName)</td>
-                <td>
-                    @Html.TextBoxFor(m => m.UserName)
-                </td>
-                <td>@Html.ValidationMessageFor(m => m.UserName)</td>
-            </tr>
-            <tr>
-                <td>@Html.LabelFor(m => m.Password)</td>
-                <td>@Html.PasswordFor(m => m.Password)</td>
-                <td>@Html.ValidationMessageFor(m => m.Password)</td>
-            </tr>
-            <tr>
-                <td colspan="2">
-                    @Html.CheckBoxFor(m => m.RememberMe)
-                    @Html.LabelFor(m => m.RememberMe)
-                </td>
-            </tr>
-        </table>
-        <input type="submit" value="Log in" />
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.UserName, new { @class = "control-label" })
+            @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.UserName)
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.Password, new { @class = "control-label" })
+            @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.Password)
+        </div>
+
+        <div class="checkbox">
+            @Html.LabelFor(m => m.RememberMe)
+            @Html.CheckBoxFor(m => m.RememberMe)
+        </div>
+
+        <input type="submit" value="Log in" class="btn btn-primary" />
     </fieldset>
     <p>
-    @Html.ActionLink("Recover", "ForgotPassword") if you forgot your password.
+        @Html.ActionLink("Recover", "ForgotPassword") if you forgot your password.
     </p>
     <p>
         @Html.ActionLink("Register", "Register") if you don't have an account.
     </p>
 }
-</section>

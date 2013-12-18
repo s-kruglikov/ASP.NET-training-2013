@@ -13,7 +13,7 @@ namespace MvcBlog.Domain.Entities
         public int UserId { get; set; }
 
         [HiddenInput]
-        [Display(Name = "MVC Blog User Name")]
+        [Display(Name = "User Name")]
         public string UserName { get; set; }
 
 

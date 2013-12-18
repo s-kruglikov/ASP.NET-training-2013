@@ -1,4 +1,4 @@
-﻿#body {
+﻿.body-layout {
     font-family: "Segoe UI", Verdana, Helvetica, Sans-Serif;
     font-size: 10pt;
     margin: 0;
@@ -61,14 +61,11 @@ fieldset {
     border: none;
     margin: 0;
     padding: 0;
+    width: 500px;
 }
 
     fieldset legend {
         display: none;
-    }
-
-    fieldset table {
-        border-spacing: 5px;
     }
 
 /* header
@@ -298,26 +295,24 @@ fieldset {
 }
 
 .featured {
-    display:inline-block;   
-    position:relative;
+    display: inline-block;
+    position: relative;
 }
 
-.featured .featured-text {
-    display:block;
-    position:absolute;
-    left:0;
-    bottom:0;
-    width:100%;
-    box-sizing:border-box;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    box-sizing: border-box; 
-     
-    color:#fff;
-         
-    padding:10px;
-    background-color:rgba(0,0,0,.3);     
-}
+    .featured .featured-text {
+        display: block;
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+        color: #fff;
+        padding: 10px;
+        background-color: rgba(0,0,0,.3);
+    }
 
 #comment-author {
     float: left;
@@ -331,6 +326,10 @@ fieldset {
     padding: 5px;
 }
 
-.account-form {
-    width: 400px;
+/* Prevents slides from flashing */
+#slides {
+    display: none;
+    width: 940px;
+    height: 500px;
+    margin: 0 auto;
 }

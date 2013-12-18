@@ -1,35 +1,18 @@
-﻿<!DOCTYPE html>
+﻿@using System.Web.Optimization
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
-
-    <style>
-        /* Prevents slides from flashing */
-        #slides {
-            display: none;
-            width: 940px;
-            height: 500px;
-            margin: 0 auto;
-        }
-
-            
-    </style>
-
     <meta charset="utf-8" />
-    <title>@ViewBag.Title</title>
+    <title>MVC Blog: @ViewBag.Title</title>
     <meta name="viewport" content="width=device-width" />
 
-    <link href="~/Content/Site.css" type="text/css" rel="Stylesheet" />
-    <link href="~/Content/bootstrap.css" type="text/css" rel="Stylesheet" />
-    <link href="~/Content/bootstrap-theme.css" type="text/css" rel="Stylesheet" />
-    <link href="~/Content/bootstrap-datepicker.css" type="text/css" rel="stylesheet"/>
-    
-    <script src="@Url.Content("~/Scripts/jquery-2.0.3.min.js")" type="text/javascript"> </script>
-    <script src="@Url.Content("~/Scripts/bootstrap.js")" type="text/javascript"></script>
-    <script src="@Url.Content("~/Scripts/bootstrap-datepicker.js")" type="text/javascript"></script>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jquery.slides")
+    @Scripts.Render("~/bundles/bootstrap")
 
     <!--Initialize Slideshow-->
-    <script src="@Url.Content("~/Scripts/jquery.slides.min.js")" type="text/javascript"></script>
-
     <script>
         $(function () {
             $("#slides").slidesjs({
@@ -62,7 +45,7 @@
     </script>
 </head>
 
-<body id="body">
+<body class="body-layout">
     <div style="background-color: white">
         <div id="header">
             <div id="header-title">
