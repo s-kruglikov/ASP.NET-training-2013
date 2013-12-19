@@ -1,7 +1,7 @@
 ﻿@using MvcBlog.WebUI.Models
 @model MvcBlog.WebUI.Models.PostDetailedModel
 @{
-    ViewBag.Title = "MVC Blog: \"" + @Model.PostDetailed.PostTitle + "\"";
+    ViewBag.Title = "\"" + @Model.PostDetailed.PostTitle + "\"";
 }
 
 <!--Initialize TinyMCE wysiwyg redactor-->
@@ -16,8 +16,6 @@
     });
 
 </script>
-
-
 
 <div id="item">
     <h2>@Model.PostDetailed.PostTitle</h2>
@@ -40,19 +38,6 @@
 <div id="item">
     <h4>Comments:</h4>
 </div>
-
-@*@foreach (var c in Model.Comments)
-{
-    if (c.CommentIsVisible)
-    {
-    <div id="comment">
-        <div id="item">
-            <h3>@c.CommentCreationDate @c.CommentCreatedBy said:</h3>
-        </div>
-        <p class="multiline">@Html.Raw(@c.CommentContent)</p>
-    </div>
-    }
-}*@
 
 @foreach (var c in Model.CommentsList)
 {

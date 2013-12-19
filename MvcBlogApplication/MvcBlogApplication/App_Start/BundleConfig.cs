@@ -10,8 +10,8 @@ namespace MvcBlog.WebUI
             bundles.Add(new ScriptBundle("~/bundles/jquery")
                 .Include("~/Scripts/jquery-*"));
 
-            bundles.Add(new ScriptBundle("~/bundles/jquery.slides")
-                .Include("~/Scripts/jquery.slides*"));
+            bundles.Add(new ScriptBundle("~/bundles/jquerySlides")
+                .Include("~/Scripts/jquery.slides.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap")
                 .Include("~/Scripts/bootstrap*"));
