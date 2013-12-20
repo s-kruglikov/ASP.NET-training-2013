@@ -49,7 +49,7 @@
     <div style="background-color: white">
         <div id="header">
             <div id="header-title">
-                <a href="@Url.Action("List","Posts",routeValues: new {page = 1})">ASP.NET MVC Blog</a>
+                <a href="@Url.Action("List", "Posts", routeValues: new { page = 1 })">ASP.NET MVC Blog</a>
             </div>
             <div id="login">
                 @Html.Partial("~/Views/Shared/_LoginPartial.cshtml")
@@ -72,3 +72,5 @@
     </div>
 </body>
 </html>
+
+@RenderSection("scripts", required: false)

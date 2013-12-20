@@ -27,11 +27,11 @@ namespace MvcBlog.WebUI.Models
 
     public class LoginModel
     {
-        [Required]
+        [Required(ErrorMessage = "Please enter your user name")]
         [Display(Name = "User name")]
         public string UserName { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please enter your password")]
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
         public string Password { get; set; }
@@ -42,12 +42,12 @@ namespace MvcBlog.WebUI.Models
 
     public class RegisterModel
     {
-        [Required]
+        [Required(ErrorMessage = "Please enter your user name")]
         [Display(Name = "User name")]
         [StringLength(200)]
         public string UserName { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please enter your password")]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
@@ -61,7 +61,13 @@ namespace MvcBlog.WebUI.Models
         [Required(ErrorMessage = "Please enter your email address")]
         [RegularExpression(@".+\@.+\..+", ErrorMessage = "Please enter a valid email address")]
         [Display(Name = "Email")]
-
         public string Email { get; set; }
+    }
+
+    public class ForgotPasswordModel
+    {
+        [Required(ErrorMessage="Please enter your user name")]
+        [Display(Name="User Name")]
+        public string UserName { get; set; }
     }
 }

@@ -199,42 +199,47 @@ namespace MvcBlog.WebUI.Controllers
         //POST: /Account/ForgotPassword
 
         [HttpPost, AllowAnonymous, ValidateAntiForgeryToken]
-        public ActionResult ForgotPassword(string userName)
+        public ActionResult ForgotPassword(ForgotPasswordModel recoverUserName)
         {
-            // check if user exists
-            var user = Membership.GetUser(userName);
-            if (user == null)
+            if (ModelState.IsValid)
             {
-                TempData["Message"] = "User Not Exist.";
-            }
-            else
-            {
-                // generate reset password token
-                var token = WebSecurity.GeneratePasswordResetToken(userName);
-
-                // create url with reset token
-                var resetLink = "<a href='" + Url.Action("ResetPassword", "Account", new {username = userName, resettoken = token}, "http") + "'>Reset Password</a>";
-
-                // retrieve user's email
-                var email = Repository.UserProfiles.Where(x => x.UserName == userName).Select(x => x.Email).FirstOrDefault();
-
-                if (email == null) throw new ArgumentNullException("email");
+                // check if user exists
+                var user = Membership.GetUser(recoverUserName.UserName);
+                if (user == null)
+                {
+                    ModelState.AddModelError("", "User Not Exists");
+                }
                 else
                 {
-                    // Format email
-                    string subject = "Password Reset for MVC Blog";
-                    string body = "<b>Please find the Password Reset Token</b><br>" + resetLink;
-                    try
-                    {
-                        SendEMail(email, subject, body);
-                        TempData["Message"] = "Mail Sent.";
-                    }
-                    catch (Exception ex)
-                    {
-                        TempData["Message"] = "Error occured while sending email." + ex.Message;
-                    }
+                    string userName = recoverUserName.UserName;
 
-                    TempData["Message"] = "Password reset link has been sent to your email: " + email;
+                    // generate reset password token
+                    var token = WebSecurity.GeneratePasswordResetToken(userName);
+
+                    // create url with reset token
+                    var resetLink = "<a href='" + Url.Action("ResetPassword", "Account", new { username = userName, resettoken = token }, "http") + "'>Reset Password</a>";
+
+                    // retrieve user's email
+                    var email = Repository.UserProfiles.Where(x => x.UserName == userName).Select(x => x.Email).FirstOrDefault();
+
+                    if (email == null) throw new ArgumentNullException("email");
+                    else
+                    {
+                        // Format email
+                        string subject = "Password Reset for MVC Blog";
+                        string body = "<b>Please find the Password Reset Token</b><br>" + resetLink;
+                        try
+                        {
+                            SendEMail(email, subject, body);
+                            TempData["Message"] = "Mail Sent.";
+                        }
+                        catch (Exception ex)
+                        {
+                            TempData["Message"] = "Error occured while sending email." + ex.Message;
+                        }
+
+                        TempData["Message"] = "Password reset link has been sent to your email: " + email;
+                    }
                 }
             }
             return View();
@@ -376,7 +381,7 @@ namespace MvcBlog.WebUI.Controllers
             SmtpClient client = new SmtpClient();
                     
             MailMessage msg = new MailMessage();
-            msg.From = new MailAddress("stas.kruglikov@gmail.com");
+            msg.From = new MailAddress("MvcBlog_administration@gmail.com");
             msg.To.Add(new MailAddress(emailid));
 
             msg.Subject = subject;
