@@ -7,42 +7,9 @@
     <title>MVC Blog: @ViewBag.Title</title>
     <meta name="viewport" content="width=device-width" />
 
-    @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/sitecss")
     @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/jquerySlides")
     @Scripts.Render("~/bundles/bootstrap")
-
-    <!--Initialize Slideshow-->
-    <script>
-        $(function () {
-            $("#slides").slidesjs({
-                width: 940,
-                height: 422,
-                play: {
-                    active: true,
-                    auto: true,
-                    interval: 6000,
-                    swap: true,
-                    pauseOnHover: true,
-                    restartDelay: 2500
-                },
-                effect: {
-                    slide: {
-                        // Slide effect settings.
-                        speed: 600
-                        // [number] Speed in milliseconds of the slide animation.
-                    },
-                    fade: {
-                        speed: 300,
-                        // [number] Speed in milliseconds of the fade animation.
-                        crossfade: true
-                        // [boolean] Cross-fade the transition.
-                    }
-                }
-
-            });
-        });
-    </script>
 </head>
 
 <body class="body-layout">

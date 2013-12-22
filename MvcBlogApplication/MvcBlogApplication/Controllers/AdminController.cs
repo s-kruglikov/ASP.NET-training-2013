@@ -15,9 +15,11 @@ namespace MvcBlog.WebUI.Controllers
 {
     public class AdminController : BaseController
     {
+        #region Posts
         //
         // GET: /Admin/ManagePosts
 
+        [HttpGet]
         [Authorize(Roles = "Administrators")]
         public ActionResult ManagePosts()
         {
@@ -38,7 +40,7 @@ namespace MvcBlog.WebUI.Controllers
             if (post != null)
             {
 
-                ViewBag.Title = string.Format("MVC Blog: Edit post '{0}'", post.PostTitle);
+                ViewBag.Title = string.Format("Edit post '{0}'", post.PostTitle);
 
                 return View(post);
             }
@@ -102,7 +104,7 @@ namespace MvcBlog.WebUI.Controllers
         [Authorize(Roles = "Administrators")]
         public ViewResult CreatePost()
         {
-            ViewBag.Title = "MVC Blog: Add new post";
+            ViewBag.Title = "Add new post";
             ViewBag.CurrentEdit = "Posts";
             return View("EditPost", new Post());
         }
@@ -123,6 +125,9 @@ namespace MvcBlog.WebUI.Controllers
             return RedirectToAction("ManagePosts");
         }
 
+        #endregion
+
+        #region Comments
         //
         // GET: /Admin/ManageComments
         [Authorize(Roles = "Administrators")]
@@ -132,6 +137,8 @@ namespace MvcBlog.WebUI.Controllers
             return View(Repository.Comments.OrderByDescending(c => c.CommentID));
         }
 
+        //
+        // GET: /Admin/EditComment
         [HttpGet]
         [Authorize(Roles = "Administrators")]
         public ViewResult EditComment(int commentId)
@@ -143,7 +150,6 @@ namespace MvcBlog.WebUI.Controllers
 
         [HttpPost]
         [Authorize(Roles = "Administrators")]
-        [ValidateInput(false)]
         public ActionResult EditComment(Comment comment)
         {
             if (ModelState.IsValid)
@@ -153,7 +159,7 @@ namespace MvcBlog.WebUI.Controllers
 
                 Repository.SaveComment(comment);
 
-                TempData["message"] = string.Format("Comment {0} has been saved", comment.CommentID);
+                TempData["message"] = string.Format("Comment (id = {0}) has been saved", comment.CommentID);
                 return RedirectToAction("ManageComments");
             }
             else
@@ -167,8 +173,14 @@ namespace MvcBlog.WebUI.Controllers
         [Authorize(Roles = "Administrators")]
         public ActionResult DeleteComment(int commentId)
         {
+            Repository.DeleteComment(commentId);
+
+            TempData["message"] = string.Format("Comment (id = {0}) has been deleted.", commentId);
+
             return RedirectToAction("ManageComments");
         }
+
+        #endregion
 
         #region helpers
 

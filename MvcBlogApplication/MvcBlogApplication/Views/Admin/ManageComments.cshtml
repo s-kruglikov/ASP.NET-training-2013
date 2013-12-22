@@ -1,15 +1,16 @@
 ﻿@model IEnumerable<MvcBlog.Domain.Entities.Comment>
-
-@using System.Security.Policy
 @using GridMvc.Html
 @using GridMvc.Sorting
 
 @{
-    ViewBag.Title = "MVC Blog: Manage Comments";
+    ViewBag.Title = "Manage Comments";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<div class="posts-grid">
+<!--Initialize TinyMCE wysiwyg redactor (do not use bundle)-->
+<script src="~/Scripts/tinymce/tinymce.min.js"></script>
+
+<div class="data-grid">
     @Html.Grid(Model).Named("commentsGrid").Columns(columns =>
     {
         columns.Add()
@@ -30,8 +31,10 @@
             .SetWidth(50);
 
         columns.Add(col => col.CommentContent)
-            .SetWidth(550)
+            .SetWidth(800)
             .Titled("Comment content")
+            .Sanitized(false)
+            .Encoded(false)
             .Sortable(true)
             .Filterable(true);
 
@@ -43,7 +46,8 @@
         columns.Add(col => col.CommentCreationDate)
             .Titled("Creation Date")
             .Sortable(true)
-            .Filterable(true);
+            .Filterable(true)
+            .SetWidth(200);
 
         columns.Add(col => col.CommentLastModifiedBy)
             .Titled("Modified By")
@@ -53,7 +57,8 @@
         columns.Add(col => col.CommentLastModificationDate)
             .Titled("Modification Date")
             .Sortable(true)
-            .Filterable(true);
+            .Filterable(true)
+            .SetWidth(200);
 
         columns.Add()
             .RenderValueAs(col => Html.CheckBox("CommentIsVisible", col.CommentIsVisible, htmlAttributes: new { disabled = "disabled" }))

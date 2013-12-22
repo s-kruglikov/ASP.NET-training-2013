@@ -1,10 +1,11 @@
 ﻿@model IEnumerable<MvcBlog.Domain.Entities.Post>
-@using System.Security.Policy
 @using GridMvc.Html
 @using GridMvc.Sorting
 
+@Scripts.Render("~/bundles/gridmvc")
+
 @{
-    ViewBag.Title = "MVC Blog: Manage Posts";
+    ViewBag.Title = "Manage Posts";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
@@ -12,82 +13,80 @@
     @Html.ActionLink("Create New Post", "CreatePost")
 </p>
 
-
-<div class="posts-grid">
+<div class="data-grid">
     @Html.Grid(Model).Named("postsGrid").Columns(columns =>
-{
-    columns.Add()
-        .Encoded(false)
-        .Sanitized(false)
-        .SetWidth(30).RenderValueAs(col => @Html.ActionLink("Edit", "EditPost", new { col.PostID }));
+    {
+        columns.Add()
+            .Encoded(false)
+            .Sanitized(false)
+            .SetWidth(30).RenderValueAs(col => @Html.ActionLink("Edit", "EditPost", new { col.PostID }));
 
-    columns.Add(col => col.PostID)
-        .Titled("Post ID")
-        .Sortable(true)
-        .SortInitialDirection(GridSortDirection.Descending)
-        .SetWidth(50);
+        columns.Add(col => col.PostID)
+            .Titled("Post ID")
+            .Sortable(true)
+            .SortInitialDirection(GridSortDirection.Descending)
+            .SetWidth(50);
 
-    columns.Add(col => col.PostCategory)
-        .Titled("Category")
-        .Sortable(true)
-        .SetWidth(150)
-        .Filterable(true);
+        columns.Add(col => col.PostCategory)
+            .Titled("Category")
+            .Sortable(true)
+            .SetWidth(150)
+            .Filterable(true);
 
-    columns.Add(col => col.PostTitle)
-        //.RenderValueAs(col => Html.ActionLink(col.PostTitle, "EditPost", new { col.PostID }))
-        //.Encoded(false)
-        //.Sanitized(false)
-        .SetWidth(250)
-        .Titled("Post Title")
-        .Sortable(true)
-        .Filterable(true);
+        columns.Add(col => col.PostTitle)
+            //.RenderValueAs(col => Html.ActionLink(col.PostTitle, "EditPost", new { col.PostID }))
+            //.Encoded(false)
+            //.Sanitized(false)
+            .SetWidth(250)
+            .Titled("Post Title")
+            .Sortable(true)
+            .Filterable(true);
 
-    columns.Add(col => col.PostCreatedBy)
-        .Titled("Created By")
-        .Sortable(true)
-        .Filterable(true);
+        columns.Add(col => col.PostCreatedBy)
+            .Titled("Created By")
+            .Sortable(true)
+            .Filterable(true);
 
-    columns.Add(col => col.PostCreationDate)
-        .Titled("Creation Date")
-        .Sortable(true)
-        .Filterable(true);
+        columns.Add(col => col.PostCreationDate)
+            .Titled("Creation Date")
+            .Sortable(true)
+            .Filterable(true);
 
-    columns.Add(col => col.PostLastModifiedBy)
-        .Titled("Modified By")
-        .Sortable(true)
-        .Filterable(true);
+        columns.Add(col => col.PostLastModifiedBy)
+            .Titled("Modified By")
+            .Sortable(true)
+            .Filterable(true);
 
-    columns.Add(col => col.PostLastModificationDate)
-        .Titled("Modification Date")
-        .Sortable(true)
-        .Filterable(true);
+        columns.Add(col => col.PostLastModificationDate)
+            .Titled("Modification Date")
+            .Sortable(true)
+            .Filterable(true);
 
-    columns.Add()
-        .RenderValueAs(col => Html.CheckBox("PostIsVisible", col.PostIsVisible, htmlAttributes: new { disabled = "disabled" }))
-        .Encoded(false)
-        .Sanitized(false)
-        .Titled("Visible?")
-        .Sortable(true);
+        columns.Add()
+            .RenderValueAs(col => Html.CheckBox("PostIsVisible", col.PostIsVisible, htmlAttributes: new { disabled = "disabled" }))
+            .Encoded(false)
+            .Sanitized(false)
+            .Titled("Visible?")
+            .Sortable(true);
 
-    columns.Add()
-        .RenderValueAs(col => Html.CheckBox("PostCommentsEnabled", col.PostCommentsEnabled, htmlAttributes: new { disabled = "disabled" }))
-        .Encoded(false)
-        .Sanitized(false)
-        .Titled("Comments?")
-        .Sortable(true);
+        columns.Add()
+            .RenderValueAs(col => Html.CheckBox("PostCommentsEnabled", col.PostCommentsEnabled, htmlAttributes: new { disabled = "disabled" }))
+            .Encoded(false)
+            .Sanitized(false)
+            .Titled("Comments?")
+            .Sortable(true);
 
-    columns.Add()
-        .RenderValueAs(col => Html.CheckBox("PostFeatured", col.PostFeatured, htmlAttributes: new { disabled = "disabled" }))
-        .Encoded(false)
-        .Sanitized(false)
-        .Titled("Featured?")
-        .Sortable(true);
+        columns.Add()
+            .RenderValueAs(col => Html.CheckBox("PostFeatured", col.PostFeatured, htmlAttributes: new { disabled = "disabled" }))
+            .Encoded(false)
+            .Sanitized(false)
+            .Titled("Featured?")
+            .Sortable(true);
 
-    columns.Add()
-        .Encoded(false)
-        .Sanitized(false)
-        .SetWidth(30).RenderValueAs(col => @Html.ActionLink("Delete", "DeletePost", new { postId = col.PostID }));
+        columns.Add()
+            .Encoded(false)
+            .Sanitized(false)
+            .SetWidth(30).RenderValueAs(col => @Html.ActionLink("Delete", "DeletePost", new { postId = col.PostID }));
 
-}).WithPaging(20)
-
+    }).WithPaging(20)
 </div>

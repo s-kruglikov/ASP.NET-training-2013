@@ -1,22 +1,14 @@
 ﻿<!DOCTYPE html>
-
 <html>
 <head>
     <meta name="viewport" />
 
-    <link href="~/Content/Admin.css" type="text/css" rel="stylesheet" />
-    <link href="~/Content/Gridmvc.css" type="text/css" rel="stylesheet" />
-    <link href="~/Content/bootstrap.min.css" type="text/css" rel="stylesheet" />
-    <link href="~/Content/bootstrap-theme.min.css" type="text/css" rel="Stylesheet" />
+    @Styles.Render("~/Content/admincss")
 
-    <script src="@Url.Content("~/Scripts/jquery-2.0.3.min.js")" type="text/javascript"> </script>
-    <script src="@Url.Content("~/Scripts/gridmvc.min.js")" type="text/javascript"> </script>
-    <script src="@Url.Content("~/Scripts/bootstrap.min.js")" type="text/javascript"></script>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
 
-    <!--Initialize TinyMCE wysiwyg redactor-->
-    <script src="~/Scripts/tinymce/tinymce.min.js"></script>
-
-    <title>@ViewBag.Title</title>
+    <title>MVC Blog: @ViewBag.Title</title>
 
 </head>
 <body>
@@ -27,18 +19,16 @@
         @Html.ActionLink("Manage comments", "ManageComments", "Admin", new { @class = @ViewBag.CurrentEdit == "Comments" ? "selected-comments" : null })
     </div>
 
-
-
     @if (TempData["message"] != null)
-    {     
-        <span id="info-message" class="alert">
+    {
+        <div id="info-message" class="alert">
             <button type="button" class="close" data-dismiss="alert">&times;</button>
             @TempData["message"]
-        </span>
+        </div>
     }
 
     @RenderBody()
-
 </body>
-
 </html>
+
+@RenderSection("scripts", required: false)

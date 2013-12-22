@@ -1,5 +1,4 @@
-﻿using System.Web;
-using System.Web.Optimization;
+﻿using System.Web.Optimization;
 
 namespace MvcBlog.WebUI
 {
@@ -20,12 +19,18 @@ namespace MvcBlog.WebUI
                 .Include("~/Scripts/bootstrap*"));
 
             bundles.Add(new ScriptBundle("~/bundles/gridmvc")
-                .Include("~/Scripts/gridmvc*"));
+                .Include("~/Scripts/gridmvc.js"));
 
-            bundles.Add(new StyleBundle("~/Content/css")
+            bundles.Add(new StyleBundle("~/Content/sitecss")
                 .Include("~/Content/bootstrap.css")
                 .Include("~/Content/bootstrap-theme.css")
                 .Include("~/Content/Site.css"));
+
+            bundles.Add(new StyleBundle("~/Content/admincss")
+                .Include("~/Content/bootstrap.css")
+                .Include("~/Content/bootstrap-theme.css")
+                .Include("~/Content/Gridmvc.css")
+                .Include("~/Content/Admin.css"));
         }
     }
 }

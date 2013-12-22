@@ -4,60 +4,77 @@
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
+<!--Initialize TinyMCE wysiwyg redactor (do not use bundle)-->
+<script src="~/Scripts/tinymce/tinymce.min.js"></script>
 <script type="text/javascript">
     tinymce.init({
         selector: "textarea",
-
         toolbar: "undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image"
     });
 
 </script>
 
-
 @using (Html.BeginForm("EditPost", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
-    <div class="admin-container">
+    <div class="editor-container">
 
         @if (@Model.PostID != 0)
         {   //show if we are editing post
-            <div class="editor-label">Post ID</div>
-            <div class="text-box">@Html.EditorFor(p => p.PostID)</div>
+            @Html.LabelFor(p => p.PostID, new { @class = "control-label" })
+            <div class="text-disabled">
+                @Html.EditorFor(p => p.PostID)
+            </div>
 
-            <div class="editor-label">Post Created By</div>
-            <div class="text-box">@Html.EditorFor(p => p.PostCreatedBy)</div>
+            @Html.LabelFor(p => p.PostCreatedBy, new { @class = "control-label" })
+            <div class="text-disabled">
+                @Html.EditorFor(p => p.PostCreatedBy)
+            </div>
 
-            <div class="editor-label">Post Creation Date</div>
-            <div class="text-box">@Html.EditorFor(p => p.PostCreationDate)</div>
+            @Html.LabelFor(p => p.PostCreationDate, new { @class = "control-label" })
+            <div class="text-disabled">
+                @Html.EditorFor(p => p.PostCreationDate)
+            </div>
 
-            <div class="editor-label">Post Last Modified By</div>
-            <div class="text-box">@Html.EditorFor(p => p.PostLastModifiedBy)</div>
+            @Html.LabelFor(p => p.PostLastModifiedBy, new { @class = "control-label" })
+            <div class="text-disabled">
+                @Html.EditorFor(p => p.PostLastModifiedBy)
+            </div>
 
-            <div class="editor-label">Post Last Modification Date</div>
-            <div class="text-box">@Html.EditorFor(p => p.PostLastModificationDate)</div>
+            @Html.LabelFor(p => p.PostLastModificationDate, new { @class = "control-label" })
+            <div class="text-disabled">
+                @Html.EditorFor(p => p.PostLastModificationDate)
+            </div>
         }
 
-        <div class="editor-label">Post Title</div>
-        <div class="text-box">@Html.TextBoxFor(p => p.PostTitle, htmlAttributes: new { @class = "single-line form-control" })</div>
+        @Html.LabelFor(p => p.PostTitle, new { @class = "control-label" })
+        @Html.TextBoxFor(p => p.PostTitle, new { @class = "form-control" })
 
-        <div class="editor-label">Post Description</div>
-        <div>@Html.TextAreaFor(p => p.PostDescription, htmlAttributes: new { @class = "form-control", @rows = "3" })</div>
+        @Html.LabelFor(p => p.PostDescription, new { @class = "control-label" })
+        @Html.TextAreaFor(p => p.PostDescription, new { @class = "form-control", @rows = "5" })
 
-        <div class="editor-label">Post Content</div>
-        <div>@Html.TextAreaFor(p => p.PostContent, htmlAttributes: new { @class = "form-control", @rows = "10" })</div>
+        @Html.LabelFor(p => p.PostContent, new { @class = "control-label" })
+        @Html.TextAreaFor(p => p.PostContent, new { @class = "form-control", @rows = "15" })
 
-        <div class="editor-label">Post Category</div>
-        <div class="text-box">@Html.TextBoxFor(p => p.PostCategory, htmlAttributes: new { @class = "single-line form-control" })</div>
+        @Html.LabelFor(p => p.PostCategory, new { @class = "control-label" })
+        @Html.TextBoxFor(p => p.PostCategory, new { @class = "form-control" })
 
-        <div class="editor-label">Post Visible?</div>
-        <div>@Html.CheckBoxFor(p => p.PostIsVisible, htmlAttributes: new { @checked = "checked" })</div>
+        <div class="checkbox">
+            @Html.LabelFor(p => p.PostIsVisible)
+            @Html.CheckBoxFor(p => p.PostIsVisible)
+        </div>
 
-        <div class="editor-label">Comments enabled for the post?</div>
-        <div>@Html.CheckBoxFor(p => p.PostCommentsEnabled, htmlAttributes: new { @checked = "checked" })</div>
-        
-        <div class="editor-label">Post featured?</div>
-        <div>@Html.CheckBoxFor(p => p.PostFeatured)</div>
+        <div class="checkbox">
+            @Html.LabelFor(p => p.PostCommentsEnabled)
+            @Html.CheckBoxFor(p => p.PostCommentsEnabled)
+        </div>
 
-        <div class="editor-label">Image</div>
+        <div class="checkbox">
+            @Html.LabelFor(p => p.PostFeatured)
+            @Html.CheckBoxFor(p => p.PostFeatured)
+        </div>
+
+        <!--Post images-->
+        <label class="control-label">Post Images</label>
         <div>
             @if (Model.ImageName == null)
             {
@@ -65,32 +82,29 @@
             }
             else
             {
-                <div style="display: block; width: 100%">Thumbnail image:</div>
-                <div style="float: left; margin-right: 20px; display: block; width: 100%">
-                    <p>
-                        <img src="@Url.Action("GetPostThumbnail", "Posts", new { Model.PostID }) " />
-                    </p>
+                <div class="control-label">Thumbnail image:</div>
+                <div class="thumb-layout">
+                    <img src="@Url.Action("GetPostThumbnail", "Posts", new { Model.PostID })" />
                 </div>
 
-                <div style="display: block; width: 100%">Featured image:</div>
-                <div style="float: left; margin-right: 20px; display: block; width: 100%">
-                    <p>
-                        <img src="@Url.Action("GetPostFeatured", "Posts", new { Model.PostID })" />
-                    </p>
+                <div class="control-label">Featured image:</div>
+                <div class="feat-layout">
+                    <img src="@Url.Action("GetPostFeatured", "Posts", new { Model.PostID })" width="798" />
                 </div>
             }
-            <p>
+
+            <div class="image-upload">
                 Upload new image:
                 <input type="file" name="postImage" />
-            </p>
+            </div>
         </div>
-        
+
         @Html.HiddenFor(p => p.ImageExtension)
         @Html.HiddenFor(p => p.ImageMimeType)
         @Html.HiddenFor(p => p.ImageName)
 
         <p class="pull-right">
-            @Html.ActionLink("Cancel", "ManagePosts", "Admin", routeValues: null, htmlAttributes: new { @class = "btn btn-warning" })
+            @Html.ActionLink("Cancel and return to list", "ManagePosts", "Admin", routeValues: null, htmlAttributes: new { @class = "btn btn-warning" })
         </p>
 
         <p>

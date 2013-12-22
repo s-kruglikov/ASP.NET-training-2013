@@ -5,49 +5,72 @@
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h2>Edit Comment</h2>
+<!--Initialize TinyMCE wysiwyg redactor (do not use bundle)-->
+<script src="~/Scripts/tinymce/tinymce.min.js"></script>
+
+<script>
+    tinymce.init({
+        selector: "textarea",
+        menubar: false,
+        statusbar: true,
+        resize: true,
+        toolbar: "undo redo | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent"
+    });
+
+</script>
 
 @using (Html.BeginForm("EditComment", "Admin"))
 {
-    <table>
-        <tr>
-            <td>Comment ID</td>
-            <td>@Html.EditorFor(c => c.CommentID)</td>
-        </tr>
-        <tr>
-            <td>Post ID</td>
-            <td>@Html.EditorFor(c => c.PostID)</td>
-        </tr>
-        <tr>
-            <td>Created by</td>
-            <td>@Html.EditorFor(c => c.CommentCreatedBy)</td>
-        </tr>
-        <tr>
-            <td>Creation date</td>
-            <td>@Html.EditorFor(c => c.CommentCreationDate)</td>
-        </tr>
-        <tr>
-            <td>Last modified by</td>
-            <td>@Html.EditorFor(c => c.CommentLastModifiedBy)</td>
-        </tr>
-        <tr>
-            <td>Last modification date</td>
-            <td>@Html.EditorFor(c => c.CommentLastModificationDate)</td>
-        </tr>
-        <tr>
-            <td>Visible?</td>
-            <td>@Html.CheckBoxFor( c => c.CommentIsVisible)</td>
-        </tr>
-        <tr>
-            <td>Comment content</td>
-            <td>@Html.TextAreaFor( c => c.CommentContent)</td>
-        </tr>
-    </table>
-    
-@*
-    @Html.EditorForModel();
-*@
-    
-    <input type="submit" value="Save" />
-    @Html.ActionLink("Cancel and return to list", "ManageComments")
+    <div class="editor-container">
+        <h2>Edit Comment</h2>
+
+        <fieldset>
+            
+            @Html.LabelFor(c => c.CommentID, new { @class = "control-label" })
+            <div class="text-disabled">
+                @Html.EditorFor(c => c.CommentID, new { @class = "text-disabled" })
+            </div>
+            
+            @Html.LabelFor(c => c.PostID, new { @class = "control-label" })
+            <div class="text-disabled">
+                @Html.EditorFor(c => c.PostID)
+            </div>
+
+            @Html.LabelFor(c => c.CommentCreatedBy, new { @class = "control-label" })
+            <div class="text-disabled">
+                @Html.EditorFor(c => c.CommentCreatedBy, new { @class = "form-control disabled" })
+            </div>
+
+            @Html.LabelFor(c => c.CommentCreationDate, new { @class = "control-label" })
+            <div class="text-disabled">
+                @Html.EditorFor(c => c.CommentCreationDate, new { @class = "form-control disabled" })
+            </div>
+            
+            @Html.LabelFor(c => c.CommentLastModifiedBy, new { @class = "control-label" })
+            <div class="text-disabled">
+                @Html.EditorFor(c => c.CommentLastModifiedBy, new { @class = "form-control disabled" })
+            </div>
+
+            @Html.LabelFor(c => c.CommentLastModificationDate, new { @class = "control-label" })
+            <div class="text-disabled">
+                @Html.EditorFor(c => c.CommentLastModificationDate, new { @class = "form-control disabled" })
+            </div>
+
+            @Html.LabelFor(c => c.CommentContent, new { @class = "control-label" })
+            @Html.TextAreaFor(c => c.CommentContent, new { @class = "form-control" })
+
+            <div class="checkbox">
+                @Html.LabelFor(c => c.CommentIsVisible)
+                @Html.CheckBoxFor(c => c.CommentIsVisible)
+            </div>
+
+        </fieldset>
+
+        <p class="pull-right">
+            @Html.ActionLink("Cancel and return to list", "ManageComments", null, new { @class = "btn btn-warning" })
+        </p>
+        <p>
+            <input type="submit" value="Save" class="btn btn-success" />
+        </p>
+    </div>
 }

@@ -1,6 +1,40 @@
 ﻿@using MvcBlog.Domain.Entities
 @model IEnumerable<MvcBlog.Domain.Entities.Post>
 
+@Scripts.Render("~/bundles/jquerySlides")
+
+<!--Initialize Slideshow-->
+<script>
+    $(function () {
+        $("#slides").slidesjs({
+            width: 940,
+            height: 422,
+            play: {
+                active: true,
+                auto: true,
+                interval: 6000,
+                swap: true,
+                pauseOnHover: true,
+                restartDelay: 2500
+            },
+            effect: {
+                slide: {
+                    // Slide effect settings.
+                    speed: 600
+                    // [number] Speed in milliseconds of the slide animation.
+                },
+                fade: {
+                    speed: 300,
+                    // [number] Speed in milliseconds of the fade animation.
+                    crossfade: true
+                    // [boolean] Cross-fade the transition.
+                }
+            }
+
+        });
+    });
+</script>
+
 <!--Featured slides-->
 <div id="slides">
 

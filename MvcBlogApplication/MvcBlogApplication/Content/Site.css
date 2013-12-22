@@ -181,7 +181,8 @@ fieldset {
     float: left;
     width: 310px; /* Ширина колонки */
     padding: 5px; /* Поля вокруг текста */
-    margin: 0px 5px 20px 5px; /* Значения отступов */
+    margin: 0px 20px 20px 5px; /* Значения отступов */
+    box-shadow: 0 0 5px rgba(0,0,0,0.5);
 }
 
 /* detailed link
