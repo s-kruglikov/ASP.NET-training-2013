@@ -8,17 +8,17 @@
     </p>
 
     @if (Model.ImageName != null)
-{
+    {
 
-    <div class="summary-image">
-        <img width="300"
+        <div class="summary-image">
+            <img width="300"
              height="200"
              src="@Url.Action("GetPostThumbnail", "Posts", new { Model.PostID })"
              alt="Image for post '@Model.PostTitle'"
              title="@Model.PostTitle" />
-    </div>
-}
-    
+        </div>
+    }
+
     <div class="summary-text">
         @Html.Raw(@Model.PostDescription)
     </div>

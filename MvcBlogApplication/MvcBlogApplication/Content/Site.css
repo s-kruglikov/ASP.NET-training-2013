@@ -153,11 +153,11 @@ fieldset {
         font-weight: 700;
     }
 
-#item H2 {
+.item H2 {
     font-family: "Segoe UI", Verdana, Helvetica, Sans-Serif;
 }
 
-#item H3 {
+.item H3 {
     font-size: 1.0em;
     padding-top: 10px;
     font-family: "Segoe UI", Verdana, Helvetica, Sans-Serif;
@@ -165,7 +165,7 @@ fieldset {
     margin-bottom: 10px;
 }
 
-#item H4 {
+.item H4 {
     font-size: 1.1em;
     padding-top: 5px;
     font-family: "Segoe UI", Verdana, Helvetica, Sans-Serif;
@@ -249,15 +249,27 @@ fieldset {
 
 /* comment
     */
-#comment {
+.comment {
     background-color: lemonchiffon;
     padding-left: 10px;
+    margin: 0 0 10px 0;
+    /*border: 1px solid blue;*/
 }
 
-.comment-area {
-    height: 180px;
-    width: 500px;
-    /*white-space: pre-line;*/
+.comments-list {
+    /*border: 2px solid red;*/
+    margin: 0 auto;
+}
+
+.comment-avatar {
+    width: 80px;
+    /*border: 2px solid red;*/
+    float: left;
+}
+
+.comment-text {
+    display: block;
+    margin-left: 120px;
 }
 
 .submit-comment {

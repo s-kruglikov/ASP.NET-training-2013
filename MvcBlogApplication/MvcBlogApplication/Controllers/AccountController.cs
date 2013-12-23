@@ -292,17 +292,27 @@ namespace MvcBlog.WebUI.Controllers
         }
 
 
-        public FilePathResult GetUserAvatar(int userId)
+        // get user avatar
+        [AllowAnonymous]
+        public FilePathResult GetUserAvatar(string userName)
         {
-            UserProfile userInfo = Repository.UserProfiles.FirstOrDefault(user => user.UserId == userId);
-            if (userInfo != null)
+            UserProfile user = Repository.UserProfiles.FirstOrDefault(u => u.UserName == userName);
+
+            if (user != null)
             {
-                return File(Path.Combine(Server.MapPath(Url.Content("~/Content/")), ConfigService.AvatarImagePath, userInfo.Avatar), userInfo.AvatarMimeType);
+                if (user.Avatar != null)
+                {
+                    string filePath = Path.Combine(Server.MapPath(Url.Content("~/Content/")), ConfigService.AvatarImagePath, user.Avatar);
+
+                    //check if image exists on disk
+                    if (System.IO.File.Exists(filePath))
+                    {
+                        return File(filePath, user.AvatarMimeType);
+                    }
+                }
             }
-            else
-            {
-                return null;
-            }
+
+            return File(Path.Combine(Server.MapPath(Url.Content("~/Content/")), ConfigService.AvatarImagePath, "noavatar.png"), "image/png");
         }
 
         #region Helpers
@@ -379,7 +389,7 @@ namespace MvcBlog.WebUI.Controllers
         private void SendEMail(string emailid, string subject, string body)
         {
             SmtpClient client = new SmtpClient();
-                    
+
             MailMessage msg = new MailMessage();
             msg.From = new MailAddress("MvcBlog_administration@gmail.com");
             msg.To.Add(new MailAddress(emailid));

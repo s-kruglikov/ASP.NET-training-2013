@@ -178,6 +178,7 @@
     <Content Include="Content\Theme\Background.png" />
     <Content Include="Content\Theme\HeaderBackground.png" />
     <Content Include="Content\Theme\NewPostLink.png" />
+    <Content Include="Content\UsersAvatars\noavatar.png" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\bootstrap.js" />
@@ -381,7 +382,6 @@
     <Folder Include="App_Data\" />
     <Folder Include="Content\FeaturedImages\" />
     <Folder Include="Content\PostsThumbs\" />
-    <Folder Include="Content\UsersAvatars\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
