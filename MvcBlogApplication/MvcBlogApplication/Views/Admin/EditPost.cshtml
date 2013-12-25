@@ -17,7 +17,7 @@
 @using (Html.BeginForm("EditPost", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     <div class="editor-container">
-
+        
         @if (@Model.PostID != 0)
         {   //show if we are editing post
             @Html.LabelFor(p => p.PostID, new { @class = "control-label" })

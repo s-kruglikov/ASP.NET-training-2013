@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Web.Mvc;
@@ -29,6 +30,8 @@ namespace MvcBlog.Domain.Entities
         public string LastName { get; set; }
 
         [DataType(DataType.Date)]
+        [DisplayFormat(NullDisplayText = "", DataFormatString = "{0:dd-MMMM-yyyy}")]
+        [Localizable(false)]
         [Display(Name = "Birth Date")]
         public DateTime? BirthDate { get; set; }
 

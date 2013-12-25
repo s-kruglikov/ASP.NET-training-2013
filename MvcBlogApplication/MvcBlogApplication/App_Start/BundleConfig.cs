@@ -9,6 +9,9 @@ namespace MvcBlog.WebUI
             bundles.Add(new ScriptBundle("~/bundles/jquery")
                 .Include("~/Scripts/jquery-*"));
 
+            bundles.Add(new ScriptBundle("~/bundles/jqueryDatepicker")
+                .Include("~/Scripts/jquery.ui.1.10.3.datepicker.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/jqueryval")
                 .Include("~/Scripts/jquery.validate*"));
 
@@ -31,6 +34,9 @@ namespace MvcBlog.WebUI
                 .Include("~/Content/bootstrap-theme.css")
                 .Include("~/Content/Gridmvc.css")
                 .Include("~/Content/Admin.css"));
+
+            bundles.Add(new StyleBundle("~/Content/datepickercss")
+                .Include("~/Content/datepicker/jquery-ui*"));
         }
     }
 }

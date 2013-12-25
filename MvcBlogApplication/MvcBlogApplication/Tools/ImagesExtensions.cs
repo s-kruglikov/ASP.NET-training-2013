@@ -8,8 +8,42 @@ using System.Web;
 
 namespace MvcBlog.WebUI.Tools
 {
+    /// <summary>
+    /// Class for make preview images
+    /// </summary>
     public static class ImagesExtensions
     {
+
+
+
+        public static Image ResizeMinimalSqueeze(this Image img, Size maxSize)
+        {
+            int cropWidth = img.Width, cropHeight = img.Height; //width and height of cropped image
+
+            int xCrop = 0, yCrop = 0; // initial coordinates of crop rectangle (X, Y)
+            double widthRatio = 0; //ratio between width of original and cropped image (Ww)
+            double heightRatio = 0; //ratio between height of original and cropped image (Hh)
+
+            widthRatio = (double)img.Width / maxSize.Width;
+            heightRatio = (double)img.Height / maxSize.Height;
+
+            if (widthRatio > heightRatio)
+            {
+                cropWidth = (int)(maxSize.Width * heightRatio);
+                xCrop = (img.Width - cropWidth) / 2;
+            }
+            else
+            {
+                cropHeight = (int)(maxSize.Height * widthRatio);
+                yCrop = (img.Height - cropHeight) / 2;
+            }
+
+            var bmpImage = new Bitmap(img);
+            var bmpCrop = bmpImage.Clone(new Rectangle(xCrop, yCrop, cropWidth, cropHeight), bmpImage.PixelFormat);
+
+            return new Bitmap(bmpCrop, maxSize);
+        }
+
         public static Image ResizeProportional(this Image image, Size maxSize)
         {
             Size imageResize = new Size();
@@ -57,34 +91,12 @@ namespace MvcBlog.WebUI.Tools
         {
             if (image != null)
             {
-                ImageFormat format = ImageFormat.Bmp;
-                string strExtension = Path.GetExtension(savePath);
-
-                switch (strExtension.ToLower())
-                {
-                    case ".gif":
-                        format = ImageFormat.Gif;
-                        break;
-
-                    case ".jpg":
-                        format = ImageFormat.Jpeg;
-                        break;
-
-                    case ".jpeg":
-                        format = ImageFormat.Jpeg;
-                        break;
-
-                    case ".png":
-                        format = ImageFormat.Png;
-                        break;
-                }
-
                 if (File.Exists(savePath))
                 {
                     File.Delete(savePath);
                 }
 
-                image.Save(savePath, format);
+                image.Save(savePath);
             }
         }
 
@@ -95,18 +107,24 @@ namespace MvcBlog.WebUI.Tools
             return bmpCrop;
         }
 
-        public static bool AllowedFormat(HttpPostedFileBase file, string allowedFormats, int maxSize)
+        public static bool SupportedFormat(HttpPostedFileBase file, string allowedFormats)
+        {
+            foreach (var format in allowedFormats.Split(';'))
+            {
+                if (file.ContentType == format)
+                {
+                    return true;
+                }
+
+            }
+            return false;
+        }
+
+        public static bool CheckSize(HttpPostedFileBase file, int maxSize)
         {
             if (file.ContentLength <= maxSize * 1024)
             {
-
-                foreach (var format in allowedFormats.Split(';'))
-                {
-                    if (file.ContentType == format)
-                    {
-                        return true;
-                    }
-                }
+                return true;
             }
             return false;
         }

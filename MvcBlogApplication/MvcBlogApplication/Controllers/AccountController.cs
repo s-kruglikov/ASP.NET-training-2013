@@ -6,7 +6,6 @@ using System.Net.Mail;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
-using MvcBlog.Domain;
 using MvcBlog.Domain.Entities;
 using MvcBlog.WebUI.Tools;
 using WebMatrix.WebData;
@@ -37,7 +36,7 @@ namespace MvcBlog.WebUI.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Login(LoginModel model, string returnUrl)
         {
-            if (ModelState.IsValid && WebSecurity.Login(model.UserName, model.Password, persistCookie: model.RememberMe))
+            if (ModelState.IsValid && WebSecurity.Login(model.UserName, model.Password, model.RememberMe))
             {
                 return RedirectToLocal(returnUrl);
             }
@@ -81,7 +80,7 @@ namespace MvcBlog.WebUI.Controllers
                 // Attempt to register the user
                 try
                 {
-                    WebSecurity.CreateUserAndAccount(model.UserName, model.Password, new { Email = model.Email });
+                    WebSecurity.CreateUserAndAccount(model.UserName, model.Password, new { model.Email });
                     WebSecurity.Login(model.UserName, model.Password);
 
                     return RedirectToAction("UpdateUserInfo");
@@ -97,6 +96,7 @@ namespace MvcBlog.WebUI.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public ViewResult UpdateUserInfo()
         {
             UserProfile currentUserInfo = Repository.UserProfiles.FirstOrDefault(u => u.UserName == User.Identity.Name);
@@ -105,12 +105,23 @@ namespace MvcBlog.WebUI.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public ActionResult UpdateUserInfo(UserProfile model, HttpPostedFileBase avatarImage)
         {
             if (ModelState.IsValid)
             {
-                if (avatarImage != null && ImagesExtensions.AllowedFormat(avatarImage, ConfigService.AllowedImageTypes, ConfigService.MaxImageSize))
+                if (avatarImage != null
+                    && ImagesExtensions.SupportedFormat(avatarImage, ConfigService.AllowedImageTypes)
+                    && ImagesExtensions.CheckSize(avatarImage, ConfigService.MaxImageSize))
                 {
+                    string prevAvatar = string.Empty;
+
+                    if (!string.IsNullOrEmpty(model.Avatar))
+                    {
+                        //will be used to delete previous avatar file
+                        prevAvatar = model.Avatar;
+                    }
+
                     string imageExtension = Path.GetExtension(avatarImage.FileName);
                     string imageName = string.Format("{0}_{1}{2}", model.UserId, DateTime.Now.Ticks, imageExtension);
                     string imageAvatarSavePath = Path.Combine(Server.MapPath(Url.Content("~/Content/")), ConfigService.AvatarImagePath, imageName);
@@ -119,19 +130,25 @@ namespace MvcBlog.WebUI.Controllers
                     model.AvatarMimeType = avatarImage.ContentType;
                     model.Avatar = imageName;
 
+                    //resize and save image into folder
                     Image.FromStream(avatarImage.InputStream)
-                        .ResizeProportional(new Size(ConfigService.AvatarImageWidth, ConfigService.AvatarImageHeight))
+                        .ResizeMinimalSqueeze(new Size(ConfigService.AvatarImageWidth, ConfigService.AvatarImageHeight))
                         .SaveToFolder(imageAvatarSavePath);
+
+                    // delete previous avatar picture if exists
+                    if (!string.IsNullOrEmpty(prevAvatar) && System.IO.File.Exists(imageAvatarSavePath))
+                    {
+                        System.IO.File.Delete(Path.Combine(Server.MapPath(Url.Content("~/Content/")), ConfigService.AvatarImagePath, prevAvatar));
+                    }
                 }
 
+                //save updated data into DB
                 Repository.SaveUser(model);
 
                 return RedirectToAction("List", "Posts", 1);
             }
-            else
-            {
-                return View(model);
-            }
+
+            return View(model);
         }
 
 
@@ -176,10 +193,8 @@ namespace MvcBlog.WebUI.Controllers
                 {
                     return RedirectToAction("ChangePassword", new { Message = ManageMessageId.ChangePasswordSuccess });
                 }
-                else
-                {
-                    ModelState.AddModelError("", "The current password is incorrect or the new password is invalid.");
-                }
+
+                ModelState.AddModelError("", "The current password is incorrect or the new password is invalid.");
             }
 
             // If we got this far, something failed, redisplay form
@@ -198,7 +213,9 @@ namespace MvcBlog.WebUI.Controllers
         //
         //POST: /Account/ForgotPassword
 
-        [HttpPost, AllowAnonymous, ValidateAntiForgeryToken]
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
         public ActionResult ForgotPassword(ForgotPasswordModel recoverUserName)
         {
             if (ModelState.IsValid)
@@ -222,24 +239,22 @@ namespace MvcBlog.WebUI.Controllers
                     // retrieve user's email
                     var email = Repository.UserProfiles.Where(x => x.UserName == userName).Select(x => x.Email).FirstOrDefault();
 
-                    if (email == null) throw new ArgumentNullException("email");
-                    else
+                    if (email == null) throw new ArgumentNullException("recoverUserName");
+                    
+                    // Format email
+                    string subject = "Password Reset for MVC Blog";
+                    string body = "<b>Please find the Password Reset Token</b><br>" + resetLink;
+                    try
                     {
-                        // Format email
-                        string subject = "Password Reset for MVC Blog";
-                        string body = "<b>Please find the Password Reset Token</b><br>" + resetLink;
-                        try
-                        {
-                            SendEMail(email, subject, body);
-                            TempData["Message"] = "Mail Sent.";
-                        }
-                        catch (Exception ex)
-                        {
-                            TempData["Message"] = "Error occured while sending email." + ex.Message;
-                        }
-
-                        TempData["Message"] = "Password reset link has been sent to your email: " + email;
+                        SendEMail(email, subject, body);
+                        TempData["Message"] = "Mail Sent.";
                     }
+                    catch (Exception ex)
+                    {
+                        TempData["Message"] = "Error occured while sending email." + ex.Message;
+                    }
+
+                    TempData["Message"] = "Password reset link has been sent to your email: " + email;
                 }
             }
             return View();
@@ -275,7 +290,7 @@ namespace MvcBlog.WebUI.Controllers
             }
 
             // send email with new password
-            string subject = "New password for MVC blog";
+            string subject = "New password for MVC Blog";
             string body = string.Format("Dear {0},<br/>Please find new password for MVC blog account: <b>{1}</b><br/>", userProfile.UserName, newpassword);
             try
             {
@@ -322,10 +337,8 @@ namespace MvcBlog.WebUI.Controllers
             {
                 return Redirect(returnUrl);
             }
-            else
-            {
-                return RedirectToAction("List", "Posts");
-            }
+            
+            return RedirectToAction("List", "Posts");
         }
 
         public enum ManageMessageId
@@ -374,11 +387,11 @@ namespace MvcBlog.WebUI.Controllers
 
         private string GenerateRandomPassword(int length)
         {
-            string allowedChars = "abcdefghijkmnopqrstuvwxyz" +
-                                         "ABCDEFGHJKLMNOPQRSTUVWXYZ" +
-                                         "0123456789!@$?_-*&#+";
+            const string allowedChars = "abcdefghijkmnopqrstuvwxyz" +
+                                        "ABCDEFGHJKLMNOPQRSTUVWXYZ" +
+                                        "0123456789!@$?_-*&#+";
             char[] chars = new char[length];
-            Random rd = new Random();
+            var rd = new Random();
             for (int i = 0; i < length; i++)
             {
                 chars[i] = allowedChars[rd.Next(0, allowedChars.Length)];
@@ -388,10 +401,10 @@ namespace MvcBlog.WebUI.Controllers
 
         private void SendEMail(string emailid, string subject, string body)
         {
-            SmtpClient client = new SmtpClient();
+            var client = new SmtpClient();
 
-            MailMessage msg = new MailMessage();
-            msg.From = new MailAddress("MvcBlog_administration@gmail.com");
+            var msg = new MailMessage();
+            msg.From = new MailAddress("");
             msg.To.Add(new MailAddress(emailid));
 
             msg.Subject = subject;

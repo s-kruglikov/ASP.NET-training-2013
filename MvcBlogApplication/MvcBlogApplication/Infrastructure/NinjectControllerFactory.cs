@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Linq;
-using System.Collections.Generic;
 using System.Web.Routing;
 using System.Web.Mvc;
 using Ninject;
-using Moq;
 using MvcBlog.Domain;
 using MvcBlog.WebUI.Abstract;
 using MvcBlog.WebUI.Concrete;
@@ -30,21 +27,7 @@ namespace MvcBlog.WebUI.Infrastructure
 
         private void AddBindings()
         {
-            /* 
-            Mock<IPostsRepository> mock = new Mock<IPostsRepository>();
-            mock.Setup(p => p.Posts).Returns(new List<Post> {
-                new Post { PostID = 1, PostContent = "Post content 1"},
-                new Post { PostID = 2, PostContent = "Post content 2"},
-                new Post { PostID = 3, PostContent = "Post content 3"},
-                new Post { PostID = 4, PostContent = "Post content 4"},
-                new Post { PostID = 5, PostContent = "Post content 5"},
-            }.AsQueryable());
-
-            _ninjectKernel.Bind<IPostsRepository>().ToConstant(mock.Object);
-            */
             _ninjectKernel.Bind<IRepository>().To<SqlRepository>();
-            //_ninjectKernel.Bind<ICommentsRepository>().To<EFCommentsRepository>();
-            //_ninjectKernel.Bind<IUsersRepository>().To<EFUsersRepository>();
             _ninjectKernel.Bind<IConfigService>().To<ConfigService>().InSingletonScope();
         }
     }

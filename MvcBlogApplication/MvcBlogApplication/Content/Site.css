@@ -327,6 +327,10 @@ fieldset {
         background-color: rgba(0,0,0,.3);
     }
 
+    .featured-text .featured-link {
+        color: white;
+    }
+
 #comment-author {
     float: left;
     width: 100px; /* Ширина колонки */
@@ -339,10 +343,8 @@ fieldset {
     padding: 5px;
 }
 
-/* Prevents slides from flashing */
 #slides {
     display: none;
     width: 940px;
-    height: 500px;
     margin: 0 auto;
 }
