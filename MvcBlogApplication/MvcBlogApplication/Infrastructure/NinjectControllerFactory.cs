@@ -23,8 +23,7 @@ namespace MvcBlog.WebUI.Infrastructure
         {
             return controllerType == null ? null : (IController)_ninjectKernel.Get(controllerType);
         }
-
-
+        
         private void AddBindings()
         {
             _ninjectKernel.Bind<IRepository>().To<SqlRepository>();

@@ -176,6 +176,7 @@
     <Content Include="Content\Site.css" />
     <Content Include="Content\Theme\AdminBackground.png" />
     <Content Include="Content\Theme\Background.png" />
+    <Content Include="Content\Theme\icon_top.png" />
     <Content Include="Content\Theme\Slides-btns-next-prev.png" />
     <Content Include="Content\Theme\HeaderBackground.png" />
     <Content Include="Content\Theme\NewPostLink.png" />
@@ -206,7 +207,6 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <None Include="Properties\PublishProfiles\MvcBlog.pubxml" />
     <None Include="Scripts\jquery-2.0.3-vsdoc.js" />
-    <Content Include="Scripts\gridmvc.min.js" />
     <Content Include="Scripts\jquery-2.0.3.js" />
     <Content Include="Scripts\jquery.ui.1.10.3.datepicker.js" />
     <Content Include="Scripts\jquery.slides.js" />
@@ -373,6 +373,7 @@
     <Content Include="Scripts\tinymce\themes\modern\theme.min.js" />
     <Content Include="Scripts\tinymce\tinymce.js" />
     <Content Include="Scripts\tinymce\tinymce.min.js" />
+    <Content Include="Content\Slider.css" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>

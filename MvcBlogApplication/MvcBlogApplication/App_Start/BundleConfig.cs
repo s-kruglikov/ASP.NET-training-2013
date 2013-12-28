@@ -37,6 +37,9 @@ namespace MvcBlog.WebUI
 
             bundles.Add(new StyleBundle("~/Content/datepickercss")
                 .Include("~/Content/datepicker/jquery-ui*"));
+
+            bundles.Add(new StyleBundle("~/Content/slidercss")
+                .Include("~/Content/Slider.css"));
         }
     }
 }

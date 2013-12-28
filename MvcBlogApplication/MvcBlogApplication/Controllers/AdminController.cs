@@ -64,32 +64,55 @@ namespace MvcBlog.WebUI.Controllers
                     post.PostCreationDate = DateTime.Now;
                 }
 
-                if (postImage != null)
-                {
-                    // remove existing images for this post before placing new ones
-                    DeletePostImages(post);
-
-                    string imageExtension = System.IO.Path.GetExtension(postImage.FileName);
-                    string imageName = string.Format("{0}_{1}.{2}", post.PostID, DateTime.Now.Ticks, imageExtension);
-                    string imageThumbSavePath = Path.Combine(Server.MapPath(Url.Content("~/Content/")), ConfigService.PostThumbPath, imageName);
-                    string imageFeaturedSavePath = Path.Combine(Server.MapPath(Url.Content("~/Content/")),
-                        ConfigService.PostFeaturedPath, imageName);
-
-                    //save image parameters into DB
-                    post.ImageMimeType = postImage.ContentType;
-                    post.ImageName = imageName;
-                    post.ImageExtension = imageExtension;
-
-                    Image.FromStream(postImage.InputStream).ResizeProportional(new Size(300, 200)).SaveToFolder(imageThumbSavePath);
-                    Image.FromStream(postImage.InputStream).CropImage(new Rectangle(0, 0, 940, 322)).SaveToFolder(imageFeaturedSavePath);
-                }
-
-
-
                 post.PostLastModifiedBy = User.Identity.Name;
                 post.PostLastModificationDate = DateTime.Now;
 
+                if (postImage != null 
+                    && ImagesExtensions.SupportedFormat(postImage, ConfigService.AllowedImageTypes)
+                    && ImagesExtensions.CheckSize(postImage, ConfigService.MaxImageSize))
+                {
+                    string prevImage = string.Empty;
+                    if (!string.IsNullOrEmpty(post.ImageName))
+                    {
+                        // will be used to delete previous post images
+                        prevImage = post.ImageName;
+                    }
+
+                    string imageExtension = System.IO.Path.GetExtension(postImage.FileName);
+                    string imageName = string.Format("{0}_{1}{2}", post.PostID, DateTime.Now.Ticks, imageExtension);
+                    string imageThumbSavePath = Path.Combine(Server.MapPath(Url.Content("~/Content/")), ConfigService.PostThumbPath, imageName);
+                    string imageFeaturedSavePath = Path.Combine(Server.MapPath(Url.Content("~/Content/")),ConfigService.PostFeaturedPath, imageName);
+
+                    //image parameters
+                    post.ImageMimeType = postImage.ContentType;
+                    post.ImageName = imageName;
+                    
+                    //resize proportional thumbnail image
+                    Image.FromStream(postImage.InputStream)
+                        .ResizeProportional(new Size(ConfigService.PostThumbImageWidth, ConfigService.PostThumbImageHeight))
+                        .SaveToFolder(imageThumbSavePath);
+
+                    //crop and resize featured image
+                    Image.FromStream(postImage.InputStream)
+                        .ResizeMinimalSqueeze(new Size(ConfigService.PostFeaturedImageWidth, ConfigService.PostFeaturedImageHeight))
+                        .SaveToFolder(imageFeaturedSavePath);
+
+                    // delete previous thumbnail picture if exists
+                    if (!string.IsNullOrEmpty(prevImage) && System.IO.File.Exists(imageThumbSavePath))
+                    {
+                        System.IO.File.Delete(Path.Combine(Server.MapPath(Url.Content("~/Content/")), ConfigService.PostThumbPath, prevImage));
+                    }
+
+                    // delete previous featured image if exists
+                    if (!string.IsNullOrEmpty(prevImage) && System.IO.File.Exists(imageFeaturedSavePath))
+                    {
+                        System.IO.File.Delete(Path.Combine(Server.MapPath(Url.Content("~/Content/")), ConfigService.PostFeaturedPath, prevImage));
+                    }
+                }
+                
+                // save updated data into DB
                 Repository.SavePost(post);
+
                 TempData["message"] = string.Format("{0} has been saved", post.PostTitle);
                 return RedirectToAction("ManagePosts");
             }

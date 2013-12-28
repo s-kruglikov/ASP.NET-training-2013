@@ -7,8 +7,6 @@
     background-image: url("../Content/Theme/Background.png");
 }
 
-#header-big {
-}
 
 /* validation
 ----------------------------------------------------------*/
@@ -35,24 +33,14 @@
 }
 
 /* login
-    */
-#login {
-    /*display: block;
-    font-size: .95em;
-    margin: 10px;
-    text-align: right;
-    color: #00BCF2;
-    border: 1px solid red;*/
+----------------------------------------------------------*/
+#login li {
+    color: #6DC2E9;
 }
 
-    #login li {
-        color: #6DC2E9;
-    }
-
-    #login a {
-        color: #6DC2E9;
-    }
-
+#login a {
+    color: #6DC2E9;
+}
 
 
 /* forms
@@ -67,6 +55,7 @@ fieldset {
     fieldset legend {
         display: none;
     }
+
 
 /* header
 ----------------------------------------------------------*/
@@ -89,6 +78,7 @@ fieldset {
         color: #6DC2E9;
         text-decoration: none;
     }
+
 
 /* categories
 ----------------------------------------------------------*/
@@ -132,6 +122,7 @@ fieldset {
     padding: 10px; /* Поля вокруг текста */
     /*border-left: 2px solid gray;*/
 }
+
 
 /* post
 ----------------------------------------------------------*/
@@ -185,8 +176,9 @@ fieldset {
     box-shadow: 0 0 5px rgba(0,0,0,0.5);
 }
 
+
 /* detailed link
-    */
+-----------------------------------------------------------*/
 #detailedLink {
     text-align: right;
 }
@@ -211,6 +203,7 @@ fieldset {
             text-decoration: none;
             color: black;
         }
+
 
 /* pagination
 ----------------------------------------------------------*/
@@ -237,6 +230,7 @@ fieldset {
             color: White;
         }
 
+
 /* footer
 --------------------------------------------------------- */
 #footer {
@@ -247,8 +241,9 @@ fieldset {
     /*background-color: #D2D2D2;*/
 }
 
+
 /* comment
-    */
+----------------------------------------------------------*/
 .comment {
     background-color: lemonchiffon;
     padding-left: 10px;
@@ -327,9 +322,9 @@ fieldset {
         background-color: rgba(0,0,0,.3);
     }
 
-    .featured-text .featured-link {
-        color: white;
-    }
+.featured-text .featured-link {
+    color: white;
+}
 
 #comment-author {
     float: left;
@@ -347,4 +342,16 @@ fieldset {
     display: none;
     width: 940px;
     margin: 0 auto;
+}
+
+.scrollup {
+    width: 40px;
+    height: 40px;
+    opacity: 0.4;
+    position: fixed;
+    bottom: 50px;
+    left: 100px;
+    display: none;
+    text-indent: -9999px;
+    background: url("../Content/Theme/icon_top.png") no-repeat;
 }
