@@ -1,0 +1,18 @@
+﻿@model IEnumerable<MvcBlog.Domain.Entities.Comment>
+           
+<div id="comments-list">
+    @foreach (var c in Model)
+    {
+        <div class="comment item">
+
+            <h3>@c.CommentCreationDate @c.CommentCreatedBy said:</h3>
+            <div class="comment-avatar">
+                <img src="@Url.Action("GetUserAvatar", "Account", new { userName = c.CommentCreatedBy })" height="90" width="90" />
+            </div>
+            <div class="comment-text">
+                <p class="multiline">@Html.Raw(@c.CommentContent)</p>
+            </div>
+            <p style="clear: left"></p>
+        </div>
+    }
+</div>

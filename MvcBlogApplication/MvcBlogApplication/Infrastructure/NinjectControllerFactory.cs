@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Web.Routing;
 using System.Web.Mvc;
+using MvcBlog.WebUI.Mappers;
 using Ninject;
 using MvcBlog.Domain;
 using MvcBlog.WebUI.Abstract;
@@ -28,6 +29,7 @@ namespace MvcBlog.WebUI.Infrastructure
         {
             _ninjectKernel.Bind<IRepository>().To<SqlRepository>();
             _ninjectKernel.Bind<IConfigService>().To<ConfigService>().InSingletonScope();
+            _ninjectKernel.Bind<IMapper>().To<CommonMapper>().InSingletonScope();
         }
     }
 }

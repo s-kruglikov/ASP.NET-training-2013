@@ -3,6 +3,30 @@
     padding: 0;
 }
 
+/* validation
+----------------------------------------------------------*/
+.field-validation-error {
+    color: #f00;
+}
+
+.field-validation-valid {
+    display: none;
+}
+
+.input-validation-error {
+    border: 1px solid #f00;
+    background-color: #fee;
+}
+
+.validation-summary-errors {
+    font-weight: bold;
+    color: #f00;
+}
+
+.validation-summary-valid {
+    display: none;
+}
+
 /*.admin-container {
     border: 1px salmon solid;
     width: 800px;
@@ -34,6 +58,16 @@
 
         #admin-tabs a.selected-comments {
             background-color: #FB9F11;
+            color: White;
+        }
+
+        #admin-tabs a.selected-users {
+            background-color: #002050;
+            color: White;
+        }
+
+        #admin-tabs a.selected-site {
+            background-color: #FF1769;
             color: White;
         }
 
@@ -105,9 +139,9 @@
     font-family: Segoe UI, Verdana;
 }*/
 
-li {
+/*li {
     display: inline;
-}
+}*/
 
 .editor-container {
     width: 800px;

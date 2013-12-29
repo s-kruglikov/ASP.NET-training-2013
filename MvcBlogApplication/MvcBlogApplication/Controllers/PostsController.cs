@@ -14,17 +14,8 @@ using MvcBlog.WebUI.Abstract;
 
 namespace MvcBlog.WebUI.Controllers
 {
-    public class PostsController : Controller
+    public class PostsController : BaseController
     {
-        private readonly IRepository _repository;
-        private readonly IConfigService _blogConfig;
-
-        public PostsController(IRepository repository, IConfigService blogConfig)
-        {
-            _repository = repository;
-            _blogConfig = blogConfig;
-        }
-
         //
         // POST: /Posts/
         // List posts
@@ -32,91 +23,72 @@ namespace MvcBlog.WebUI.Controllers
         {
             var model = new PostsListViewModel
             {
-                Posts = _repository.Posts
+                Posts = Repository.Posts
                 .Where(p => category == null && p.PostIsVisible == true
                     || p.PostCategory == category && p.PostIsVisible == true)
                 .OrderByDescending(p => p.PostID)
-                .Skip((page - 1) * _blogConfig.PostsPerPage)
-                .Take(_blogConfig.PostsPerPage),
+                .Skip((page - 1) * ConfigService.PostsPerPage)
+                .Take(ConfigService.PostsPerPage),
 
                 PagingModel = new PagingModel
                 {
                     CurrentPage = page,
-                    ItemsPerPage = _blogConfig.PostsPerPage,
-                    TotalItems = category == null ? _repository.Posts.Count() : _repository.Posts.Count(p => p.PostCategory == category)
+                    ItemsPerPage = ConfigService.PostsPerPage,
+                    TotalItems = category == null ? Repository.Posts.Count() : Repository.Posts.Count(p => p.PostCategory == category)
                 }
             };
 
             return View(model);
         }
 
-        //
-        // GET: 
-        public ActionResult SinglePost(string category, int postId)
+        [HttpGet]
+        public ActionResult SinglePost(int postId)
         {
-            var commentsList = new List<CommentViewModel>();
+            Post detailed = Repository.Posts.FirstOrDefault(p => p.PostID == postId && p.PostIsVisible == true);
 
-            var comments =
-                _repository.Comments.Join(_repository.UserProfiles, c => c.CommentCreatedBy, u => u.UserName,
-                    (c, u) => new {c, u}).Where(@t => @t.c.PostID == postId && @t.c.CommentIsVisible == true);
-            
-
-            foreach (var comment in comments)
-            {
-                 commentsList.Add(new CommentViewModel()
-                 {
-                     Avatar = comment.u.Avatar,
-                     CommentContent = comment.c.CommentContent,
-                     CommentCreatedBy = comment.c.CommentCreatedBy,
-                     CommentCreationDate = comment.c.CommentCreationDate,
-                     CommentID = comment.c.CommentID,
-                     PostID = comment.c.PostID
-                 });
-            }
-
-            var model = new PostDetailedModel()
-            {
-                PostDetailed = _repository.Posts.FirstOrDefault(p => p.PostID == postId && p.PostIsVisible==true),
-
-                CommentsList = commentsList,
-
-                NewComment = new Comment()
-            };
-
-            if (model.PostDetailed == null)
-                return View("_NotFound");
-
-           return View(model);
+            return View(detailed);
         }
 
+        [HttpGet]
+        public PartialViewResult CommentsList(int postId)
+        {
+            var commentsList = Repository.Comments
+                .Where(c => c.PostID == postId)
+                .OrderBy(p=>p.CommentID);
 
+            return PartialView(commentsList);
+        }
 
-        //
-        // POST:
+        [HttpGet]
+        [Authorize]
+        public PartialViewResult AddComment(int postId)
+        {
+            var comment = new Comment {PostID = postId};
+
+            return PartialView(comment);
+        }
+
         [Authorize]
         [ValidateInput(false)]
-        public ActionResult AddComment(PostDetailedModel postDetailed, int postId, string category)
+        public ActionResult AddComment(Comment comment)
         {
-            postDetailed.NewComment.CommentCreatedBy = User.Identity.Name;
-            postDetailed.NewComment.CommentCreationDate = DateTime.Now;
-            postDetailed.NewComment.CommentLastModifiedBy = User.Identity.Name;
-            postDetailed.NewComment.CommentLastModificationDate = DateTime.Now;
-            postDetailed.NewComment.CommentIsVisible = true;
-            
-            postDetailed.NewComment.PostID = postId;
+            comment.CommentCreatedBy = User.Identity.Name;
+            comment.CommentCreationDate = DateTime.Now;
+            comment.CommentLastModifiedBy = User.Identity.Name;
+            comment.CommentLastModificationDate = DateTime.Now;
+            comment.CommentIsVisible = true;
 
-            _repository.SaveComment(postDetailed.NewComment);
-
-            return RedirectToAction("SinglePost",routeValues: new {postId = postId, category = category});
+            Repository.SaveComment(comment);
+            return RedirectToAction("CommentsList", routeValues: new { postId = comment.PostID });
         }
 
         // get thumbnail image for the post
         public FilePathResult GetPostThumbnail(int postId)
         {
-            Post post = _repository.Posts.FirstOrDefault(p => p.PostID == postId);
+            Post post = Repository.Posts.FirstOrDefault(p => p.PostID == postId);
             if (post != null)
             {
-                return File(Path.Combine(Server.MapPath(Url.Content("~/Content/")), _blogConfig.PostThumbPath ,post.ImageName), post.ImageMimeType);
+                return File(Path.Combine(Server.MapPath(Url.Content("~/Content/")), ConfigService.PostThumbPath ,post.ImageName), post.ImageMimeType);
             }
             else
             {
@@ -127,10 +99,10 @@ namespace MvcBlog.WebUI.Controllers
         // get featured image for the post
         public FilePathResult GetPostFeatured(int postId)
         {
-            Post post = _repository.Posts.FirstOrDefault(p => p.PostID == postId);
+            Post post = Repository.Posts.FirstOrDefault(p => p.PostID == postId);
             if (post != null)
             {
-                return File(Path.Combine(Server.MapPath(Url.Content("~/Content/")), _blogConfig.PostFeaturedPath, post.ImageName), post.ImageMimeType);
+                return File(Path.Combine(Server.MapPath(Url.Content("~/Content/")), ConfigService.PostFeaturedPath, post.ImageName), post.ImageMimeType);
             }
             else
             {

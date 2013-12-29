@@ -7,6 +7,8 @@ using System;
 using System.Web;
 using System.Drawing.Imaging;
 using System.Drawing;
+using MvcBlog.WebUI.Concrete;
+using MvcBlog.WebUI.Models;
 using MvcBlog.WebUI.Tools;
 using MvcBlog.WebUI.Abstract;
 
@@ -26,7 +28,7 @@ namespace MvcBlog.WebUI.Controllers
             ViewBag.CurrentEdit = "Posts";
             return View(Repository.Posts.OrderByDescending(p => p.PostID));
         }
-        
+
         //
         // GET: /Admin/EditPost
 
@@ -67,7 +69,7 @@ namespace MvcBlog.WebUI.Controllers
                 post.PostLastModifiedBy = User.Identity.Name;
                 post.PostLastModificationDate = DateTime.Now;
 
-                if (postImage != null 
+                if (postImage != null
                     && ImagesExtensions.SupportedFormat(postImage, ConfigService.AllowedImageTypes)
                     && ImagesExtensions.CheckSize(postImage, ConfigService.MaxImageSize))
                 {
@@ -81,12 +83,12 @@ namespace MvcBlog.WebUI.Controllers
                     string imageExtension = System.IO.Path.GetExtension(postImage.FileName);
                     string imageName = string.Format("{0}_{1}{2}", post.PostID, DateTime.Now.Ticks, imageExtension);
                     string imageThumbSavePath = Path.Combine(Server.MapPath(Url.Content("~/Content/")), ConfigService.PostThumbPath, imageName);
-                    string imageFeaturedSavePath = Path.Combine(Server.MapPath(Url.Content("~/Content/")),ConfigService.PostFeaturedPath, imageName);
+                    string imageFeaturedSavePath = Path.Combine(Server.MapPath(Url.Content("~/Content/")), ConfigService.PostFeaturedPath, imageName);
 
                     //image parameters
                     post.ImageMimeType = postImage.ContentType;
                     post.ImageName = imageName;
-                    
+
                     //resize proportional thumbnail image
                     Image.FromStream(postImage.InputStream)
                         .ResizeProportional(new Size(ConfigService.PostThumbImageWidth, ConfigService.PostThumbImageHeight))
@@ -109,7 +111,7 @@ namespace MvcBlog.WebUI.Controllers
                         System.IO.File.Delete(Path.Combine(Server.MapPath(Url.Content("~/Content/")), ConfigService.PostFeaturedPath, prevImage));
                     }
                 }
-                
+
                 // save updated data into DB
                 Repository.SavePost(post);
 
@@ -203,6 +205,31 @@ namespace MvcBlog.WebUI.Controllers
             return RedirectToAction("ManageComments");
         }
 
+        #endregion
+
+        #region Users
+        [HttpGet]
+        [Authorize(Roles = "Administrators")]
+        public ActionResult ManageUsers()
+        {
+            ViewBag.CurrentEdit = "Users";
+            return View();
+        }
+        #endregion
+
+        #region SiteParameters
+
+        [HttpGet]
+        [Authorize(Roles = "Administrators")]
+        public ActionResult SiteConfig()
+        {
+            ViewBag.CurrentEdit = "Site";
+
+            var configViewModel =
+                (SiteConfigViewModel) ModelMapper.Map(ConfigService, typeof (ConfigService), typeof (SiteConfigViewModel));
+            
+            return View(configViewModel);
+        }
         #endregion
 
         #region helpers

@@ -31,8 +31,12 @@ namespace MvcBlog.Tests
 
             mockConfig.Setup(c => c.PostsPerPage).Returns(2);
 
-            var controller = new PostsController(mockRepository.Object, mockConfig.Object);
-            
+            var controller = new PostsController
+            {
+                Repository = mockRepository.Object,
+                ConfigService = mockConfig.Object
+            };
+
             //Act
             PostsListViewModel model = (PostsListViewModel)controller.List(null, 2).Model;
             IEnumerable<Post> result = model.Posts;

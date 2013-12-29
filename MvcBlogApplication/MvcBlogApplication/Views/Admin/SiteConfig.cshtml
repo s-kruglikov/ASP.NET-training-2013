@@ -1,0 +1,56 @@
+﻿@model MvcBlog.WebUI.Models.SiteConfigViewModel
+
+@{
+    ViewBag.Title = "Site Configuration";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="editor-container">
+
+
+    <h2>Site Configuration</h2>
+    <p>Warning!</p>
+    <ul>
+        <li>Please note that this configuration parameters stored into Web.config.</li>
+    </ul>
+
+    @Html.LabelFor(m => m.PostsPerPage, new { @class = "control-label" })
+    @Html.TextBoxFor(m => m.PostsPerPage, new { @class = "form-control" })
+
+    @Html.LabelFor(m => m.AllowedImageTypes, new { @class = "control-label" })
+    @Html.TextBoxFor(m => m.AllowedImageTypes, new { @class = "form-control" })
+
+    @Html.LabelFor(m => m.MaxImageSize, new { @class = "control-label" })
+    @Html.TextBoxFor(m => m.MaxImageSize, new { @class = "form-control" })
+
+    @Html.LabelFor(m => m.PostThumbImageHeight, new { @class = "control-label" })
+    @Html.TextBoxFor(m => m.PostThumbImageHeight, new { @class = "form-control" })
+
+    @Html.LabelFor(m => m.PostThumbImageWidth, new { @class = "control-label" })
+    @Html.TextBoxFor(m => m.PostThumbImageWidth, new { @class = "form-control" })
+
+    @Html.LabelFor(m => m.PostThumbPath, new { @class = "control-label" })
+    <p><sub>@Server.MapPath(Url.Content("~/Content/"))</sub></p>
+    @Html.TextBoxFor(m => m.PostThumbPath, new { @class = "form-control" })
+
+    @Html.LabelFor(m => m.PostFeaturedImageHeight, new { @class = "control-label" })
+    @Html.TextBoxFor(m => m.PostFeaturedImageHeight, new { @class = "form-control" })
+
+    @Html.LabelFor(m => m.PostFeaturedImageWidth, new { @class = "control-label" })
+    @Html.TextBoxFor(m => m.PostFeaturedImageWidth, new { @class = "form-control" })
+
+    @Html.LabelFor(m => m.PostFeaturedPath, new { @class = "control-label" })
+    <p><sub>@Server.MapPath(Url.Content("~/Content/"))</sub></p>
+    @Html.TextBoxFor(m => m.PostFeaturedPath, new { @class = "form-control" })
+    
+    @Html.LabelFor(m => m.AvatarImageHeight, new { @class = "control-label" })
+    @Html.TextBoxFor(m => m.AvatarImageHeight, new { @class = "form-control" })
+
+    @Html.LabelFor(m => m.AvatarImageWidth, new { @class = "control-label" })
+    @Html.TextBoxFor(m => m.AvatarImageWidth, new { @class = "form-control" })
+
+    @Html.LabelFor(m => m.AvatarImagePath, new { @class = "control-label" })
+    <p><sub>@Server.MapPath(Url.Content("~/Content/"))</sub></p>
+    @Html.TextBoxFor(m => m.AvatarImagePath, new { @class = "form-control" })
+
+</div>

@@ -15,6 +15,9 @@ namespace MvcBlog.WebUI
             bundles.Add(new ScriptBundle("~/bundles/jqueryval")
                 .Include("~/Scripts/jquery.validate*"));
 
+            bundles.Add(new ScriptBundle("~/bundles/jqueryAjax")
+                .Include("~/Scripts/jquery.unobtrusive-ajax.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/jquerySlides")
                 .Include("~/Scripts/jquery.slides.js"));
 
@@ -23,6 +26,9 @@ namespace MvcBlog.WebUI
 
             bundles.Add(new ScriptBundle("~/bundles/gridmvc")
                 .Include("~/Scripts/gridmvc.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/socialLikes")
+                .Include("~/Scripts/social-likes.min.js"));
 
             bundles.Add(new StyleBundle("~/Content/sitecss")
                 .Include("~/Content/bootstrap.css")
@@ -40,6 +46,9 @@ namespace MvcBlog.WebUI
 
             bundles.Add(new StyleBundle("~/Content/slidercss")
                 .Include("~/Content/Slider.css"));
+
+            bundles.Add(new StyleBundle("~/Content/socialcss")
+                .Include("~/Content/social-likes.css"));
         }
     }
 }

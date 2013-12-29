@@ -1,7 +1,8 @@
-﻿@using MvcBlog.WebUI.Models
-@model MvcBlog.WebUI.Models.PostDetailedModel
+﻿@model MvcBlog.Domain.Entities.Post
+
 @{
-    ViewBag.Title = "\"" + @Model.PostDetailed.PostTitle + "\"";
+    ViewBag.Title = "\"" + @Model.PostTitle + "\"";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <!--Initialize TinyMCE wysiwyg redactor-->
@@ -17,58 +18,44 @@
 
 </script>
 
-<div id="item">
-    <h2>@Model.PostDetailed.PostTitle</h2>
+<div class="item">
+    <h2>@Model.PostTitle</h2>
 </div>
 
 <p>
-    Created @Model.PostDetailed.PostCreationDate by <strong>@Model.PostDetailed.PostCreatedBy</strong> | 
-    Last modified @Model.PostDetailed.PostLastModificationDate by <strong>@Model.PostDetailed.PostLastModifiedBy</strong>
+    Created @Model.PostCreationDate by <strong>@Model.PostCreatedBy</strong> |
+    Last modified @Model.PostLastModificationDate by <strong>@Model.PostLastModifiedBy</strong>
 </p>
 
 <div class="item">
-    <p>In category: <strong>"@Model.PostDetailed.PostCategory"</strong></p>
+    <p>In category: <strong>"@Model.PostCategory"</strong></p>
 </div>
 
 <div class="multiline">
-    @Html.Raw(@Model.PostDetailed.PostContent)
+    @Html.Raw(@Model.PostContent)
 </div>
 <hr />
+
+<!--Social-->
+<ul class="social-likes">
+    <li class="facebook" title="Share link on Facebook">Facebook</li>
+    <li class="twitter" title="Share link on Twitter">Twitter</li>
+    <li class="plusone" title="Share link on Google+">Google+</li>
+</ul>
 
 <div class="item">
     <h4>Comments:</h4>
 </div>
 
-<div class="comments-list">
-    @foreach (var c in Model.CommentsList)
-    {
-        <div class="comment item">
-
-            <h3>@c.CommentCreationDate @c.CommentCreatedBy said:</h3>
-            <div class="comment-avatar">
-                <img src="@Url.Action("GetUserAvatar", "Account", new { userName = c.CommentCreatedBy })" height="90" width="90"/>
-            </div>
-            <div class="comment-text">
-                <p class="multiline">@Html.Raw(@c.CommentContent)</p>
-            </div>
-            <p style="clear: left"></p>
-        </div>
-    }
-    
+<div id="commentsList">
+    @Html.Action("CommentsList")
 </div>
 
-@if (@Model.PostDetailed.PostCommentsEnabled)
+@if (@Model.PostCommentsEnabled)
 {
     if (User.Identity.IsAuthenticated)
     {
-        using (Html.BeginForm("AddComment", "Posts"))
-        {
-            @Html.TextAreaFor(p => p.NewComment.CommentContent)
-
-            @Html.Hidden("postId", @Model.PostDetailed.PostID)
-            @Html.Hidden("category", @Model.PostDetailed.PostCategory)
-            <input type="submit" value="Save Comment" class="submit-comment" />
-        }
+        @Html.Action("AddComment")
     }
 
     else
@@ -82,4 +69,12 @@ else
     <div>
         Sorry. Comments are disabled for this post!
     </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/socialLikes")
+}
+
+@section Styles {
+    @Styles.Render("~/Content/socialcss")
 }

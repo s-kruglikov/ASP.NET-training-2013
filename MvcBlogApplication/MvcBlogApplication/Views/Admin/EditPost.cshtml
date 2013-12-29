@@ -17,7 +17,10 @@
 @using (Html.BeginForm("EditPost", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     <div class="editor-container">
-        
+
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary()
+
         @if (@Model.PostID != 0)
         {   //show if we are editing post
             @Html.LabelFor(p => p.PostID, new { @class = "control-label" })
@@ -46,17 +49,29 @@
             </div>
         }
 
-        @Html.LabelFor(p => p.PostTitle, new { @class = "control-label" })
-        @Html.TextBoxFor(p => p.PostTitle, new { @class = "form-control" })
-
-        @Html.LabelFor(p => p.PostDescription, new { @class = "control-label" })
-        @Html.TextAreaFor(p => p.PostDescription, new { @class = "form-control", @rows = "5" })
-
-        @Html.LabelFor(p => p.PostContent, new { @class = "control-label" })
-        @Html.TextAreaFor(p => p.PostContent, new { @class = "form-control", @rows = "15" })
-
-        @Html.LabelFor(p => p.PostCategory, new { @class = "control-label" })
-        @Html.TextBoxFor(p => p.PostCategory, new { @class = "form-control" })
+        <div>
+            @Html.LabelFor(p => p.PostTitle, new { @class = "control-label" })
+            @Html.TextBoxFor(p => p.PostTitle, new { @class = "form-control" })
+            @Html.ValidationMessageFor(p => p.PostTitle)
+        </div>
+        
+        <div>
+            @Html.LabelFor(p => p.PostDescription, new { @class = "control-label" })
+            @Html.TextAreaFor(p => p.PostDescription, new { @class = "form-control", @rows = "5" })
+            @Html.ValidationMessageFor(p => p.PostDescription)
+        </div>
+        
+        <div>
+            @Html.LabelFor(p => p.PostContent, new { @class = "control-label" })
+            @Html.TextAreaFor(p => p.PostContent, new { @class = "form-control", @rows = "15" })
+            @Html.ValidationMessageFor(p => p.PostContent)
+        </div>
+        
+        <div>
+            @Html.LabelFor(p => p.PostCategory, new { @class = "control-label" })
+            @Html.TextBoxFor(p => p.PostCategory, new { @class = "form-control" })
+            @Html.ValidationMessageFor(p => p.PostCategory)
+        </div>
 
         <div class="checkbox">
             @Html.LabelFor(p => p.PostIsVisible)
@@ -99,7 +114,6 @@
             </div>
         </div>
 
-        @Html.HiddenFor(p => p.ImageExtension)
         @Html.HiddenFor(p => p.ImageMimeType)
         @Html.HiddenFor(p => p.ImageName)
 
@@ -112,3 +126,7 @@
         </p>
     </div>
 }
+
+@*@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}*@

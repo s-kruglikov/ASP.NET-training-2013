@@ -1,0 +1,21 @@
+﻿@model MvcBlog.Domain.Entities.Comment
+
+<script>
+    function OnSuccess() {
+        document.getElementById('submitForm').reset();
+    }
+</script>
+
+
+@using (Ajax.BeginForm("AddComment", "Posts", new AjaxOptions()
+{
+    UpdateTargetId = "commentsList",
+    InsertionMode = InsertionMode.Replace,
+    OnSuccess = "OnSuccess"
+}, htmlAttributes: new { @id = "submitForm" }))
+{
+    @Html.TextAreaFor(p => p.CommentContent)
+    @Html.Hidden("postId", @Model.PostID)
+
+    <input type="submit" value="Save Comment" class="submit-comment" />
+}

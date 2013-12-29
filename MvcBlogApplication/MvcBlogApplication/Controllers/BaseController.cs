@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using MvcBlog.Domain;
 using MvcBlog.WebUI.Abstract;
+using MvcBlog.WebUI.Mappers;
 using Ninject;
 
 namespace MvcBlog.WebUI.Controllers
@@ -16,5 +17,8 @@ namespace MvcBlog.WebUI.Controllers
 
         [Inject]
         public IConfigService ConfigService { get; set; }
+
+        [Inject]
+        public IMapper ModelMapper { get; set; }
     }
 }
