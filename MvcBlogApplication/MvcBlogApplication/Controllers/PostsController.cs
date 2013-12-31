@@ -53,7 +53,7 @@ namespace MvcBlog.WebUI.Controllers
         public PartialViewResult CommentsList(int postId)
         {
             var commentsList = Repository.Comments
-                .Where(c => c.PostID == postId)
+                .Where(c => c.PostID == postId && c.CommentIsVisible)
                 .OrderBy(p=>p.CommentID);
 
             return PartialView(commentsList);
