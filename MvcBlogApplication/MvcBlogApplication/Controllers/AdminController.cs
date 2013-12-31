@@ -1,16 +1,16 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web.Mvc;
-using MvcBlog.Domain;
+using System.Web.Security;
 using MvcBlog.Domain.Entities;
 using System;
 using System.Web;
-using System.Drawing.Imaging;
 using System.Drawing;
 using MvcBlog.WebUI.Concrete;
+using MvcBlog.WebUI.Infrastructure;
 using MvcBlog.WebUI.Models;
 using MvcBlog.WebUI.Tools;
-using MvcBlog.WebUI.Abstract;
 
 
 namespace MvcBlog.WebUI.Controllers
@@ -70,8 +70,8 @@ namespace MvcBlog.WebUI.Controllers
                 post.PostLastModificationDate = DateTime.Now;
 
                 if (postImage != null
-                    && ImagesExtensions.SupportedFormat(postImage, ConfigService.AllowedImageTypes)
-                    && ImagesExtensions.CheckSize(postImage, ConfigService.MaxImageSize))
+                    && ImagesExtensions.SupportedFormat(postImage, SiteConfigService.AllowedImageTypes)
+                    && ImagesExtensions.CheckSize(postImage, SiteConfigService.MaxImageSize))
                 {
                     string prevImage = string.Empty;
                     if (!string.IsNullOrEmpty(post.ImageName))
@@ -80,10 +80,10 @@ namespace MvcBlog.WebUI.Controllers
                         prevImage = post.ImageName;
                     }
 
-                    string imageExtension = System.IO.Path.GetExtension(postImage.FileName);
+                    string imageExtension = Path.GetExtension(postImage.FileName);
                     string imageName = string.Format("{0}_{1}{2}", post.PostID, DateTime.Now.Ticks, imageExtension);
-                    string imageThumbSavePath = Path.Combine(Server.MapPath(Url.Content("~/Content/")), ConfigService.PostThumbPath, imageName);
-                    string imageFeaturedSavePath = Path.Combine(Server.MapPath(Url.Content("~/Content/")), ConfigService.PostFeaturedPath, imageName);
+                    string imageThumbSavePath = Path.Combine(Server.MapPath(Url.Content("~/Content/")), SiteConfigService.PostThumbPath, imageName);
+                    string imageFeaturedSavePath = Path.Combine(Server.MapPath(Url.Content("~/Content/")), SiteConfigService.PostFeaturedPath, imageName);
 
                     //image parameters
                     post.ImageMimeType = postImage.ContentType;
@@ -91,24 +91,24 @@ namespace MvcBlog.WebUI.Controllers
 
                     //resize proportional thumbnail image
                     Image.FromStream(postImage.InputStream)
-                        .ResizeProportional(new Size(ConfigService.PostThumbImageWidth, ConfigService.PostThumbImageHeight))
+                        .ResizeProportional(new Size(SiteConfigService.PostThumbImageWidth, SiteConfigService.PostThumbImageHeight))
                         .SaveToFolder(imageThumbSavePath);
 
                     //crop and resize featured image
                     Image.FromStream(postImage.InputStream)
-                        .ResizeMinimalSqueeze(new Size(ConfigService.PostFeaturedImageWidth, ConfigService.PostFeaturedImageHeight))
+                        .ResizeMinimalSqueeze(new Size(SiteConfigService.PostFeaturedImageWidth, SiteConfigService.PostFeaturedImageHeight))
                         .SaveToFolder(imageFeaturedSavePath);
 
                     // delete previous thumbnail picture if exists
                     if (!string.IsNullOrEmpty(prevImage) && System.IO.File.Exists(imageThumbSavePath))
                     {
-                        System.IO.File.Delete(Path.Combine(Server.MapPath(Url.Content("~/Content/")), ConfigService.PostThumbPath, prevImage));
+                        System.IO.File.Delete(Path.Combine(Server.MapPath(Url.Content("~/Content/")), SiteConfigService.PostThumbPath, prevImage));
                     }
 
                     // delete previous featured image if exists
                     if (!string.IsNullOrEmpty(prevImage) && System.IO.File.Exists(imageFeaturedSavePath))
                     {
-                        System.IO.File.Delete(Path.Combine(Server.MapPath(Url.Content("~/Content/")), ConfigService.PostFeaturedPath, prevImage));
+                        System.IO.File.Delete(Path.Combine(Server.MapPath(Url.Content("~/Content/")), SiteConfigService.PostFeaturedPath, prevImage));
                     }
                 }
 
@@ -187,11 +187,9 @@ namespace MvcBlog.WebUI.Controllers
                 TempData["message"] = string.Format("Comment (id = {0}) has been saved", comment.CommentID);
                 return RedirectToAction("ManageComments");
             }
-            else
-            {
-                // something wrong with the data values
-                return View(comment);
-            }
+
+            // something wrong with the data values
+            return View(comment);
         }
 
         [HttpGet]
@@ -213,7 +211,112 @@ namespace MvcBlog.WebUI.Controllers
         public ActionResult ManageUsers()
         {
             ViewBag.CurrentEdit = "Users";
-            return View();
+
+            var usList = new List<UserInRoleViewModel>();
+
+            foreach (var user in Repository.UserProfiles)
+            {
+                usList.Add(new UserInRoleViewModel
+                {
+                    UserId = user.UserId,
+                    UserName = user.UserName,
+                    UserEmail = user.Email,
+                    UserRole = Roles.GetRolesForUser(user.UserName).FirstOrDefault()
+                });
+            }
+
+            return View(usList);
+        }
+
+        public ActionResult EditUser(int userId)
+        {
+            ViewBag.CurrentEdit = "Users";
+
+            var user = new UserInRoleViewModel();
+            var dbRow = Repository.UserProfiles.FirstOrDefault(u => u.UserId == userId);
+
+            if (dbRow != null)
+            {
+                user.UserId = userId;
+                user.UserName = dbRow.UserName;
+                user.UserEmail = dbRow.Email;
+                user.UserRole = Roles.GetRolesForUser(dbRow.UserName).FirstOrDefault();
+
+                var roles = new List<string>();
+
+                foreach (var role in Roles.GetAllRoles())
+                {
+                    roles.Add(role);
+                }
+
+                user.AvailableRoles = roles;
+            }
+            return View(user);
+        }
+
+        [HttpPost]
+        public ActionResult EditUser(UserInRoleViewModel user)
+        {
+            ViewBag.CurrentEdit = "Users";
+
+            if (Roles.GetRolesForUser(user.UserName).Any())
+            {
+                Roles.RemoveUserFromRoles(user.UserName, Roles.GetRolesForUser(user.UserName));
+            }
+
+            if (user.UserRole != "None")
+            {
+
+                Roles.AddUserToRole(user.UserName, user.UserRole);
+            }
+
+            return RedirectToAction("ManageUsers");
+        }
+
+        #endregion
+
+        #region roles
+        public ActionResult ManageRoles()
+        {
+            ViewBag.CurrentEdit = "Roles";
+
+            var roles = new List<RoleViewModel>();
+
+            foreach (string s in Roles.GetAllRoles())
+            {
+                roles.Add(new RoleViewModel { RoleName = s });
+            }
+
+            return View(roles);
+        }
+
+        public ActionResult DeleteRole(string roleName)
+        {
+            if (Roles.RoleExists(roleName))
+            {
+                Roles.RemoveUsersFromRole(Roles.GetUsersInRole(roleName), roleName);
+                Roles.DeleteRole(roleName);
+                TempData["message"] = string.Format("Role \"{0}\" has been deleted", roleName);
+            }
+
+            return RedirectToAction("ManageRoles");
+        }
+
+        public ActionResult CreateRole(string roleName)
+        {
+            if (!string.IsNullOrEmpty(roleName))
+            {
+                if (!Roles.RoleExists(roleName))
+                {
+                    Roles.CreateRole(roleName);
+                    TempData["message"] = string.Format("Role \"{0}\" has been added", roleName);
+                }
+                else if (Roles.RoleExists(roleName))
+                {
+                    TempData["message"] = string.Format("Role \"{0}\" already exists", roleName);
+                }
+            }
+            return RedirectToAction("ManageRoles");
         }
         #endregion
 
@@ -226,9 +329,54 @@ namespace MvcBlog.WebUI.Controllers
             ViewBag.CurrentEdit = "Site";
 
             var configViewModel =
-                (SiteConfigViewModel) ModelMapper.Map(ConfigService, typeof (ConfigService), typeof (SiteConfigViewModel));
-            
+                (SiteConfigViewModel)ModelMapper.Map(SiteConfigService, typeof(ConfigService), typeof(SiteConfigViewModel));
+
             return View(configViewModel);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Administrators")]
+        public ActionResult SiteConfig(SiteConfigViewModel viewModel)
+        {
+            ViewBag.CurrentEdit = "Site";
+            if (ModelState.IsValid)
+            {
+                SiteConfigService =
+                    (ConfigService)ModelMapper.Map(viewModel, typeof(SiteConfigViewModel), typeof(ConfigService));
+
+                TempData["message"] = "Your changes have been saved";
+                return RedirectToAction("SiteConfig");
+            }
+
+            return View(viewModel);
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "Administrators")]
+        public ActionResult ResetToDefaults()
+        {
+            var defaultModel = new SiteConfigViewModel
+            {
+                PostsPerPage = DefaultConfig.DefaultPostsPerPage,
+                AllowedImageTypes = DefaultConfig.DefaultAllowedTypes,
+                MaxImageSize = DefaultConfig.DefaultMaxSize,
+                PostThumbImageHeight = DefaultConfig.DefaultThumbHeight,
+                PostThumbImageWidth = DefaultConfig.DefaultThumbWidth,
+                PostThumbPath = DefaultConfig.DefaultThumbPath,
+                PostFeaturedImageHeight = DefaultConfig.DefaultFeaturedHeight,
+                PostFeaturedImageWidth = DefaultConfig.DefaultFeaturedWidth,
+                PostFeaturedPath = DefaultConfig.DefaultFeaturedPath,
+                AvatarImageHeight = DefaultConfig.DefaultAvatarHeight,
+                AvatarImageWidth = DefaultConfig.DefaultAvatarWidth,
+                AvatarImagePath = DefaultConfig.DefaultAvatarPath
+            };
+
+            SiteConfigService =
+                    (ConfigService)ModelMapper.Map(defaultModel, typeof(SiteConfigViewModel), typeof(ConfigService));
+
+            TempData["message"] = "Defaults successfully applied";
+
+            return RedirectToAction("SiteConfig");
         }
         #endregion
 
@@ -238,8 +386,8 @@ namespace MvcBlog.WebUI.Controllers
         {
             if (post.ImageName != null)
             {
-                string currentThumbPath = Path.Combine(Server.MapPath(Url.Content("~/Content/")), ConfigService.PostThumbPath, post.ImageName);
-                string currentFeaturedPath = Path.Combine(Server.MapPath(Url.Content("~/Content/")), ConfigService.PostFeaturedPath, post.ImageName);
+                string currentThumbPath = Path.Combine(Server.MapPath(Url.Content("~/Content/")), SiteConfigService.PostThumbPath, post.ImageName);
+                string currentFeaturedPath = Path.Combine(Server.MapPath(Url.Content("~/Content/")), SiteConfigService.PostFeaturedPath, post.ImageName);
 
                 if (System.IO.File.Exists(currentThumbPath))
                 {

@@ -1,0 +1,43 @@
+﻿@model IEnumerable<MvcBlog.WebUI.Models.RoleViewModel>
+@using GridMvc.Html
+
+@Scripts.Render("~/bundles/gridmvc")
+
+@{
+    ViewBag.Title = "Manage Roles";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Manage Roles</h2>
+
+<div class="editor-container">
+
+    @using (Html.BeginForm("CreateRole", "Admin"))
+    {
+        <div class="pull-left role-text">
+            @Html.TextBox("roleName", null, htmlAttributes: new { @class = "form-control" })
+        </div>
+
+    <div class="pull-right">
+        <input type="submit" value="Add Role" class="btn btn-primary" />
+    </div>
+    }
+
+
+    <div class="data-grid">
+        @Html.Grid(Model).Named("rolesGrid").Columns(columns =>
+        {
+            columns.Add(col => col.RoleName)
+                .Titled("Role Name")
+                .Sortable(true)
+                .Filterable(true);
+
+            columns.Add()
+                .Encoded(false)
+                .Sanitized(false)
+                .SetWidth(30)
+                .RenderValueAs(col => @Html.ActionLink("Delete", "DeleteRole", new { roleName = col.RoleName }));
+
+        }).WithPaging(20)
+    </div>
+</div>

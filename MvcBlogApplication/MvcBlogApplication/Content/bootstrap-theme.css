@@ -10,9 +10,9 @@
 .btn-info,
 .btn-warning,
 .btn-danger {
-  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2);
-  -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15), 0 1px 1px rgba(0, 0, 0, 0.075);
-          box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15), 0 1px 1px rgba(0, 0, 0, 0.075);
+  /*text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2);*/
+  /*-webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15), 0 1px 1px rgba(0, 0, 0, 0.075);*/
+          /*box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15), 0 1px 1px rgba(0, 0, 0, 0.075);*/
 }
 
 .btn-default:active,
@@ -81,10 +81,10 @@
 }
 
 .btn-success {
-  background-image: -webkit-linear-gradient(top, #5cb85c 0%, #419641 100%);
-  background-image: linear-gradient(to bottom, #5cb85c 0%, #419641 100%);
+  /*background-image: -webkit-linear-gradient(top, #5cb85c 0%, #419641 100%);*/
+  /*background-image: linear-gradient(to bottom, #5cb85c 0%, #419641 100%);*/
   background-repeat: repeat-x;
-  border-color: #3e8f3e;
+  border-color: #5cb85c;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff5cb85c', endColorstr='#ff419641', GradientType=0);
   filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
 }
@@ -102,10 +102,10 @@
 }
 
 .btn-warning {
-  background-image: -webkit-linear-gradient(top, #f0ad4e 0%, #eb9316 100%);
-  background-image: linear-gradient(to bottom, #f0ad4e 0%, #eb9316 100%);
+  /*background-image: -webkit-linear-gradient(top, #f0ad4e 0%, #eb9316 100%);*/
+  /*background-image: linear-gradient(to bottom, #f0ad4e 0%, #eb9316 100%);*/
   background-repeat: repeat-x;
-  border-color: #e38d13;
+  border-color: #f0ad4e;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fff0ad4e', endColorstr='#ffeb9316', GradientType=0);
   filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
 }
@@ -119,7 +119,7 @@
 .btn-warning:active,
 .btn-warning.active {
   background-color: #eb9316;
-  border-color: #e38d13;
+  border-color: #eb9316;
 }
 
 .btn-danger {
@@ -244,8 +244,8 @@
 
 .alert {
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.2);
-  -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 1px 2px rgba(0, 0, 0, 0.05);
-          box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 1px 2px rgba(0, 0, 0, 0.05);
+  /*-webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 1px 2px rgba(0, 0, 0, 0.05);*/
+          /*box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 1px 2px rgba(0, 0, 0, 0.05);*/
 }
 
 .alert-success {

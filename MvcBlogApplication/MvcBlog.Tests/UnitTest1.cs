@@ -34,7 +34,7 @@ namespace MvcBlog.Tests
             var controller = new PostsController
             {
                 Repository = mockRepository.Object,
-                ConfigService = mockConfig.Object
+                SiteConfigService = mockConfig.Object
             };
 
             //Act

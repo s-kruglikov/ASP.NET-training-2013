@@ -1,0 +1,41 @@
+﻿@model MvcBlog.WebUI.Models.UserInRoleViewModel
+
+@{
+    ViewBag.Title = "Edit User \"" + @Model.UserName + "\"";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="editor-container">
+    <h2>Edit User</h2>
+
+    @using (Html.BeginForm("EditUser", "Admin"))
+    {
+        @Html.LabelFor(u => u.UserId, new { @class = "control-label" })
+        <div class="text-disabled">
+            @Html.DisplayTextFor(u => u.UserId)
+        </div>
+
+        @Html.LabelFor(u => u.UserName, new { @class = "control-label" })
+        <div class="text-disabled">
+            @Html.DisplayTextFor(u => u.UserName)
+        </div>
+
+        @Html.LabelFor(u => u.UserEmail, new { @class = "control-label" })
+        <div class="text-disabled">
+            @Html.DisplayTextFor(u => u.UserEmail)
+        </div>
+
+        @Html.LabelFor(u => u.UserRole, new { @class = "control-label" })
+        @Html.DropDownListFor(u => u.UserRole, new SelectList(new[] { "None" }.Concat(Model.AvailableRoles)), htmlAttributes: new { @class = "form-control" })
+
+        @Html.HiddenFor(u => u.UserName)
+
+        <div class="controls-area">
+            <p class="pull-right">
+                @Html.ActionLink("Cancel and return to list", "ManageUsers", "Admin", routeValues: null, htmlAttributes: new { @class = "btn btn-warning" })
+            </p>
+            <input type="submit" value="Save" class="btn btn-success" />
+        </div>
+    }
+
+</div>

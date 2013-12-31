@@ -27,13 +27,13 @@ namespace MvcBlog.WebUI.Controllers
                 .Where(p => category == null && p.PostIsVisible == true
                     || p.PostCategory == category && p.PostIsVisible == true)
                 .OrderByDescending(p => p.PostID)
-                .Skip((page - 1) * ConfigService.PostsPerPage)
-                .Take(ConfigService.PostsPerPage),
+                .Skip((page - 1) * SiteConfigService.PostsPerPage)
+                .Take(SiteConfigService.PostsPerPage),
 
                 PagingModel = new PagingModel
                 {
                     CurrentPage = page,
-                    ItemsPerPage = ConfigService.PostsPerPage,
+                    ItemsPerPage = SiteConfigService.PostsPerPage,
                     TotalItems = category == null ? Repository.Posts.Count() : Repository.Posts.Count(p => p.PostCategory == category)
                 }
             };
@@ -88,7 +88,7 @@ namespace MvcBlog.WebUI.Controllers
             Post post = Repository.Posts.FirstOrDefault(p => p.PostID == postId);
             if (post != null)
             {
-                return File(Path.Combine(Server.MapPath(Url.Content("~/Content/")), ConfigService.PostThumbPath ,post.ImageName), post.ImageMimeType);
+                return File(Path.Combine(Server.MapPath(Url.Content("~/Content/")), SiteConfigService.PostThumbPath ,post.ImageName), post.ImageMimeType);
             }
             else
             {
@@ -102,7 +102,7 @@ namespace MvcBlog.WebUI.Controllers
             Post post = Repository.Posts.FirstOrDefault(p => p.PostID == postId);
             if (post != null)
             {
-                return File(Path.Combine(Server.MapPath(Url.Content("~/Content/")), ConfigService.PostFeaturedPath, post.ImageName), post.ImageMimeType);
+                return File(Path.Combine(Server.MapPath(Url.Content("~/Content/")), SiteConfigService.PostFeaturedPath, post.ImageName), post.ImageMimeType);
             }
             else
             {

@@ -161,16 +161,17 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="HtmlHelpers\BlogHtmlHelpers.cs" />
+    <Compile Include="Infrastructure\DefaultConfig.cs" />
     <Compile Include="Infrastructure\NinjectControllerFactory.cs" />
     <Compile Include="Mappers\CommonMapper.cs" />
     <Compile Include="Mappers\IMapper.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\CommentViewModel.cs" />
+    <Compile Include="Models\RoleViewModel.cs" />
     <Compile Include="Models\PagingModel.cs" />
-    <Compile Include="Models\PostDetailedModel.cs" />
     <Compile Include="Models\PostsListViewModel.cs" />
     <Compile Include="Models\SiteConfigViewModel.cs" />
-    <Compile Include="Models\webpages_Membership.cs" />
+    <Compile Include="Models\UserInRoleViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tools\ImagesExtensions.cs" />
   </ItemGroup>
@@ -414,6 +415,8 @@
     <Content Include="Views\Posts\AddComment.cshtml" />
     <Content Include="Views\Admin\ManageUsers.cshtml" />
     <Content Include="Views\Admin\SiteConfig.cshtml" />
+    <Content Include="Views\Admin\ManageRoles.cshtml" />
+    <Content Include="Views\Admin\EditUser.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

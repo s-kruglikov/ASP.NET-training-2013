@@ -2,13 +2,12 @@
 @using GridMvc.Html
 @using GridMvc.Sorting
 
+@Scripts.Render("~/bundles/gridmvc")
+
 @{
     ViewBag.Title = "Manage Comments";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
-
-<!--Initialize TinyMCE wysiwyg redactor (do not use bundle)-->
-<script src="~/Scripts/tinymce/tinymce.min.js"></script>
 
 <div class="data-grid">
     @Html.Grid(Model).Named("commentsGrid").Columns(columns =>

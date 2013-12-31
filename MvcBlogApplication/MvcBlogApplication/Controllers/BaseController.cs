@@ -16,7 +16,7 @@ namespace MvcBlog.WebUI.Controllers
         public IRepository Repository { get; set; }
 
         [Inject]
-        public IConfigService ConfigService { get; set; }
+        public IConfigService SiteConfigService { get; set; }
 
         [Inject]
         public IMapper ModelMapper { get; set; }

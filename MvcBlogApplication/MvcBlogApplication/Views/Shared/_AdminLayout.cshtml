@@ -18,17 +18,18 @@
         @Html.ActionLink("Manage posts", "ManagePosts", "Admin", new { @class = @ViewBag.CurrentEdit == "Posts" ? "selected-posts" : null })
         @Html.ActionLink("Manage comments", "ManageComments", "Admin", new { @class = @ViewBag.CurrentEdit == "Comments" ? "selected-comments" : null })
         @Html.ActionLink("Manage users", "ManageUsers", "Admin", new { @class = @ViewBag.CurrentEdit == "Users" ? "selected-users" : null })
-        @Html.ActionLink("Site configuration", "SiteConfig", "Admin", new {@class = @ViewBag.CurrentEdit == "Site" ? "selected-site" : null })
+        @Html.ActionLink("Manage roles", "ManageRoles", "Admin", new { @class = @ViewBag.CurrentEdit == "Roles" ? "selected-roles" : null })
+        @Html.ActionLink("Site configuration", "SiteConfig", "Admin", new { @class = @ViewBag.CurrentEdit == "Site" ? "selected-site" : null })
     </div>
 
     @if (TempData["message"] != null)
     {
-        <div id="info-message" class="alert">
+        <div id="info-message" class="alert message-container">
             <button type="button" class="close" data-dismiss="alert">&times;</button>
             @TempData["message"]
         </div>
     }
-    
+
     @RenderBody()
 </body>
 </html>

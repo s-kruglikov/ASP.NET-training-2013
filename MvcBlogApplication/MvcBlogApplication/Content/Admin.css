@@ -1,6 +1,8 @@
 ﻿body {
     margin: 0;
     padding: 0;
+    font-family: "Segoe UI", Verdana, Helvetica, Sans-Serif;
+    font-size: 10pt;
 }
 
 /* validation
@@ -26,13 +28,6 @@
 .validation-summary-valid {
     display: none;
 }
-
-/*.admin-container {
-    border: 1px salmon solid;
-    width: 800px;
-    margin: 0 auto;
-    min-height: 600px;
-}*/
 
 #admin-tabs {
     margin: 50px 0;
@@ -63,6 +58,11 @@
 
         #admin-tabs a.selected-users {
             background-color: #002050;
+            color: White;
+        }
+
+        #admin-tabs a.selected-roles {
+            background-color: #3F500C;
             color: White;
         }
 
@@ -101,22 +101,6 @@
     text-align: center;
 }
 
-/*.editor-label {
-    font-weight: bold;
-    padding-top: 10px;
-    padding-bottom: 5px;
-}
-
-    .editor-label:after {
-        content: ":";
-    }
-
-.text-box input {
-    width: 800px;
-    font-size: 12pt;
-    font-family: "Segoe UI", Verdana, Helvetica, Sans-Serif;
-}*/
-
 .text-disabled {
     display: block;
     width: 100%;
@@ -128,20 +112,6 @@
     vertical-align: middle;
     border: 1px solid #cccccc;
 }
-
-/*.multi-line-low input {
-    height: 600px;
-    font-family: Segoe UI, Verdana;
-}*/
-
-/*.multi-line-tall {
-    height: 600px;
-    font-family: Segoe UI, Verdana;
-}*/
-
-/*li {
-    display: inline;
-}*/
 
 .editor-container {
     width: 800px;
@@ -171,4 +141,22 @@
     text-align: center;
     border: 1px solid #cccccc;
     margin: 20px 0;
+}
+
+.message-container {
+    margin: 0 auto;
+    width: 800px;
+}
+
+.controls-area {
+    margin: 20px auto;
+}
+
+.roles-table {
+    width: 300px;
+    margin: 0 auto;
+}
+
+.role-text {
+    width: 718px;
 }

@@ -111,8 +111,8 @@ namespace MvcBlog.WebUI.Controllers
             if (ModelState.IsValid)
             {
                 if (avatarImage != null
-                    && ImagesExtensions.SupportedFormat(avatarImage, ConfigService.AllowedImageTypes)
-                    && ImagesExtensions.CheckSize(avatarImage, ConfigService.MaxImageSize))
+                    && ImagesExtensions.SupportedFormat(avatarImage, SiteConfigService.AllowedImageTypes)
+                    && ImagesExtensions.CheckSize(avatarImage, SiteConfigService.MaxImageSize))
                 {
                     string prevAvatar = string.Empty;
 
@@ -124,7 +124,7 @@ namespace MvcBlog.WebUI.Controllers
 
                     string imageExtension = Path.GetExtension(avatarImage.FileName);
                     string imageName = string.Format("{0}_{1}{2}", model.UserId, DateTime.Now.Ticks, imageExtension);
-                    string imageAvatarSavePath = Path.Combine(Server.MapPath(Url.Content("~/Content/")), ConfigService.AvatarImagePath, imageName);
+                    string imageAvatarSavePath = Path.Combine(Server.MapPath(Url.Content("~/Content/")), SiteConfigService.AvatarImagePath, imageName);
 
                     //save image parameters into DB
                     model.AvatarMimeType = avatarImage.ContentType;
@@ -132,13 +132,13 @@ namespace MvcBlog.WebUI.Controllers
 
                     //resize and save image into folder
                     Image.FromStream(avatarImage.InputStream)
-                        .ResizeMinimalSqueeze(new Size(ConfigService.AvatarImageWidth, ConfigService.AvatarImageHeight))
+                        .ResizeMinimalSqueeze(new Size(SiteConfigService.AvatarImageWidth, SiteConfigService.AvatarImageHeight))
                         .SaveToFolder(imageAvatarSavePath);
 
                     // delete previous avatar picture if exists
                     if (!string.IsNullOrEmpty(prevAvatar) && System.IO.File.Exists(imageAvatarSavePath))
                     {
-                        System.IO.File.Delete(Path.Combine(Server.MapPath(Url.Content("~/Content/")), ConfigService.AvatarImagePath, prevAvatar));
+                        System.IO.File.Delete(Path.Combine(Server.MapPath(Url.Content("~/Content/")), SiteConfigService.AvatarImagePath, prevAvatar));
                     }
                 }
 
@@ -317,7 +317,7 @@ namespace MvcBlog.WebUI.Controllers
             {
                 if (user.Avatar != null)
                 {
-                    string filePath = Path.Combine(Server.MapPath(Url.Content("~/Content/")), ConfigService.AvatarImagePath, user.Avatar);
+                    string filePath = Path.Combine(Server.MapPath(Url.Content("~/Content/")), SiteConfigService.AvatarImagePath, user.Avatar);
 
                     //check if image exists on disk
                     if (System.IO.File.Exists(filePath))
@@ -327,7 +327,7 @@ namespace MvcBlog.WebUI.Controllers
                 }
             }
 
-            return File(Path.Combine(Server.MapPath(Url.Content("~/Content/")), ConfigService.AvatarImagePath, "noavatar.png"), "image/png");
+            return File(Path.Combine(Server.MapPath(Url.Content("~/Content/")), SiteConfigService.AvatarImagePath, "noavatar.png"), "image/png");
         }
 
         #region Helpers

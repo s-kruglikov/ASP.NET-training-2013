@@ -1,6 +1,43 @@
-﻿@{
+﻿@model IEnumerable<MvcBlog.WebUI.Models.UserInRoleViewModel>
+@using GridMvc.Html
+@using GridMvc.Sorting
+
+@Scripts.Render("~/bundles/gridmvc")
+
+@{
     ViewBag.Title = "ManageUsers";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
 <h2>Manage Users</h2>
+
+<div class="data-grid">
+    @Html.Grid(Model).Named("usersGrid").Columns(columns =>
+    {
+        columns.Add()
+            .Encoded(false)
+            .Sanitized(false)
+            .SetWidth(30).RenderValueAs(col => @Html.ActionLink("Edit", "EditUser", new { col.UserId }));
+
+        columns.Add(col => col.UserId)
+            .Titled("User ID")
+            .Sortable(true)
+            .SortInitialDirection(GridSortDirection.Descending)
+            .SetWidth(50);
+
+        columns.Add(col => col.UserName)
+            .Titled("User Name")
+            .Sortable(true);
+
+        columns.Add(col => col.UserEmail)
+            .Titled("User Email")
+            .Sortable(true);
+
+        columns.Add(col => col.UserRole)
+            .Titled("User Role")
+            .Sortable(true)
+            .Filterable(true);
+            
+
+    }).WithPaging(20)
+</div>

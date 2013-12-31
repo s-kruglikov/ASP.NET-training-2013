@@ -1,6 +1,7 @@
 ﻿using System.Globalization;
 using MvcBlog.WebUI.Abstract;
 using System.Configuration;
+using MvcBlog.WebUI.Infrastructure;
 
 namespace MvcBlog.WebUI.Concrete
 {
@@ -9,7 +10,12 @@ namespace MvcBlog.WebUI.Concrete
         public int PostsPerPage
         {
             get { return int.Parse(ConfigurationManager.AppSettings["PostsPerPage"]); }
-            set { ConfigurationManager.AppSettings["PostsPerPage"] = value.ToString(CultureInfo.InvariantCulture); }
+            set
+            {
+                if (value != default(int))
+                    ConfigurationManager.AppSettings["PostsPerPage"] = value.ToString(CultureInfo.InvariantCulture);
+                else ConfigurationManager.AppSettings["PostsPerPage"] = DefaultConfig.DefaultPostsPerPage.ToString(CultureInfo.InvariantCulture);
+            }
         }
 
         public string AllowedImageTypes
@@ -20,7 +26,8 @@ namespace MvcBlog.WebUI.Concrete
             }
             set
             {
-                ConfigurationManager.AppSettings["AllowedMimeTypes"] = value;
+                if (!string.IsNullOrEmpty(value)) ConfigurationManager.AppSettings["AllowedMimeTypes"] = value;
+                else ConfigurationManager.AppSettings["AllowedMimeTypes"] = DefaultConfig.DefaultAllowedTypes;
             }
         }
 
@@ -33,7 +40,9 @@ namespace MvcBlog.WebUI.Concrete
 
             set
             {
-                ConfigurationManager.AppSettings["MaxImageSize"] = value.ToString(CultureInfo.InvariantCulture);
+                if (value != default(int))
+                    ConfigurationManager.AppSettings["MaxImageSize"] = value.ToString(CultureInfo.InvariantCulture);
+                else ConfigurationManager.AppSettings["MaxImageSize"] = DefaultConfig.DefaultMaxSize.ToString(CultureInfo.InvariantCulture);
             }
         }
 
@@ -41,19 +50,38 @@ namespace MvcBlog.WebUI.Concrete
         public int PostThumbImageHeight
         {
             get { return int.Parse(ConfigurationManager.AppSettings["PostThumbImageHeight"]); }
-            set { ConfigurationManager.AppSettings["PostThumbImageHeight"] = value.ToString(CultureInfo.InvariantCulture); }
+            set
+            {
+                if (value != default(int))
+                    ConfigurationManager.AppSettings["PostThumbImageHeight"] =
+                        value.ToString(CultureInfo.InvariantCulture);
+                else ConfigurationManager.AppSettings["PostThumbImageHeight"] = DefaultConfig.DefaultThumbHeight.ToString(CultureInfo.InvariantCulture);
+            }
         }
 
         public int PostThumbImageWidth
         {
             get { return int.Parse(ConfigurationManager.AppSettings["PostThumbImageWidth"]); }
-            set { ConfigurationManager.AppSettings["PostThumbImageWidth"] = value.ToString(CultureInfo.InvariantCulture); }
+            set
+            {
+                if (value != default(int))
+                    ConfigurationManager.AppSettings["PostThumbImageWidth"] =
+                        value.ToString(CultureInfo.InvariantCulture);
+                else
+                    ConfigurationManager.AppSettings["PostThumbImageWidth"] =
+                        DefaultConfig.DefaultThumbWidth.ToString(CultureInfo.InvariantCulture);
+            }
         }
 
         public string PostThumbPath
         {
             get { return ConfigurationManager.AppSettings["PostThumbPath"]; }
-            set { ConfigurationManager.AppSettings["PostThumbPath"] = value; }
+            set
+            {
+                if (!string.IsNullOrEmpty(value))
+                    ConfigurationManager.AppSettings["PostThumbPath"] = value;
+                else ConfigurationManager.AppSettings["PostThumbPath"] = DefaultConfig.DefaultThumbPath;
+            }
         }
 
         #endregion
@@ -64,8 +92,10 @@ namespace MvcBlog.WebUI.Concrete
             get { return int.Parse(ConfigurationManager.AppSettings["PostFeaturedImageHeight"]); }
             set
             {
-                ConfigurationManager.AppSettings["PostFeaturedImageHeight"] =
-                    value.ToString(CultureInfo.InvariantCulture);
+                if (value != default(int))
+                    ConfigurationManager.AppSettings["PostFeaturedImageHeight"] =
+                        value.ToString(CultureInfo.InvariantCulture);
+                else ConfigurationManager.AppSettings["PostFeaturedImageHeight"] = DefaultConfig.DefaultFeaturedHeight.ToString(CultureInfo.InvariantCulture);
             }
         }
 
@@ -74,14 +104,22 @@ namespace MvcBlog.WebUI.Concrete
             get { return int.Parse(ConfigurationManager.AppSettings["PostFeaturedImageWidth"]); }
             set
             {
-                ConfigurationManager.AppSettings["PostFeaturedImageWidth"] = value.ToString(CultureInfo.InvariantCulture);
+                if (value != default(int))
+                    ConfigurationManager.AppSettings["PostFeaturedImageWidth"] =
+                        value.ToString(CultureInfo.InvariantCulture);
+                else ConfigurationManager.AppSettings["PostFeaturedImageWidth"] = DefaultConfig.DefaultFeaturedWidth.ToString(CultureInfo.InvariantCulture);
             }
         }
 
         public string PostFeaturedPath
         {
             get { return ConfigurationManager.AppSettings["PostFeaturedPath"]; }
-            set { ConfigurationManager.AppSettings["PostFeaturedPath"] = value; }
+            set
+            {
+                if (!string.IsNullOrEmpty(value))
+                    ConfigurationManager.AppSettings["PostFeaturedPath"] = value;
+                else ConfigurationManager.AppSettings["PostFeaturedPath"] = DefaultConfig.DefaultFeaturedPath;
+            }
         }
 
         #endregion
@@ -93,20 +131,32 @@ namespace MvcBlog.WebUI.Concrete
             get { return int.Parse(ConfigurationManager.AppSettings["AvatarImageHeight"]); }
             set
             {
-                ConfigurationManager.AppSettings["AvatarImageHeight"] = value.ToString(CultureInfo.InvariantCulture);
+                if (value != default(int))
+                    ConfigurationManager.AppSettings["AvatarImageHeight"] = value.ToString(CultureInfo.InvariantCulture);
+                else ConfigurationManager.AppSettings["AvatarImageHeight"] = DefaultConfig.DefaultAvatarHeight.ToString(CultureInfo.InvariantCulture);
             }
         }
 
         public int AvatarImageWidth
         {
             get { return int.Parse(ConfigurationManager.AppSettings["AvatarImageWidth"]); }
-            set { ConfigurationManager.AppSettings["AvatarImageWidth"] = value.ToString(CultureInfo.InvariantCulture); }
+            set
+            {
+                if (value != default(int))
+                    ConfigurationManager.AppSettings["AvatarImageWidth"] = value.ToString(CultureInfo.InvariantCulture);
+                else ConfigurationManager.AppSettings["AvatarImageWidth"] = DefaultConfig.DefaultAvatarWidth.ToString(CultureInfo.InvariantCulture);
+            }
         }
 
         public string AvatarImagePath
         {
             get { return ConfigurationManager.AppSettings["AvatarImagePath"]; }
-            set { ConfigurationManager.AppSettings["AvatarImagePath"] = value; }
+            set
+            {
+                if (!string.IsNullOrEmpty(value))
+                    ConfigurationManager.AppSettings["AvatarImagePath"] = value;
+                else ConfigurationManager.AppSettings["AvatarImagePath"] = DefaultConfig.DefaultAvatarPath;
+            }
         }
 
         #endregion

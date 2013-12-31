@@ -11,46 +11,85 @@
     <h2>Site Configuration</h2>
     <p>Warning!</p>
     <ul>
-        <li>Please note that this configuration parameters stored into Web.config.</li>
+        <li>Configuration parameters stored into Web.config.</li>
     </ul>
 
-    @Html.LabelFor(m => m.PostsPerPage, new { @class = "control-label" })
-    @Html.TextBoxFor(m => m.PostsPerPage, new { @class = "form-control" })
+    @using (Html.BeginForm("SiteConfig", "Admin"))
+    {
+        <div>
+            @Html.LabelFor(m => m.PostsPerPage, new { @class = "control-label" })
+            @Html.TextBoxFor(m => m.PostsPerPage, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.PostsPerPage)
+        </div>
 
-    @Html.LabelFor(m => m.AllowedImageTypes, new { @class = "control-label" })
-    @Html.TextBoxFor(m => m.AllowedImageTypes, new { @class = "form-control" })
+        @Html.LabelFor(m => m.AllowedImageTypes, new { @class = "control-label" })
+        @Html.TextBoxFor(m => m.AllowedImageTypes, new { @class = "form-control" })
 
-    @Html.LabelFor(m => m.MaxImageSize, new { @class = "control-label" })
-    @Html.TextBoxFor(m => m.MaxImageSize, new { @class = "form-control" })
+        <div>
+            @Html.LabelFor(m => m.MaxImageSize, new { @class = "control-label" })
+            @Html.TextBoxFor(m => m.MaxImageSize, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.MaxImageSize)
+        </div>
 
-    @Html.LabelFor(m => m.PostThumbImageHeight, new { @class = "control-label" })
-    @Html.TextBoxFor(m => m.PostThumbImageHeight, new { @class = "form-control" })
+        <div>
+            @Html.LabelFor(m => m.PostThumbImageHeight, new { @class = "control-label" })
+            @Html.TextBoxFor(m => m.PostThumbImageHeight, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.PostThumbImageHeight)
+        </div>
 
-    @Html.LabelFor(m => m.PostThumbImageWidth, new { @class = "control-label" })
-    @Html.TextBoxFor(m => m.PostThumbImageWidth, new { @class = "form-control" })
+        <div>
+            @Html.LabelFor(m => m.PostThumbImageWidth, new { @class = "control-label" })
+            @Html.TextBoxFor(m => m.PostThumbImageWidth, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.PostThumbImageWidth)
+        </div>
 
-    @Html.LabelFor(m => m.PostThumbPath, new { @class = "control-label" })
-    <p><sub>@Server.MapPath(Url.Content("~/Content/"))</sub></p>
-    @Html.TextBoxFor(m => m.PostThumbPath, new { @class = "form-control" })
+        @Html.LabelFor(m => m.PostThumbPath, new { @class = "control-label" })
+        <p><sub>@Server.MapPath(Url.Content("~/Content/"))</sub></p>
+        @Html.TextBoxFor(m => m.PostThumbPath, new { @class = "form-control" })
 
-    @Html.LabelFor(m => m.PostFeaturedImageHeight, new { @class = "control-label" })
-    @Html.TextBoxFor(m => m.PostFeaturedImageHeight, new { @class = "form-control" })
+        <div>
+            @Html.LabelFor(m => m.PostFeaturedImageHeight, new { @class = "control-label" })
+            @Html.TextBoxFor(m => m.PostFeaturedImageHeight, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.PostFeaturedImageHeight)
+        </div>
 
-    @Html.LabelFor(m => m.PostFeaturedImageWidth, new { @class = "control-label" })
-    @Html.TextBoxFor(m => m.PostFeaturedImageWidth, new { @class = "form-control" })
+        <div>
+            @Html.LabelFor(m => m.PostFeaturedImageWidth, new { @class = "control-label" })
+            @Html.TextBoxFor(m => m.PostFeaturedImageWidth, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.PostFeaturedImageWidth)
+        </div>
 
-    @Html.LabelFor(m => m.PostFeaturedPath, new { @class = "control-label" })
-    <p><sub>@Server.MapPath(Url.Content("~/Content/"))</sub></p>
-    @Html.TextBoxFor(m => m.PostFeaturedPath, new { @class = "form-control" })
-    
-    @Html.LabelFor(m => m.AvatarImageHeight, new { @class = "control-label" })
-    @Html.TextBoxFor(m => m.AvatarImageHeight, new { @class = "form-control" })
+        @Html.LabelFor(m => m.PostFeaturedPath, new { @class = "control-label" })
+        <p><sub>@Server.MapPath(Url.Content("~/Content/"))</sub></p>
+        @Html.TextBoxFor(m => m.PostFeaturedPath, new { @class = "form-control" })
 
-    @Html.LabelFor(m => m.AvatarImageWidth, new { @class = "control-label" })
-    @Html.TextBoxFor(m => m.AvatarImageWidth, new { @class = "form-control" })
+        <div>
+            @Html.LabelFor(m => m.AvatarImageHeight, new { @class = "control-label" })
+            @Html.TextBoxFor(m => m.AvatarImageHeight, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.AvatarImageHeight)
+        </div>
 
-    @Html.LabelFor(m => m.AvatarImagePath, new { @class = "control-label" })
-    <p><sub>@Server.MapPath(Url.Content("~/Content/"))</sub></p>
-    @Html.TextBoxFor(m => m.AvatarImagePath, new { @class = "form-control" })
+        <div>
+            @Html.LabelFor(m => m.AvatarImageWidth, new { @class = "control-label" })
+            @Html.TextBoxFor(m => m.AvatarImageWidth, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.AvatarImageWidth)
+        </div>
 
+        @Html.LabelFor(m => m.AvatarImagePath, new { @class = "control-label" })
+        <p><sub>@Server.MapPath(Url.Content("~/Content/"))</sub></p>
+        @Html.TextBoxFor(m => m.AvatarImagePath, new { @class = "form-control" })
+
+        <div class ="controls-area">
+            <p class="pull-right">
+                @Html.ActionLink("Reset To Defaults", "ResetToDefaults", "Admin", routeValues: null, htmlAttributes: new { @class = "" })
+            </p>
+            <p>
+                <input type="submit" value="Save" class="btn btn-success" />
+            </p>
+        </div>
+    }
 </div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
